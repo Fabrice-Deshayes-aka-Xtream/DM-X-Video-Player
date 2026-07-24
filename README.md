@@ -2,7 +2,7 @@
 
 ![main window screenshot](main_window.png)
 
-**DM Video Player** is a classic minimalist video player based on VLC. 
+**DMX Video Player** is a classic minimalist video player based on VLC. 
 It allows you to dynamically add extra audio tracks to your videos, making it especially useful for musicians and those with hearing impairments.
 
 ## Author
@@ -28,7 +28,7 @@ It can also be useful for other musicians wanting to isolate specific instrument
 - Toggle timecode display
 - Manage Steinberg Cubase Tempo Track *.smt file to display music vidéo tempo (see Naming Rules for Tempo Track below)
 - Keyboard shortcuts (0 to stop, space to play/pause)
-- Mouse shortcuts (video single click to play/pause, double click to toggle fullscreen))
+- Mouse shortcuts (video single click to play/pause, double click to toggle fullscreen)
 
 ## Naming Rules for Audio Tracks
 
