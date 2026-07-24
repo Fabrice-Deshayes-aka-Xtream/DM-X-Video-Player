@@ -6,6 +6,7 @@ xmlns:local="clr-namespace:DMXVideoPlayer"
 xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
 mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
 x:Class="DMXVideoPlayer.MainWindow"
+x:CompileBindings="False"
 Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
 Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
@@ -29,7 +30,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                        Tapped="VideoContainer_Tapped"/>
 
                 <!-- Placeholder Text -->
-                <TextBlock Text="Glissez-déposez une vidéo ici"
+                <TextBlock Text="{Binding [Main_DragDropHint], Source={x:Static local:LocalizationService.Instance}}"
                           Name="PlaceholderText"
                           FontSize="24"
                           Foreground="White"
@@ -46,7 +47,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                             Canvas.Left="0"
                             Canvas.Top="8"
                             Cursor="Hand"
-                            ToolTip.Tip="Faites glisser pour déplacer le panneau">
+                            ToolTip.Tip="{Binding [Main_InfoPanelDragTooltip], Source={x:Static local:LocalizationService.Instance}}">
                         <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                             <!-- Timecode Display -->
                             <TextBlock Name="TimecodeLabel"
@@ -152,7 +153,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button"
-                                        ToolTip.Tip="Charger une vidéo">
+                                        ToolTip.Tip="{Binding [Main_LoadVideoTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <fluent:SymbolIcon Symbol="FolderOpen"
                                                       FontSize="16"
                                                       Foreground="#CCCCCC"/>
@@ -163,7 +164,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button"
-                                        ToolTip.Tip="Param&#232;tres">
+                                        ToolTip.Tip="{Binding [Main_SettingsTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <fluent:SymbolIcon Symbol="Settings"
                                                       FontSize="16"
                                                       Foreground="#CCCCCC"/>
@@ -174,7 +175,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
 										Padding="0" 
 										Focusable="False"
 										Classes="playback-button"
-										ToolTip.Tip="A propos">
+										ToolTip.Tip="{Binding [Main_AboutTooltip], Source={x:Static local:LocalizationService.Instance}}">
 									<fluent:SymbolIcon Symbol="Info"
 													  FontSize="16"
 													  Foreground="#CCCCCC"/>
@@ -200,14 +201,14 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
                                         Classes="selection-button"
-                                        ToolTip.Tip="Sélectionner la piste audio">
+                                        ToolTip.Tip="{Binding [Main_SelectAudioTrackTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <StackPanel Orientation="Horizontal" Spacing="3">
                                         <fluent:SymbolIcon Symbol="Speaker1" 
                                                           FontSize="14"
                                                           Foreground="#B0B0B0"
                                                           VerticalAlignment="Center"/>
                                         <TextBlock Name="AudioTrackButtonText" 
-                                                  Text="Piste audio" 
+                                                  Text="{Binding [Main_AudioTrackDefault], Source={x:Static local:LocalizationService.Instance}}" 
                                                   VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
@@ -221,14 +222,14 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
                                         Classes="selection-button"
-                                        ToolTip.Tip="Sélectionner les sous-titres">
+                                        ToolTip.Tip="{Binding [Main_SelectSubtitlesTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <StackPanel Orientation="Horizontal" Spacing="3">
                                         <fluent:SymbolIcon Symbol="ClosedCaption" 
                                                           FontSize="14"
                                                           Foreground="#B0B0B0"
                                                           VerticalAlignment="Center"/>
                                         <TextBlock Name="SubtitleButtonText" 
-                                                  Text="Désactivé" 
+                                                  Text="{Binding [Main_SubtitleDisabled], Source={x:Static local:LocalizationService.Instance}}" 
                                                   VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
@@ -250,7 +251,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         Focusable="False"
                                         Classes="playback-button"
                                         VerticalAlignment="Center"
-                                        ToolTip.Tip="Verrouiller/Déverrouiller la balance">
+                                        ToolTip.Tip="{Binding [Main_ToggleBalanceLockTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <fluent:SymbolIcon Name="BalanceLockIcon"
                                                       Symbol="LockOpen"
                                                       FontSize="12"
@@ -269,7 +270,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         Focusable="False"
                                         Classes="balance-slider"
                                         VerticalAlignment="Center"
-                                        ToolTip.Tip="Balance audio"/>
+                                        ToolTip.Tip="{Binding [Main_BalanceTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
                                 <TextBlock Text="R" 
                                           FontSize="8" 
                                           FontWeight="Bold"
@@ -290,7 +291,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                         Focusable="False"
                                         Classes="playback-button"
                                         VerticalAlignment="Center"
-                                        ToolTip.Tip="Activer/Désactiver le son">
+                                        ToolTip.Tip="{Binding [Main_ToggleMuteTooltip], Source={x:Static local:LocalizationService.Instance}}">
                                     <fluent:SymbolIcon Name="VolumeIcon"
                                                       Symbol="Speaker2"
                                                       FontSize="16"

@@ -109,9 +109,17 @@ namespace DMXVideoPlayer
         private double _nextScheduledBeat = -1.0; // The next beat to flash
         private double _lastDisplayedBpm = -1.0; // Used to smooth the displayed BPM
         private readonly object _beatTimerLock = new object();
+        private AppSettings? _cachedStartupSettings;
 
         public MainWindow()
         {
+            // Load settings and apply the saved language BEFORE loading the XAML,
+            // because AXAML bindings (including the LocalizationService indexer) are
+            // evaluated once when InitializeComponent() runs. Setting the language
+            // after that point has no visible effect on this window's own controls.
+            _cachedStartupSettings = LoadSettings();
+            LocalizationService.Instance.SetLanguage(_cachedStartupSettings.Language ?? LocalizationService.DetectDefaultCulture().TwoLetterISOLanguageName);
+
             InitializeComponent();
             InitializeVLC();
             SetupControls();
@@ -131,7 +139,7 @@ namespace DMXVideoPlayer
         private void InitializeVLC()
         {
             Core.Initialize();
-            
+
             // Add audio output device option if one has been selected
             var options = new List<string>();
             if (!string.IsNullOrEmpty(_selectedAudioDeviceId))
@@ -139,7 +147,7 @@ namespace DMXVideoPlayer
                 options.Add($"--mmdevice-audio-device={_selectedAudioDeviceId}");
                 Debug.WriteLine($"Initializing VLC with audio device: {_selectedAudioDeviceId}");
             }
-            
+
             _libVLC = options.Count > 0 ? new LibVLC(options.ToArray()) : new LibVLC();
 
             _videoView = this.FindControl<VideoView>("VideoViewControl");
@@ -317,8 +325,8 @@ namespace DMXVideoPlayer
                 balanceSlider.AddHandler(DoubleTappedEvent, BalanceSlider_DoubleTapped, RoutingStrategies.Tunnel);
             }
 
-            // Load and apply saved settings
-            var settings = LoadSettings();
+            // Load and apply saved settings (language already applied earlier, before InitializeComponent)
+            var settings = _cachedStartupSettings ?? LoadSettings();
             _selectedAudioDeviceId = settings.AudioOutputDeviceId;
             ApplySettings(settings);
         }
@@ -365,8 +373,8 @@ namespace DMXVideoPlayer
             }
             if (_balanceLockIcon != null)
             {
-                _balanceLockIcon.Symbol = _isBalanceLocked 
-                    ? FluentIcons.Common.Symbol.LockClosed 
+                _balanceLockIcon.Symbol = _isBalanceLocked
+                    ? FluentIcons.Common.Symbol.LockClosed
                     : FluentIcons.Common.Symbol.LockOpen;
             }
             Debug.WriteLine($"✓ Applied saved balance lock state: {(_isBalanceLocked ? "Locked" : "Unlocked")}");
@@ -400,13 +408,13 @@ namespace DMXVideoPlayer
                 _isUpdatingAudioOutput = true;
 
                 var audioOutputDevices = new List<AudioOutputDevice>();
-                
+
                 // Get Windows default audio device ID
                 string? windowsDefaultDeviceId = WindowsAudio.GetWindowsDefaultAudioDeviceId();
                 string? windowsDefaultDeviceName = WindowsAudio.GetWindowsDefaultAudioDeviceName();
-                
+
                 Debug.WriteLine($"Windows default device - ID: {windowsDefaultDeviceId}, Name: {windowsDefaultDeviceName}");
-                
+
                 // Use LibVLC to enumerate audio output modules and devices
                 using (var tempPlayer = new MediaPlayer(_libVLC))
                 {
@@ -418,8 +426,8 @@ namespace DMXVideoPlayer
                         {
                             if (!string.IsNullOrWhiteSpace(device.DeviceIdentifier))
                             {
-                                var displayName = !string.IsNullOrWhiteSpace(device.Description) 
-                                    ? device.Description 
+                                var displayName = !string.IsNullOrWhiteSpace(device.Description)
+                                    ? device.Description
                                     : device.DeviceIdentifier;
 
                                 audioOutputDevices.Add(new AudioOutputDevice
@@ -437,15 +445,15 @@ namespace DMXVideoPlayer
                 if (audioOutputDevices.Count > 0)
                 {
                     _audioOutputComboBox.ItemsSource = audioOutputDevices;
-                    
+
                     AudioOutputDevice? defaultDevice = null;
-                    
+
                     // Try to restore saved device first
                     if (!string.IsNullOrEmpty(_selectedAudioDeviceId))
                     {
-                        defaultDevice = audioOutputDevices.FirstOrDefault(d => 
+                        defaultDevice = audioOutputDevices.FirstOrDefault(d =>
                             d.DeviceId.Equals(_selectedAudioDeviceId, StringComparison.OrdinalIgnoreCase));
-                        
+
                         if (defaultDevice != null)
                         {
                             Debug.WriteLine($"✓ Restored saved audio device: {defaultDevice.DeviceName}");
@@ -455,19 +463,19 @@ namespace DMXVideoPlayer
                             Debug.WriteLine($"⚠ Saved device not found (ID: {_selectedAudioDeviceId}), using system default");
                         }
                     }
-                    
+
                     // If saved device not found, try to match by Windows default device name
                     if (defaultDevice == null && !string.IsNullOrEmpty(windowsDefaultDeviceName))
                     {
-                        defaultDevice = audioOutputDevices.FirstOrDefault(d => 
+                        defaultDevice = audioOutputDevices.FirstOrDefault(d =>
                             d.DeviceName.Contains(windowsDefaultDeviceName, StringComparison.OrdinalIgnoreCase));
-                        
+
                         if (defaultDevice != null)
                         {
                             Debug.WriteLine($"Found default device by name match: {defaultDevice.DeviceName}");
                         }
                     }
-                    
+
                     // If not found by name, try to match by partial device ID
                     if (defaultDevice == null && !string.IsNullOrEmpty(windowsDefaultDeviceId))
                     {
@@ -476,23 +484,23 @@ namespace DMXVideoPlayer
                         if (guidMatch.Success)
                         {
                             string guid = guidMatch.Groups[1].Value;
-                            defaultDevice = audioOutputDevices.FirstOrDefault(d => 
+                            defaultDevice = audioOutputDevices.FirstOrDefault(d =>
                                 d.DeviceId.Contains(guid, StringComparison.OrdinalIgnoreCase));
-                            
+
                             if (defaultDevice != null)
                             {
                                 Debug.WriteLine($"Found default device by GUID match: {defaultDevice.DeviceName}");
                             }
                         }
                     }
-                    
+
                     // Fallback to first device if no match found
                     if (defaultDevice == null)
                     {
                         defaultDevice = audioOutputDevices.FirstOrDefault();
                         Debug.WriteLine($"Using fallback (first device): {defaultDevice?.DeviceName ?? "none"}");
                     }
-                    
+
                     if (defaultDevice != null)
                     {
                         _audioOutputComboBox.SelectedItem = defaultDevice;
@@ -527,59 +535,59 @@ namespace DMXVideoPlayer
                 try
                 {
                     Debug.WriteLine($"Attempting to change audio output to: {selectedDevice.DeviceName} (ID: {selectedDevice.DeviceId})");
-                    
+
                     // Store the current playback state
                     bool wasPlaying = _mediaPlayer.IsPlaying;
                     long currentTime = _mediaPlayer.Time;
                     int currentVolume = _mediaPlayer.Volume;
                     var currentMedia = _mediaPlayer.Media;
                     int? currentAudioTrackId = _selectedAudioTrackId ?? _mediaPlayer.AudioTrack;
-                    
+
                     Debug.WriteLine($"Saving current audio track ID: {currentAudioTrackId}");
-                    
+
                     // Save the selected device
                     _selectedAudioDeviceId = selectedDevice.DeviceId;
-                    
+
                     // Update the button text
-                    
+
                     // Stop current playback
                     if (wasPlaying)
                     {
                         _mediaPlayer.Stop();
                     }
-                    
+
                     // Dispose and recreate LibVLC with new audio device
                     _mediaPlayer.Playing -= OnMediaPlayerPlaying;
                     _mediaPlayer.Paused -= OnMediaPlayerPaused;
                     _mediaPlayer.Stopped -= OnMediaPlayerStopped;
                     _mediaPlayer.EndReached -= OnMediaPlayerEndReached;
-                    
+
                     _libVLC?.Dispose();
-                    
+
                     // Reinitialize with new audio device
                     var options = new List<string>
                     {
                         $"--mmdevice-audio-device={_selectedAudioDeviceId}"
                     };
-                    
+
                     Debug.WriteLine($"Reinitializing VLC with audio device: {_selectedAudioDeviceId}");
                     _libVLC = new LibVLC(options.ToArray());
-                    
+
                     // Reinitialize video view
                     if (_videoView != null)
                     {
                         _videoView.Initialize(_libVLC);
                         _mediaPlayer = _videoView.MediaPlayer;
-                        
+
                         if (_mediaPlayer != null)
                         {
                             _mediaPlayer.Volume = currentVolume;
-                            
+
                             _mediaPlayer.Playing += OnMediaPlayerPlaying;
                             _mediaPlayer.Paused += OnMediaPlayerPaused;
                             _mediaPlayer.Stopped += OnMediaPlayerStopped;
                             _mediaPlayer.EndReached += OnMediaPlayerEndReached;
-                            
+
                             // Resume playback if it was playing
                             if (wasPlaying && currentMedia != null && !string.IsNullOrEmpty(_currentVideoFilePath))
                             {
@@ -588,7 +596,7 @@ namespace DMXVideoPlayer
                             }
                         }
                     }
-                    
+
                     Debug.WriteLine($"? Audio output successfully changed to: {selectedDevice.DeviceName}");
                 }
                 catch (Exception ex)
@@ -602,20 +610,20 @@ namespace DMXVideoPlayer
         private async Task LoadAndPlayVideoWithAudioTrack(string filePath, long restoreTime, int? audioTrackId)
         {
             await LoadAndPlayVideo(filePath);
-            
+
             // Wait for the video to be fully loaded and audio tracks available
             await Task.Delay(2000);
-            
+
             if (_mediaPlayer != null && audioTrackId.HasValue)
             {
                 Debug.WriteLine($"Restoring audio track ID: {audioTrackId.Value}");
                 _mediaPlayer.SetAudioTrack(audioTrackId.Value);
                 _selectedAudioTrackId = audioTrackId.Value;
-                
+
                 // Update the UI selection
                 UpdateAudioTrackSelection();
             }
-            
+
             // Restore playback position
             if (_mediaPlayer != null && _mediaPlayer.Length > 0 && restoreTime > 0)
             {
@@ -637,7 +645,7 @@ namespace DMXVideoPlayer
         private void SetupKeyboardHandling()
         {
             this.AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
-            
+
             // Ensure the window can receive keyboard input
             this.Focusable = true;
         }
@@ -645,7 +653,7 @@ namespace DMXVideoPlayer
         private void OnKeyDown(object? sender, KeyEventArgs e)
         {
             Debug.WriteLine($"OnKeyDown: Key pressed = {e.Key}, Handled = {e.Handled}");
-            
+
             if (e.Key == Key.Space || e.Key == Key.Enter || e.Key == Key.Return)
             {
                 e.Handled = true;
@@ -738,10 +746,10 @@ namespace DMXVideoPlayer
                 if (externalAudioFiles.Count > 0)
                 {
                     _currentMedia = new Media(_libVLC, filePath, FromType.FromPath);
-                    
+
                     var audiouris = externalAudioFiles.Select(af => new Uri(af.FilePath).AbsoluteUri);
                     var inputSlaveOption = string.Join("#", audiouris);
-                    
+
                     Debug.WriteLine($"Input-slave option: :input-slave={inputSlaveOption}");
                     _currentMedia.AddOption($":input-slave={inputSlaveOption}");
                 }
@@ -755,7 +763,7 @@ namespace DMXVideoPlayer
                 _useHourFormat = TimeSpan.FromMilliseconds(_currentMedia.Duration).TotalHours >= 1;
 
                 _mediaPlayer.Media = _currentMedia;
-                
+
                 if (_volumeSlider != null)
                 {
                     _mediaPlayer.Volume = (int)_volumeSlider.Value;
@@ -766,7 +774,7 @@ namespace DMXVideoPlayer
                     _mediaPlayer.Play();
                     await Task.Delay(100);
                     _mediaPlayer.Pause();
-                    
+
                     await Task.Delay(1500);
 
                     var audioTracks = _mediaPlayer.AudioTrackDescription;
@@ -778,7 +786,7 @@ namespace DMXVideoPlayer
                             _mediaPlayer.SetAudioTrack(lastTrack.Id);
                             _selectedAudioTrackId = lastTrack.Id;
                             Debug.WriteLine($"Initial audio track set to: {lastTrack.Id}");
-                        
+
                             await Task.Delay(200);
                         }
                     }
@@ -805,10 +813,10 @@ namespace DMXVideoPlayer
                     _placeholderText.IsVisible = false;
                 if (_placeholderImage != null)
                     _placeholderImage.IsVisible = false;
-                
+
                 // Initialize subtitle button text
-                UpdateSubtitleButtonText("Désactivé");
-                
+                UpdateSubtitleButtonText(LocalizationService.Instance["Main_SubtitleDisabled"]);
+
                 // Show overlays initially when video loads
                 ShowOverlays();
             }
@@ -832,11 +840,11 @@ namespace DMXVideoPlayer
                 Debug.WriteLine($"=== UpdateAudioTrackList ===");
                 Debug.WriteLine($"Track count from VLC: {audioTracks?.Length ?? 0}");
                 Debug.WriteLine($"External audio files count: {externalAudioFiles.Count}");
-                
+
                 if (audioTracks != null && audioTracks.Length > 0)
                 {
                     var trackList = new List<AudioTrackItem>();
-                    
+
                     var reorderedFiles = new List<ExternalAudioFile>();
                     if (externalAudioFiles.Count > 1)
                     {
@@ -850,26 +858,26 @@ namespace DMXVideoPlayer
                     {
                         reorderedFiles.Add(externalAudioFiles[0]);
                     }
-                    
+
                     Debug.WriteLine($"Reordered external files (VLC order):");
                     for (int i = 0; i < reorderedFiles.Count; i++)
                     {
                         Debug.WriteLine($"  [{i}]: {reorderedFiles[i].DisplayName}");
                     }
-                    
+
                     for (int i = 0; i < audioTracks.Length; i++)
                     {
                         var track = audioTracks[i];
-                        
+
                         if (track.Id == -1)
                         {
                             Debug.WriteLine($"  Skipping track {i} (Id=-1, disabled)");
                             continue;
                         }
-                        
+
                         string displayName;
                         int validTrackIndex = trackList.Count;
-                        
+
                         if (validTrackIndex == 0)
                         {
                             displayName = string.IsNullOrEmpty(track.Name) ? "Video audio" : track.Name;
@@ -889,7 +897,7 @@ namespace DMXVideoPlayer
                                 Debug.WriteLine($"  Track {i} (Id={track.Id}): Fallback -> '{displayName}'");
                             }
                         }
-                        
+
                         trackList.Add(new AudioTrackItem
                         {
                             Id = track.Id,
@@ -902,9 +910,9 @@ namespace DMXVideoPlayer
                     {
                         Debug.WriteLine($"  [{i}] Id={trackList[i].Id}, Name={trackList[i].Name}");
                     }
-                    
+
                     _audioTrackComboBox.ItemsSource = trackList;
-                    
+
                     // Always show audio track selection if there are any tracks
                     _audioTrackPanel.IsVisible = trackList.Count > 0;
                     Debug.WriteLine($"Audio panel visible: {_audioTrackPanel.IsVisible}");
@@ -934,7 +942,7 @@ namespace DMXVideoPlayer
 
                 var currentTrackId = _mediaPlayer.AudioTrack;
                 var tracks = _audioTrackComboBox.ItemsSource as List<AudioTrackItem>;
-                
+
                 if (tracks != null)
                 {
                     var selectedTrack = tracks.FirstOrDefault(t => t.Id == currentTrackId);
@@ -1053,7 +1061,7 @@ namespace DMXVideoPlayer
                 return;
 
             var subtitleTracks = new List<SubtitleTrackItem>();
-            subtitleTracks.Add(new SubtitleTrackItem { Id = -1, Name = "Désactivé" });
+            subtitleTracks.Add(new SubtitleTrackItem { Id = -1, Name = LocalizationService.Instance["Main_SubtitleDisabled"] });
 
             var spuDescriptions = _mediaPlayer.SpuDescription;
             if (spuDescriptions != null && spuDescriptions.Length > 0)
@@ -1065,7 +1073,7 @@ namespace DMXVideoPlayer
                         subtitleTracks.Add(new SubtitleTrackItem
                         {
                             Id = desc.Id,
-                            Name = string.IsNullOrEmpty(desc.Name) ? $"Sous-titre {desc.Id}" : desc.Name
+                            Name = string.IsNullOrEmpty(desc.Name) ? string.Format(LocalizationService.Instance["Main_SubtitleTrackFormat"], desc.Id) : desc.Name
                         });
                     }
                 }
@@ -1132,7 +1140,7 @@ namespace DMXVideoPlayer
         private List<ExternalAudioFile> FindExternalAudioFiles(string videoFilePath)
         {
             var result = new List<ExternalAudioFile>();
-            
+
             if (string.IsNullOrEmpty(videoFilePath) || !File.Exists(videoFilePath))
                 return result;
 
@@ -1145,28 +1153,28 @@ namespace DMXVideoPlayer
             string[] audioExtensions = { ".mp3", ".wav", ".flac", ".aac", ".ogg", ".m4a", ".wma" };
 
             var allFiles = Directory.GetFiles(directory, $"{fileNameWithoutExtension}_*.*");
-            
+
             foreach (var file in allFiles)
             {
                 var extension = IOPath.GetExtension(file).ToLowerInvariant();
-                
+
                 if (audioExtensions.Contains(extension))
                 {
                     var fileName = IOPath.GetFileNameWithoutExtension(file);
-                    
+
                     if (fileName.StartsWith(fileNameWithoutExtension + "_"))
                     {
                         var suffix = fileName.Substring(fileNameWithoutExtension.Length + 1);
-                        
+
                         var displayName = char.ToUpper(suffix[0]) + suffix.Substring(1) + " track";
-                        
+
                         result.Add(new ExternalAudioFile
                         {
                             FilePath = file,
                             Suffix = suffix,
                             DisplayName = displayName
                         });
-                        
+
                         Debug.WriteLine($"Found external audio: {file} -> {displayName}");
                     }
                 }
@@ -1331,6 +1339,17 @@ namespace DMXVideoPlayer
             SaveSettings();
         }
 
+        public string GetLanguage()
+        {
+            return LocalizationService.Instance.CurrentCulture.TwoLetterISOLanguageName;
+        }
+
+        public void SetLanguage(string twoLetterCode)
+        {
+            LocalizationService.Instance.SetLanguage(twoLetterCode);
+            SaveSettings();
+        }
+
         private string GetEffectiveVideoStartDirectory()
         {
             if (!string.IsNullOrWhiteSpace(_defaultVideoDirectory) && Directory.Exists(_defaultVideoDirectory))
@@ -1346,7 +1365,7 @@ namespace DMXVideoPlayer
             try
             {
                 var storageProvider = StorageProvider;
-                
+
                 if (storageProvider == null)
                 {
                     Debug.WriteLine("StorageProvider is not available");
@@ -1355,7 +1374,7 @@ namespace DMXVideoPlayer
 
                 var fileTypes = new FilePickerFileType[]
                 {
-                    new("Fichiers vidéo")
+                    new(LocalizationService.Instance["Main_VideoFilesFilter"])
                     {
                         Patterns = new[] { "*.mp4", "*.avi", "*.mkv", "*.mov", "*.wmv", "*.flv", "*.webm", "*.m4v", "*.mpg", "*.mpeg", "*.3gp", "*.ts" }
                     },
@@ -1364,7 +1383,7 @@ namespace DMXVideoPlayer
 
                 var options = new FilePickerOpenOptions
                 {
-                    Title = "Sélectionner une vidéo",
+                    Title = LocalizationService.Instance["Main_SelectVideoDialogTitle"],
                     AllowMultiple = false,
                     FileTypeFilter = fileTypes
                 };
@@ -1418,7 +1437,7 @@ namespace DMXVideoPlayer
             }
 
             Debug.WriteLine("StopAndResetPosition: Paused, now resetting position");
-            
+
             // Reset position to beginning
             _mediaPlayer.Time = 0;
 
@@ -1442,7 +1461,7 @@ namespace DMXVideoPlayer
             if (e.Property.Name == "Value" && _volumeSlider != null && _mediaPlayer != null)
             {
                 _mediaPlayer.Volume = (int)_volumeSlider.Value;
-                
+
                 // Update mute state based on volume
                 if (_volumeSlider.Value > 0 && _isMuted)
                 {
@@ -1494,13 +1513,13 @@ namespace DMXVideoPlayer
 
             if (_balanceLockIcon != null)
             {
-                _balanceLockIcon.Symbol = _isBalanceLocked 
-                    ? FluentIcons.Common.Symbol.LockClosed 
+                _balanceLockIcon.Symbol = _isBalanceLocked
+                    ? FluentIcons.Common.Symbol.LockClosed
                     : FluentIcons.Common.Symbol.LockOpen;
             }
 
             Debug.WriteLine($"Balance lock toggled: {(_isBalanceLocked ? "Locked" : "Unlocked")}");
-            
+
             // Save settings
             SaveSettings();
         }
@@ -1510,7 +1529,7 @@ namespace DMXVideoPlayer
             if (e.Property.Name == "Value" && sender is Slider slider)
             {
                 double value = slider.Value;
-                
+
                 // Snap to center when value is between -25 and +25
                 if (value > -25 && value < 25 && value != 0)
                 {
@@ -1518,7 +1537,7 @@ namespace DMXVideoPlayer
                     Debug.WriteLine("Balance auto-centrée (snap to center)");
                     return;
                 }
-                
+
                 float balance = (float)(slider.Value / 100.0);
                 if (WindowsAudio.SetAudioBalance(balance))
                 {
@@ -1560,7 +1579,7 @@ namespace DMXVideoPlayer
                 _volumeIcon.Symbol = FluentIcons.Common.Symbol.Speaker2;
             }
         }
-        
+
         private void PositionSlider_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             _isDraggingPosition = true;
@@ -1610,7 +1629,7 @@ namespace DMXVideoPlayer
         private void PositionSlider_PointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
         {
             Debug.WriteLine("PositionSlider: PointerCaptureLost - Mise à jour de la position");
-            
+
             Dispatcher.UIThread.Post(() =>
             {
                 if (_mediaPlayer != null && _positionSlider != null && _isUserInteractingWithSlider)
@@ -1747,7 +1766,7 @@ namespace DMXVideoPlayer
 
             _updateTimer?.Start();
 
-            Dispatcher.UIThread.Post(() => 
+            Dispatcher.UIThread.Post(() =>
             {
                 UpdatePlayPauseIcon(true);
                 // Start auto-hide timer when playing
@@ -1763,7 +1782,7 @@ namespace DMXVideoPlayer
             _interpolationTimer.Stop();
             _isInterpolating = false;
 
-            Dispatcher.UIThread.Post(() => 
+            Dispatcher.UIThread.Post(() =>
             {
                 UpdatePlayPauseIcon(false);
                 // Show controls when paused
@@ -1792,20 +1811,20 @@ namespace DMXVideoPlayer
         private void OnMediaPlayerEndReached(object? sender, EventArgs e)
         {
             _updateTimer?.Stop();
-            
+
             Dispatcher.UIThread.Post(() =>
             {
                 UpdatePlayPauseIcon(false);
-                
+
                 // Reset position to beginning so the video can be replayed
                 if (_mediaPlayer != null)
                 {
                     _mediaPlayer.Stop();
                 }
-                
+
                 if (_positionSlider != null)
                     _positionSlider.Value = 0;
-                    
+
                 if (_timeLabel != null)
                     _timeLabel.Text = FormatTime(0, _useHourFormat);
             });
@@ -1899,7 +1918,7 @@ namespace DMXVideoPlayer
             SaveSettings();
 
             _updateTimer?.Stop();
-            
+
             _currentMedia?.Dispose();
             _libVLC?.Dispose();
         }
@@ -1908,7 +1927,7 @@ namespace DMXVideoPlayer
         {
             ShowOverlays();
             _hideControlsTimer?.Stop();
-            
+
             // Only start auto-hide timer if media is loaded and playing
             if (_currentMedia != null && _mediaPlayer != null && _mediaPlayer.IsPlaying)
             {
@@ -1919,7 +1938,7 @@ namespace DMXVideoPlayer
         private void VideoContainer_PointerExited(object? sender, PointerEventArgs e)
         {
             _hideControlsTimer?.Stop();
-            
+
             // Only start auto-hide timer if media is loaded and playing
             if (_currentMedia != null && _mediaPlayer != null && _mediaPlayer.IsPlaying)
             {
@@ -1932,7 +1951,7 @@ namespace DMXVideoPlayer
             // Always show controls overlay (even without media)
             if (_controlsOverlay != null)
                 _controlsOverlay.IsVisible = true;
-            
+
             // Afficher le timecode overlay
             UpdateTimecodeVisibility();
         }
@@ -1970,26 +1989,26 @@ namespace DMXVideoPlayer
             try
             {
                 string settingsPath = GetSettingsFilePath();
-                
+
                 if (File.Exists(settingsPath))
                 {
                     string json = File.ReadAllText(settingsPath);
                     var settings = JsonSerializer.Deserialize<AppSettings>(json);
-                    
+
                     if (settings != null)
                     {
                         Debug.WriteLine($"Settings loaded: AudioDeviceId={settings.AudioOutputDeviceId}, Volume={settings.Volume}, Balance={settings.Balance}, IsBalanceLocked={settings.IsBalanceLocked}");
                         return settings;
                     }
                 }
-                
+
                 Debug.WriteLine("No settings file found, using defaults");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error loading settings: {ex.Message}");
             }
-            
+
             return new AppSettings();
         }
 
@@ -2008,9 +2027,9 @@ namespace DMXVideoPlayer
                     DefaultVideoDirectory = _defaultVideoDirectory,
                     SeekStepSeconds = _seekStepSeconds,
                     InfoPanelRelativeX = _infoPanelRelativeX,
-                    InfoPanelRelativeY = _infoPanelRelativeY
+                    InfoPanelRelativeY = _infoPanelRelativeY,
+                    Language = LocalizationService.Instance.CurrentCulture.TwoLetterISOLanguageName
                 };
-
                 var balanceSlider = this.FindControl<Slider>("BalanceSlider");
                 if (balanceSlider != null)
                 {
@@ -2021,7 +2040,7 @@ namespace DMXVideoPlayer
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 string json = JsonSerializer.Serialize(settings, options);
                 File.WriteAllText(settingsPath, json);
-                
+
                 Debug.WriteLine($"Settings saved: AudioDeviceId={settings.AudioOutputDeviceId}, Volume={settings.Volume}, Balance={settings.Balance}, IsBalanceLocked={settings.IsBalanceLocked}, ShowTimecode={settings.ShowTimecode}");
             }
             catch (Exception ex)
@@ -2029,7 +2048,7 @@ namespace DMXVideoPlayer
                 Debug.WriteLine($"Error saving settings: {ex.Message}");
             }
         }
-        
+
         private void UpdateTimecodeVisibility()
         {
             if (_timecodeLabel != null && _timecodeCheckBox != null)
@@ -2318,6 +2337,7 @@ namespace DMXVideoPlayer
         public int SeekStepSeconds { get; set; } = 5; // Step (in seconds) for the mouse wheel seek
         public double? InfoPanelRelativeX { get; set; } // Saved horizontal position of the timecode/BPM panel (0-1)
         public double? InfoPanelRelativeY { get; set; } // Saved vertical position of the timecode/BPM panel (0-1)
+        public string? Language { get; set; } // Two-letter ISO language code ("fr" or "en"); null = auto-detect from OS
     }
 
     public partial class MainWindow
@@ -2603,6 +2623,6 @@ namespace DMXVideoPlayer
                 _timeDisplayPanel.IsVisible = false;
         }
 
-            }
-        }
+    }
+}
 

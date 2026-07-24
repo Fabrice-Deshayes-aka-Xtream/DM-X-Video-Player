@@ -35,8 +35,8 @@ namespace DMXVideoPlayer
             {
                 var version = Assembly.GetExecutingAssembly().GetName().Version;
                 versionTextBlock.Text = version != null
-                    ? $"Version {version.Major}.{version.Minor}.{version.Build}"
-                    : "Version inconnue";
+                    ? string.Format(LocalizationService.Instance["About_Version"], $"{version.Major}.{version.Minor}.{version.Build}")
+                    : LocalizationService.Instance["About_UnknownVersion"];
             }
         }
 

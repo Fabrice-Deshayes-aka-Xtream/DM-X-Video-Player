@@ -26,6 +26,64 @@ namespace DMXVideoPlayer
         {
             _owner = owner;
             SetupSettingsControls();
+            SetupLanguageComboBox();
+        }
+
+        private sealed class LanguageOption
+        {
+            public string Code { get; }
+            public string DisplayName { get; }
+
+            public LanguageOption(string code, string displayName)
+            {
+                Code = code;
+                DisplayName = displayName;
+            }
+
+            public override string ToString() => DisplayName;
+        }
+
+        private bool _isUpdatingLanguageComboBox;
+
+        private void SetupLanguageComboBox()
+        {
+            var languageComboBox = this.FindControl<ComboBox>("LanguageComboBox");
+            var restartHintTextBlock = this.FindControl<TextBlock>("LanguageRestartHintTextBlock");
+            if (languageComboBox == null || _owner == null)
+                return;
+
+            _isUpdatingLanguageComboBox = true;
+            try
+            {
+                var options = new[]
+                {
+                    new LanguageOption("fr", LocalizationService.Instance["Settings_Language_French"]),
+                    new LanguageOption("en", LocalizationService.Instance["Settings_Language_English"])
+                };
+
+                languageComboBox.ItemsSource = options;
+                var currentCode = _owner.GetLanguage();
+                languageComboBox.SelectedItem = options.FirstOrDefault(o => o.Code == currentCode) ?? options[0];
+            }
+            finally
+            {
+                _isUpdatingLanguageComboBox = false;
+            }
+
+            languageComboBox.SelectionChanged += (s, e) =>
+            {
+                if (_isUpdatingLanguageComboBox || _owner == null)
+                    return;
+
+                if (languageComboBox.SelectedItem is LanguageOption option)
+                {
+                    _owner.SetLanguage(option.Code);
+                    if (restartHintTextBlock != null)
+                    {
+                        restartHintTextBlock.IsVisible = true;
+                    }
+                }
+            };
         }
 
         private void SetupSettingsControls()
@@ -111,7 +169,7 @@ namespace DMXVideoPlayer
 
                         var options = new FolderPickerOpenOptions
                         {
-                            Title = "Choisir l'emplacement vidéo par défaut",
+                            Title = LocalizationService.Instance["Settings_ChooseDefaultVideoDirectoryTitle"],
                             AllowMultiple = false,
                             SuggestedStartLocation = startFolder
                         };

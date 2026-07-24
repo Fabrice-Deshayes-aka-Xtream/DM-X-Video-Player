@@ -2,10 +2,12 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:DMXVideoPlayer"
 		mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="580"
 		x:Class="DMXVideoPlayer.AboutWindow"
+		x:CompileBindings="False"
 		Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
-		Title="A propos"
+		Title="{Binding [About_Title], Source={x:Static local:LocalizationService.Instance}}"
 		Width="420" Height="480"
 		WindowStartupLocation="CenterOwner"
 		CanResize="False"
@@ -17,7 +19,7 @@
 				   Width="96" Height="96"
 				   HorizontalAlignment="Center"/>
 
-			<TextBlock Text="DMX Video Player"
+			<TextBlock Text="{Binding [About_AppName], Source={x:Static local:LocalizationService.Instance}}"
 					   Foreground="#FFFFFF"
 					   FontWeight="Bold"
 					   FontSize="18"
@@ -29,12 +31,12 @@
 					   FontSize="12"
 					   HorizontalAlignment="Center"/>
 
-			<TextBlock Name="AuthorTextBlock" Text="Créé par Fabrice Deshayes aka Xtream"
+			<TextBlock Name="AuthorTextBlock" Text="{Binding [About_Author], Source={x:Static local:LocalizationService.Instance}}"
 					   Foreground="#DDDDDD"
 					   FontSize="12"
 					   HorizontalAlignment="Center"/>
 
-			<TextBlock Text="Licence MIT"
+			<TextBlock Text="{Binding [About_License], Source={x:Static local:LocalizationService.Instance}}"
 					   Foreground="#DDDDDD"
 					   FontSize="12"
 					   HorizontalAlignment="Center"/>
@@ -44,37 +46,37 @@
 				   Height="24"
 				   HorizontalAlignment="Center"
 				   Cursor="Hand"
-				   ToolTip.Tip="Ouvrir le depot GitHub"/>
+				   ToolTip.Tip="{Binding [About_GitHubTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
 
 			<Rectangle Height="1" Fill="#444444" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
 
-			<TextBlock Text="Raccourcis clavier"
+			<TextBlock Text="{Binding [About_ShortcutsTitle], Source={x:Static local:LocalizationService.Instance}}"
 					   Foreground="#FFFFFF"
 					   FontWeight="Bold"
 					   FontSize="14"
 					   HorizontalAlignment="Center"/>
 
 			<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,4,0,0">
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Espace, Entree :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="0" Grid.Column="1" Text="Lecture / Pause" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding [About_Shortcut_SpaceEnter], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding [About_Shortcut_PlayPause], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="0 :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="1" Grid.Column="1" Text="Stop" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding [About_Shortcut_Zero], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding [About_Shortcut_Stop], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Clic gauche :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="2" Grid.Column="1" Text="Lecture / Pause" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding [About_Shortcut_LeftClick], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding [About_Shortcut_PlayPause], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Double clic gauche :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="3" Grid.Column="1" Text="Basculer en plein ecran" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding [About_Shortcut_DoubleLeftClick], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding [About_Shortcut_ToggleFullscreen], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Molette de la souris :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="4" Grid.Column="1" Text="Avancer / reculer dans la video" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding [About_Shortcut_MouseWheel], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding [About_Shortcut_SeekVideo], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="S :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
-				<TextBlock Grid.Row="5" Grid.Column="1" Text="Ouvrir les parametres" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding [About_Shortcut_S], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding [About_Shortcut_OpenSettings], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="6" Grid.Column="0" Text="I :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,0"/>
-				<TextBlock Grid.Row="6" Grid.Column="1" Text="Ouvrir la fenetre A propos" Foreground="#999999" FontSize="12" Margin="0,0,0,0"/>
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding [About_Shortcut_I], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,0"/>
+				<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding [About_Shortcut_OpenAbout], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,0"/>
 			</Grid>
 		</StackPanel>
 	</Grid>

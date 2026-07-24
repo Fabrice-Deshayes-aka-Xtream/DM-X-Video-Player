@@ -2,11 +2,13 @@
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:local="clr-namespace:DMXVideoPlayer"
 mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
 x:Class="DMXVideoPlayer.SettingsWindow"
+x:CompileBindings="False"
 Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
-Title="Param&#232;tres"
-Width="400" Height="460"
+Title="{Binding [Settings_Title], Source={x:Static local:LocalizationService.Instance}}"
+Width="400" Height="540"
 WindowStartupLocation="CenterOwner"
 CanResize="False"
 Background="#2D2D2D">
@@ -14,7 +16,22 @@ Background="#2D2D2D">
     <Grid Margin="16">
         <StackPanel Spacing="16" VerticalAlignment="Top">
             <StackPanel Spacing="4">
-                <TextBlock Text="Sortie audio"
+                <TextBlock Text="{Binding [Settings_Language], Source={x:Static local:LocalizationService.Instance}}"
+                           Foreground="#DDDDDD"
+                           FontWeight="Bold"
+                           FontSize="12"/>
+                <ComboBox Name="LanguageComboBox"
+                          HorizontalAlignment="Stretch"/>
+                <TextBlock Name="LanguageRestartHintTextBlock"
+                           Text="{Binding [Settings_LanguageRestartHint], Source={x:Static local:LocalizationService.Instance}}"
+                           Foreground="#E0A030"
+                           FontSize="11"
+                           TextWrapping="Wrap"
+                           IsVisible="False"/>
+            </StackPanel>
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="{Binding [Settings_AudioOutput], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
                            FontSize="12"/>
@@ -24,9 +41,9 @@ Background="#2D2D2D">
 
             <StackPanel Spacing="4">
                 <CheckBox Name="TimecodeCheckBox"
-                          Content="Afficher le timecode"
+                          Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
                           Foreground="#DDDDDD"/>
-                <TextBlock Text="Format : heure:minute:seconde:frame"
+                <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#999999"
                            FontSize="11"
                            TextWrapping="Wrap"
@@ -35,9 +52,9 @@ Background="#2D2D2D">
 
             <StackPanel Spacing="4">
                 <CheckBox Name="BpmCheckBox"
-                          Content="Afficher le BPM"
+                          Content="{Binding [Settings_ShowBpm], Source={x:Static local:LocalizationService.Instance}}"
                           Foreground="#DDDDDD"/>
-                <TextBlock Text="Nécessite une piste tempo au format .smt (Cubase) portant le même nom que le fichier vidéo."
+                <TextBlock Text="{Binding [Settings_BpmHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#999999"
                            FontSize="11"
                            TextWrapping="Wrap"
@@ -45,7 +62,7 @@ Background="#2D2D2D">
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBlock Text="Pas de déplacement (molette de la souris)"
+                <TextBlock Text="{Binding [Settings_SeekStepTitle], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
                            FontSize="12"/>
@@ -55,14 +72,14 @@ Background="#2D2D2D">
                                Increment="1"
                                FormatString="0"
                                HorizontalAlignment="Stretch"/>
-                <TextBlock Text="Nombre de secondes d'avance/recul lors de l'utilisation de la molette au-dessus de la vidéo."
+                <TextBlock Text="{Binding [Settings_SeekStepHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#999999"
                            FontSize="11"
                            TextWrapping="Wrap"/>
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBlock Text="Emplacement vidéo par défaut"
+                <TextBlock Text="{Binding [Settings_DefaultVideoDirectoryTitle], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
                            FontSize="12"/>
@@ -70,13 +87,13 @@ Background="#2D2D2D">
                     <TextBox Name="DefaultVideoDirectoryTextBox"
                              Grid.Column="0"
                              IsReadOnly="True"
-                             PlaceholderText="Emplacement vidéos de Windows"/>
+                             PlaceholderText="{Binding [Settings_DefaultVideoDirectoryPlaceholder], Source={x:Static local:LocalizationService.Instance}}"/>
                     <Button Name="BrowseDefaultVideoDirectoryButton"
                             Grid.Column="1"
-                            Content="Parcourir..."
+                            Content="{Binding [Settings_Browse], Source={x:Static local:LocalizationService.Instance}}"
                             Margin="8,0,0,0"/>
                 </Grid>
-                <TextBlock Text="Utilisé comme point de départ lors du chargement d'une vidéo. Si l'emplacement n'existe plus, le répertoire vidéos de Windows est utilisé."
+                <TextBlock Text="{Binding [Settings_DefaultVideoDirectoryHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#999999"
                            FontSize="11"
                            TextWrapping="Wrap"/>

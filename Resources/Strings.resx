@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+	<xsd:element name="root" msdata:IsDataSet="true">
+	  <xsd:complexType>
+		<xsd:choice maxOccurs="unbounded">
+		  <xsd:element name="metadata">
+			<xsd:complexType>
+			  <xsd:sequence>
+				<xsd:element name="value" type="xsd:string" minOccurs="0" />
+			  </xsd:sequence>
+			  <xsd:attribute name="name" use="required" type="xsd:string" />
+			  <xsd:attribute name="type" type="xsd:string" />
+			  <xsd:attribute name="mimetype" type="xsd:string" />
+			  <xsd:attribute ref="xml:space" />
+			</xsd:complexType>
+		  </xsd:element>
+		  <xsd:element name="assembly">
+			<xsd:complexType>
+			  <xsd:attribute name="alias" type="xsd:string" />
+			  <xsd:attribute name="name" type="xsd:string" />
+			</xsd:complexType>
+		  </xsd:element>
+		  <xsd:element name="data">
+			<xsd:complexType>
+			  <xsd:sequence>
+				<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+				<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+			  </xsd:sequence>
+			  <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+			  <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+			  <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+			  <xsd:attribute ref="xml:space" />
+			</xsd:complexType>
+		  </xsd:element>
+		  <xsd:element name="resheader">
+			<xsd:complexType>
+			  <xsd:sequence>
+				<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+			  </xsd:sequence>
+			  <xsd:attribute name="name" type="xsd:string" use="required" />
+			</xsd:complexType>
+		  </xsd:element>
+		</xsd:choice>
+	  </xsd:complexType>
+	</xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+	<value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+	<value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+	<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+	<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="Settings_Title" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="Settings_AudioOutput" xml:space="preserve"><value>Sortie audio</value></data>
+  <data name="Settings_ShowTimecode" xml:space="preserve"><value>Afficher le timecode</value></data>
+  <data name="Settings_TimecodeFormatHint" xml:space="preserve"><value>Format : heure:minute:seconde:frame</value></data>
+  <data name="Settings_ShowBpm" xml:space="preserve"><value>Afficher le BPM</value></data>
+  <data name="Settings_BpmHint" xml:space="preserve"><value>Nécessite une piste tempo au format .smt (Cubase) portant le même nom que le fichier vidéo.</value></data>
+  <data name="Settings_SeekStepTitle" xml:space="preserve"><value>Pas de déplacement (molette de la souris)</value></data>
+  <data name="Settings_SeekStepHint" xml:space="preserve"><value>Nombre de secondes d'avance/recul lors de l'utilisation de la molette au-dessus de la vidéo.</value></data>
+  <data name="Settings_DefaultVideoDirectoryTitle" xml:space="preserve"><value>Emplacement vidéo par défaut</value></data>
+  <data name="Settings_DefaultVideoDirectoryPlaceholder" xml:space="preserve"><value>Emplacement vidéos de Windows</value></data>
+  <data name="Settings_Browse" xml:space="preserve"><value>Parcourir...</value></data>
+  <data name="Settings_DefaultVideoDirectoryHint" xml:space="preserve"><value>Utilisé comme point de départ lors du chargement d'une vidéo. Si l'emplacement n'existe plus, le répertoire vidéos de Windows est utilisé.</value></data>
+  <data name="Settings_ChooseDefaultVideoDirectoryTitle" xml:space="preserve"><value>Choisir l'emplacement vidéo par défaut</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>Langue</value></data>
+  <data name="Settings_Language_French" xml:space="preserve"><value>Français</value></data>
+  <data name="Settings_Language_English" xml:space="preserve"><value>Anglais</value></data>
+  <data name="Settings_LanguageRestartHint" xml:space="preserve"><value>Redémarrez l'application pour appliquer le changement de langue.</value></data>
+
+  <data name="About_Title" xml:space="preserve"><value>A propos</value></data>
+  <data name="About_AppName" xml:space="preserve"><value>DMX Video Player</value></data>
+  <data name="About_Version" xml:space="preserve"><value>Version {0}</value></data>
+  <data name="About_UnknownVersion" xml:space="preserve"><value>Version inconnue</value></data>
+  <data name="About_Author" xml:space="preserve"><value>Créé par Fabrice Deshayes aka Xtream</value></data>
+  <data name="About_License" xml:space="preserve"><value>Licence MIT</value></data>
+  <data name="About_GitHubTooltip" xml:space="preserve"><value>Ouvrir le depot GitHub</value></data>
+  <data name="About_ShortcutsTitle" xml:space="preserve"><value>Raccourcis clavier</value></data>
+  <data name="About_Shortcut_SpaceEnter" xml:space="preserve"><value>Espace, Entree :</value></data>
+  <data name="About_Shortcut_PlayPause" xml:space="preserve"><value>Lecture / Pause</value></data>
+  <data name="About_Shortcut_Zero" xml:space="preserve"><value>0 :</value></data>
+  <data name="About_Shortcut_Stop" xml:space="preserve"><value>Stop</value></data>
+  <data name="About_Shortcut_LeftClick" xml:space="preserve"><value>Clic gauche :</value></data>
+  <data name="About_Shortcut_DoubleLeftClick" xml:space="preserve"><value>Double clic gauche :</value></data>
+  <data name="About_Shortcut_ToggleFullscreen" xml:space="preserve"><value>Basculer en plein ecran</value></data>
+  <data name="About_Shortcut_MouseWheel" xml:space="preserve"><value>Molette de la souris :</value></data>
+  <data name="About_Shortcut_SeekVideo" xml:space="preserve"><value>Avancer / reculer dans la video</value></data>
+  <data name="About_Shortcut_S" xml:space="preserve"><value>S :</value></data>
+  <data name="About_Shortcut_OpenSettings" xml:space="preserve"><value>Ouvrir les parametres</value></data>
+  <data name="About_Shortcut_I" xml:space="preserve"><value>I :</value></data>
+  <data name="About_Shortcut_OpenAbout" xml:space="preserve"><value>Ouvrir la fenetre A propos</value></data>
+
+  <data name="Main_DragDropHint" xml:space="preserve"><value>Glissez-déposez une vidéo ici</value></data>
+  <data name="Main_InfoPanelDragTooltip" xml:space="preserve"><value>Faites glisser pour déplacer le panneau</value></data>
+  <data name="Main_LoadVideoTooltip" xml:space="preserve"><value>Charger une vidéo</value></data>
+  <data name="Main_SettingsTooltip" xml:space="preserve"><value>Paramètres</value></data>
+  <data name="Main_AboutTooltip" xml:space="preserve"><value>A propos</value></data>
+  <data name="Main_AudioTrackDefault" xml:space="preserve"><value>Piste audio</value></data>
+  <data name="Main_SelectAudioTrackTooltip" xml:space="preserve"><value>Sélectionner la piste audio</value></data>
+  <data name="Main_SelectSubtitlesTooltip" xml:space="preserve"><value>Sélectionner les sous-titres</value></data>
+  <data name="Main_SubtitleDisabled" xml:space="preserve"><value>Désactivé</value></data>
+  <data name="Main_SubtitleTrackFormat" xml:space="preserve"><value>Sous-titre {0}</value></data>
+  <data name="Main_ToggleBalanceLockTooltip" xml:space="preserve"><value>Verrouiller/Déverrouiller la balance</value></data>
+  <data name="Main_BalanceTooltip" xml:space="preserve"><value>Balance audio</value></data>
+  <data name="Main_ToggleMuteTooltip" xml:space="preserve"><value>Activer/Désactiver le son</value></data>
+  <data name="Main_VideoFilesFilter" xml:space="preserve"><value>Fichiers vidéo</value></data>
+  <data name="Main_SelectVideoDialogTitle" xml:space="preserve"><value>Sélectionner une vidéo</value></data>
+</root>

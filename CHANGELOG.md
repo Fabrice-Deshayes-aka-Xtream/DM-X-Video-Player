@@ -2,7 +2,7 @@
 
 All notable changes to DM Video Player will be documented in this file.
 
-## work in progress
+## [1.3.0] - 2026-07-24
 
 ### ⭐ New Features
 
@@ -14,6 +14,7 @@ All notable changes to DM Video Player will be documented in this file.
 - create a nice icon for application
 - rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
 - add about windows
+- manage localisation with english & french
 
 ### 🐛 Bug Fixes
 
