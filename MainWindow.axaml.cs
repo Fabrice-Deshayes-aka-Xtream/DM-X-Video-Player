@@ -62,8 +62,7 @@ namespace DMVideoPlayer
         private bool _isMuted = false;
         private string? _defaultVideoDirectory;
         private Border? _controlsOverlay;
-        private Border? _fileNameOverlay;
-        private TextBlock? _fileNameLabel;
+
         private DispatcherTimer? _hideControlsTimer;
         private Button? _balanceLockButton;
         private SymbolIcon? _balanceLockIcon;
@@ -117,6 +116,7 @@ namespace DMVideoPlayer
             SetupControls();
             SetupDragAndDrop();
             SetupKeyboardHandling();
+            UpdateVideoLayoutForWindowState();
 
             // High-precision timer for beats (independent of the video)
             _beatTimer = new System.Threading.Timer(OnBeatTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
@@ -299,8 +299,7 @@ namespace DMVideoPlayer
             _volumeButton = this.FindControl<Button>("VolumeButton");
             _volumeIcon = this.FindControl<SymbolIcon>("VolumeIcon");
             _controlsOverlay = this.FindControl<Border>("ControlsOverlay");
-            _fileNameOverlay = this.FindControl<Border>("FileNameOverlay");
-            _fileNameLabel = this.FindControl<TextBlock>("FileNameLabel");
+
             _balanceLockButton = this.FindControl<Button>("BalanceLockButton");
             _balanceLockIcon = this.FindControl<SymbolIcon>("BalanceLockIcon");
             _balanceSlider = this.FindControl<Slider>("BalanceSlider");
@@ -829,9 +828,6 @@ namespace DMVideoPlayer
                 // Update window title with video filename
                 var videoFileName = IOPath.GetFileName(filePath);
                 this.Title = $"{videoFileName} - DM Video Player";
-                
-                // Update file name overlay
-                UpdateFileNameDisplay(filePath);
 
                 var externalAudioFiles = FindExternalAudioFiles(filePath);
 
@@ -1931,6 +1927,41 @@ namespace DMVideoPlayer
                 WindowState = WindowState.FullScreen;
         }
 
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+
+            if (change.Property == WindowStateProperty)
+            {
+                UpdateVideoLayoutForWindowState();
+            }
+        }
+
+        /// <summary>
+        /// In fullscreen mode, the video area spans over the Controls Overlay row so the
+        /// video fills the whole screen and the overlay floats on top of it (auto-hidden
+        /// after a few seconds). In windowed mode, the video area only spans its own row so
+        /// it never goes behind the Controls Overlay, which stays permanently visible.
+        /// </summary>
+        private void UpdateVideoLayoutForWindowState()
+        {
+            bool isFullScreen = WindowState == WindowState.FullScreen;
+
+            if (_videoContainer != null)
+            {
+                Grid.SetRowSpan(_videoContainer, isFullScreen ? 2 : 1);
+            }
+
+            if (!isFullScreen)
+            {
+                // The Controls Overlay must never auto-hide in windowed mode.
+                _hideControlsTimer?.Stop();
+                ShowOverlays();
+            }
+
+            ApplyInfoPanelRelativePosition();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
@@ -1973,16 +2004,16 @@ namespace DMVideoPlayer
             if (_controlsOverlay != null)
                 _controlsOverlay.IsVisible = true;
             
-            // Only show file name overlay if there's a video loaded
-            if (_fileNameOverlay != null && !string.IsNullOrEmpty(_currentVideoFilePath))
-                _fileNameOverlay.IsVisible = true;
-            
             // Afficher le timecode overlay
             UpdateTimecodeVisibility();
         }
 
         private void HideOverlays()
         {
+            // The Controls Overlay must never auto-hide in windowed mode, only in fullscreen.
+            if (WindowState != WindowState.FullScreen)
+                return;
+
             // Don't hide if media player is paused or stopped
             if (_mediaPlayer != null && !_mediaPlayer.IsPlaying)
                 return;
@@ -1993,21 +2024,8 @@ namespace DMVideoPlayer
 
             if (_controlsOverlay != null)
                 _controlsOverlay.IsVisible = false;
-            
-            if (_fileNameOverlay != null)
-                _fileNameOverlay.IsVisible = false;
 
             // No longer hide the timecode here
-        }
-
-        private void UpdateFileNameDisplay(string filePath)
-        {
-            if (_fileNameLabel != null && !string.IsNullOrEmpty(filePath))
-            {
-                _fileNameLabel.Text = IOPath.GetFileName(filePath);
-                if (_fileNameOverlay != null)
-                    _fileNameOverlay.IsVisible = true;
-            }
         }
 
         private static string GetSettingsFilePath()
@@ -2213,7 +2231,9 @@ namespace DMVideoPlayer
 
             double maxTop = Math.Max(0, _infoPanelCanvas.Bounds.Height - _infoPanel.Bounds.Height);
 
-            if (_controlsOverlayReservedHeight > 0)
+            // The Controls Overlay only overlaps the video/info panel area in fullscreen mode;
+            // in windowed mode it sits in its own row and never overlaps, so no restriction is needed.
+            if (WindowState == WindowState.FullScreen && _controlsOverlayReservedHeight > 0)
             {
                 double controlsOverlayTop = _infoPanelCanvas.Bounds.Height - _controlsOverlayReservedHeight;
                 double limitedMaxTop = controlsOverlayTop - _infoPanel.Bounds.Height;

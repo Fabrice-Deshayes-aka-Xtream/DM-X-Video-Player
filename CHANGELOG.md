@@ -10,6 +10,7 @@ All notable changes to DM Video Player will be documented in this file.
 - adapt displayed components with application width 
 - set a minimum width and height for application
 - improve progression bar UI
+- refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
 
 ### 🐛 Bug Fixes
 

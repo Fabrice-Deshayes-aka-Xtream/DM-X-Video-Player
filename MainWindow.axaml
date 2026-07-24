@@ -8,11 +8,13 @@ mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
 x:Class="DMVideoPlayer.MainWindow"
 Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
-    <Grid>
+    <Grid Name="RootGrid" RowDefinitions="*,Auto">
         <!-- Video Display Area with Overlays -->
         <Border Background="Black" 
                 DragDrop.AllowDrop="True"
-                Name="VideoContainer">
+                Name="VideoContainer"
+                Grid.Row="0"
+                Grid.RowSpan="1">
             <Grid>
                 <!-- Video View -->
                 <local:VideoView x:Name="VideoViewControl" DoubleTapped="VideoContainer_DoubleTapped" Tapped="VideoContainer_Tapped" />
@@ -26,20 +28,6 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                           VerticalAlignment="Center"
                           Opacity="0.5"/>
                 
-                <!-- File Name Overlay (Top) -->
-                <Border Background="#CC000000"
-                        Name="FileNameOverlay"
-                        Height="32"
-                        VerticalAlignment="Top"
-                        IsVisible="False">
-                    <TextBlock Name="FileNameLabel"
-                              Text=""
-                              FontSize="12"
-                              Foreground="White"
-                              VerticalAlignment="Center"
-                              Margin="10,0,10,0"/>
-                </Border>
-
                 <!-- Draggable Info Panel: Timecode, BPM and Beat LED -->
                 <Canvas Name="InfoPanelCanvas">
                     <Border Background="#66000000"
@@ -85,14 +73,16 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                         </StackPanel>
                     </Border>
                 </Canvas>
+            </Grid>
+        </Border>
 
-                <!-- Controls Overlay (Bottom) -->
-                <Border Background="#DD000000"
-                        Name="ControlsOverlay"
-                        VerticalAlignment="Bottom"
-                        Padding="10,5,10,5"
-                        IsVisible="True">
-                    <StackPanel>
+        <!-- Controls Overlay (Bottom) -->
+        <Border Background="#DD000000"
+                Name="ControlsOverlay"
+                Grid.Row="1"
+                Padding="10,5,10,5"
+                IsVisible="True">
+            <StackPanel>
                         <!-- Progress Bar Area -->
                         <Grid Margin="0,0,0,5" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
                             <TextBlock Name="TimeLabel"
@@ -127,8 +117,8 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                             <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
                                 <StackPanel Name="EssentialButtonsPanel" Orientation="Horizontal" Spacing="5">
                                 <Button Name="PlayPauseButton" 
-                                        Width="32" 
-                                        Height="32" 
+                                        Width="28" 
+                                        Height="28" 
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button">
@@ -138,8 +128,8 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                                                       Foreground="#CCCCCC"/>
                                 </Button>
                                 <Button Name="StopButton" 
-                                        Width="32" 
-                                        Height="32" 
+                                        Width="28" 
+                                        Height="28" 
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button">
@@ -148,8 +138,8 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                                                       Foreground="#CCCCCC"/>
                                 </Button>
                                 <Button Name="LoadButton" 
-                                        Width="32" 
-                                        Height="32" 
+                                        Width="28" 
+                                        Height="28" 
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button"
@@ -159,8 +149,8 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                                                       Foreground="#CCCCCC"/>
                                 </Button>
                                 <Button Name="SettingsButton" 
-                                        Width="32" 
-                                        Height="32" 
+                                        Width="28" 
+                                        Height="28" 
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button"
@@ -274,8 +264,8 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                             <StackPanel Name="VolumeGroupPanel" Grid.Column="6" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                                 <!-- Volume Button -->
                                 <Button Name="VolumeButton" 
-                                        Width="32" 
-                                        Height="32" 
+                                        Width="28" 
+                                        Height="28" 
                                         Padding="0" 
                                         Focusable="False"
                                         Classes="playback-button"
@@ -299,7 +289,5 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                         </Grid>
                     </StackPanel>
                 </Border>
-            </Grid>
-        </Border>
     </Grid>
 </Window>
