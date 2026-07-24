@@ -94,13 +94,31 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                         IsVisible="True">
                     <StackPanel>
                         <!-- Progress Bar Area -->
-                        <Grid Margin="0,0,0,5">
+                        <Grid Margin="0,0,0,5" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                            <TextBlock Name="TimeLabel"
+                                      Grid.Column="0"
+                                      Text="0:00"
+                                      FontSize="11"
+                                      Foreground="#CCCCCC"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
                             <Slider Name="PositionSlider" 
+                                    Grid.Column="1"
+                                    Classes="vlc-progress"
                                     Minimum="0" 
                                     Maximum="100" 
                                     Value="0"
                                     Focusable="False"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
                                     Height="20"/>
+                            <TextBlock Name="DurationLabel"
+                                      Grid.Column="2"
+                                      Text="0:00"
+                                      FontSize="11"
+                                      Foreground="#CCCCCC"
+                                      VerticalAlignment="Center"
+                                      Margin="8,0,0,0"/>
                         </Grid>
                         
                         <!-- Compact Controls Row -->
@@ -151,25 +169,6 @@ Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256"
                                                       FontSize="16"
                                                       Foreground="#CCCCCC"/>
                                 </Button>
-                                </StackPanel>
-
-                                <!-- Time / Duration Display -->
-                                <StackPanel Name="TimeDisplayPanel" Orientation="Horizontal" Spacing="4">
-                                <TextBlock Name="TimeLabel" 
-                                          Text="00:00:00" 
-                                          FontSize="10"
-                                          Foreground="#CCCCCC"
-                                          VerticalAlignment="Center"
-                                          Margin="8,0,0,0"/>
-                                <TextBlock Text="/" 
-                                          FontSize="10"
-                                          Foreground="#808080"
-                                          VerticalAlignment="Center"/>
-                                <TextBlock Name="DurationLabel" 
-                                          Text="00:00:00" 
-                                          FontSize="10"
-                                          Foreground="#CCCCCC"
-                                          VerticalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>
 

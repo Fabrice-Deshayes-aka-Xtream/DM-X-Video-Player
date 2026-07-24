@@ -58,6 +58,7 @@ namespace DMVideoPlayer
         private Button? _volumeButton;
         private SymbolIcon? _volumeIcon;
         private int _volumeBeforeMute = 100;
+        private bool _useHourFormat = false;
         private bool _isMuted = false;
         private string? _defaultVideoDirectory;
         private Border? _controlsOverlay;
@@ -811,6 +812,7 @@ namespace DMVideoPlayer
 
                 _currentMedia?.Dispose();
                 _currentVideoFilePath = filePath;
+                _useHourFormat = false;
 
                 // Load tempo track if .smt file exists
                 var smtFilePath = IOPath.ChangeExtension(filePath, ".smt");
@@ -849,6 +851,8 @@ namespace DMVideoPlayer
                 }
 
                 await _currentMedia.Parse(MediaParseOptions.ParseNetwork);
+
+                _useHourFormat = TimeSpan.FromMilliseconds(_currentMedia.Duration).TotalHours >= 1;
 
                 _mediaPlayer.Media = _currentMedia;
                 
@@ -1498,7 +1502,7 @@ namespace DMVideoPlayer
                 _positionSlider.Value = 0;
 
             if (_timeLabel != null)
-                _timeLabel.Text = "00:00:00";
+                _timeLabel.Text = FormatTime(0, _useHourFormat);
                 
             Debug.WriteLine($"StopAndResetPosition: Complete. New state = {_mediaPlayer.State}");
         }
@@ -1740,14 +1744,12 @@ namespace DMVideoPlayer
 
             if (_timeLabel != null)
             {
-                var time = TimeSpan.FromMilliseconds(_mediaPlayer.Time);
-                _timeLabel.Text = $"{time:hh\\:mm\\:ss}";
+                _timeLabel.Text = FormatTime(_mediaPlayer.Time, _useHourFormat);
             }
 
             if (_durationLabel != null && _mediaPlayer.Length > 0)
             {
-                var duration = TimeSpan.FromMilliseconds(_mediaPlayer.Length);
-                _durationLabel.Text = $"{duration:hh\\:mm\\:ss}";
+                _durationLabel.Text = FormatTime(_mediaPlayer.Length, _useHourFormat);
             }
 
             // Update timecode at 60 FPS for smooth display
@@ -1847,7 +1849,7 @@ namespace DMVideoPlayer
                 if (_positionSlider != null)
                     _positionSlider.Value = 0;
                 if (_timeLabel != null)
-                    _timeLabel.Text = "00:00:00";
+                    _timeLabel.Text = FormatTime(0, _useHourFormat);
                 // Show controls when stopped
                 ShowOverlays();
                 _hideControlsTimer?.Stop();
@@ -1872,7 +1874,7 @@ namespace DMVideoPlayer
                     _positionSlider.Value = 0;
                     
                 if (_timeLabel != null)
-                    _timeLabel.Text = "00:00:00";
+                    _timeLabel.Text = FormatTime(0, _useHourFormat);
             });
         }
 
@@ -2275,6 +2277,14 @@ namespace DMVideoPlayer
             e.Pointer.Capture(null);
             e.Handled = true;
             SaveSettings();
+        }
+
+        private static string FormatTime(long milliseconds, bool useHourFormat)
+        {
+            var time = TimeSpan.FromMilliseconds(Math.Max(0, milliseconds));
+            return useHourFormat
+                ? $"{(int)time.TotalHours}:{time:mm\\:ss}"
+                : $"{(int)time.TotalMinutes}:{time:ss}";
         }
 
         private void UpdateTimecodeLabelFromSlider()

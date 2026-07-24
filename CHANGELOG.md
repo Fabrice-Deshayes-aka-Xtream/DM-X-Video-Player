@@ -9,6 +9,7 @@ All notable changes to DM Video Player will be documented in this file.
 - allow to move timecode / BPM panel
 - adapt displayed components with application width 
 - set a minimum width and height for application
+- improve progression bar UI
 
 ### 🐛 Bug Fixes
 

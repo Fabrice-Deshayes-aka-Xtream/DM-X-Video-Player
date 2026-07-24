@@ -107,5 +107,83 @@ RequestedThemeVariant="Default">
             <Setter Property="Width" Value="16"/>
             <Setter Property="Height" Value="16"/>
         </Style>
-    </Application.Styles>
+
+        <!-- Style VLC pour la barre de progression : template personnalisé pour un contrôle total du rendu -->
+        <Style Selector="Slider.vlc-progress">
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <ControlTemplate TargetType="Slider">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent">
+                        <Track Name="PART_Track"
+                               Minimum="{TemplateBinding Minimum}"
+                               Maximum="{TemplateBinding Maximum}"
+                               Value="{TemplateBinding Value, Mode=TwoWay}"
+                               Orientation="Horizontal"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Center">
+                            <Track.DecreaseButton>
+                                <RepeatButton Name="PART_DecreaseButton"
+                                              BorderThickness="0"
+                                              Focusable="False"
+                                              MinWidth="0"
+                                              MinHeight="0"
+                                              Padding="0"
+                                              Height="8"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="#4A90E2"
+                                                    CornerRadius="4"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.DecreaseButton>
+                            <Track.IncreaseButton>
+                                <RepeatButton Name="PART_IncreaseButton"
+                                              BorderThickness="0"
+                                              Focusable="False"
+                                              MinWidth="0"
+                                              MinHeight="0"
+                                              Padding="0"
+                                              Height="8"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="#5A5A5A"
+                                                    CornerRadius="4"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"/>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.IncreaseButton>
+                            <Thumb Name="thumb"
+                                   Width="10"
+                                   Height="10"
+                                   MinWidth="0"
+                                   MinHeight="0"
+                                   Padding="0"
+                                   BorderThickness="0"
+                                   VerticalAlignment="Center">
+                                <Thumb.Template>
+                                    <ControlTemplate TargetType="Thumb">
+                                        <Ellipse Fill="#FFFFFF"
+                                                 Stroke="#FFFFFF"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Stretch"/>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        </Application.Styles>
 </Application>
