@@ -3,7 +3,8 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="300"
-x:Class="DMVideoPlayer.SettingsWindow"
+x:Class="DMXVideoPlayer.SettingsWindow"
+Icon="avares://DMXVideoPlayer/DMX-Video-Player.ico"
 Title="Param&#232;tres"
 Width="400" Height="460"
 WindowStartupLocation="CenterOwner"
@@ -69,7 +70,7 @@ Background="#2D2D2D">
                     <TextBox Name="DefaultVideoDirectoryTextBox"
                              Grid.Column="0"
                              IsReadOnly="True"
-                             Watermark="Emplacement vidéos de Windows"/>
+                             PlaceholderText="Emplacement vidéos de Windows"/>
                     <Button Name="BrowseDefaultVideoDirectoryButton"
                             Grid.Column="1"
                             Content="Parcourir..."

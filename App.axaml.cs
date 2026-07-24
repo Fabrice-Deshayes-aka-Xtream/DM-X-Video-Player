@@ -2,7 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace DMVideoPlayer
+namespace DMXVideoPlayer
 {
     /// <summary>
     /// Interaction logic for App.xaml

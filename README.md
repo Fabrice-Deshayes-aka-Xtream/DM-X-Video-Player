@@ -1,8 +1,8 @@
-﻿# DM Video Player
+﻿# DMX Video Player
 
-![main window screenshot](main_window.png) ![settings window screenshot](settings_windows.png)
+![main window screenshot](main_window.png)
 
-🎶 **DM Video Player** is a classic minimalist video player based on VLC. 
+**DM Video Player** is a classic minimalist video player based on VLC. 
 It allows you to dynamically add extra audio tracks to your videos, making it especially useful for musicians and those with hearing impairments.
 
 ## Author
@@ -11,7 +11,7 @@ Created by **Fabrice Deshayes aka Xtream** for its friend [**Didier Martini**](h
 
 ## About the Project
 
-This project is a "vibe coding" experiment, assisted by GitHub Copilot, dedicated to my friend **Didier Martini**, a musician with hearing loss. 
+ This project is a "vibe coding" experiment, assisted by GitHub Copilot, dedicated to my friend **Didier Martini**, a musician with hearing loss. 
 The goal is to provide a video player that can help musicians like Didier by allowing them to isolate and route specific audio tracks (STEMS) for a more accessible and customizable "listening" experience.
 Typically, Didier extract drums track (STEM) from vidéo and uses this drum track routed to a separate audio output connected to a vibrating electric engine attached to his leg, 
 allowing him to feel the tempo despite his hearing impairment.
@@ -46,6 +46,10 @@ It can also be useful for other musicians wanting to isolate specific instrument
 ### Supported Audio/Video Formats
 
 All that is supported by VLC media player!
+
+### Settings
+
+![settings window screenshot](settings_windows.png)
 
 ## Open Source Components Used
 

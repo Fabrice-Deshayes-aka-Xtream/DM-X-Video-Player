@@ -20,7 +20,7 @@ using System.Text.Json;
 using IOPath = System.IO.Path;
 using FluentIcons.Avalonia.Fluent;
 
-namespace DMVideoPlayer
+namespace DMXVideoPlayer
 {
     public partial class MainWindow : Window
     {
@@ -111,7 +111,6 @@ namespace DMVideoPlayer
         public MainWindow()
         {
             InitializeComponent();
-            SetWindowIcon();
             InitializeVLC();
             SetupControls();
             SetupDragAndDrop();
@@ -120,125 +119,11 @@ namespace DMVideoPlayer
 
             // High-precision timer for beats (independent of the video)
             _beatTimer = new System.Threading.Timer(OnBeatTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
-
-            Activated += MainWindow_Activated;
-            Deactivated += MainWindow_Deactivated;
-        }
-
-        private bool _wasWindowFocused = true;
-        private bool _justRegainedFocus = false;
-
-        private void MainWindow_Activated(object? sender, EventArgs e)
-        {
-            if (!_wasWindowFocused)
-            {
-                _justRegainedFocus = true;
-            }
-            _wasWindowFocused = true;
-        }
-
-        private void MainWindow_Deactivated(object? sender, EventArgs e)
-        {
-            _wasWindowFocused = false;
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        
-        private void SetWindowIcon()
-        {
-            try
-            {
-                bool isDarkMode = IsDarkTheme();
-                uint iconColor = isDarkMode ? 0xFFFFFFFF : 0xFF000000;
-                
-                var bitmap = new WriteableBitmap(new PixelSize(32, 32), new Vector(96, 96), PixelFormat.Bgra8888, AlphaFormat.Premul);
-                
-                using (var fb = bitmap.Lock())
-                {
-                    unsafe
-                    {
-                        var ptr = (uint*)fb.Address.ToPointer();
-                        var width = fb.Size.Width;
-                        var height = fb.Size.Height;
-                        
-                        for (int i = 0; i < width * height; i++)
-                        {
-                            ptr[i] = 0x00000000;
-                        }
-                        
-                        for (int y = 6; y < 24; y++)
-                        {
-                            for (int x = 18; x < 21; x++)
-                            {
-                                if (x >= 0 && x < width && y >= 0 && y < height)
-                                    ptr[y * width + x] = iconColor;
-                            }
-                        }
-                        
-                        DrawCircle(ptr, width, height, 14, 24, 4, iconColor);
-                        
-                        for (int y = 6; y < 14; y++)
-                        {
-                            int x = 21 + (y - 6) / 2;
-                            if (x >= 0 && x < width && y >= 0 && y < height)
-                            {
-                                ptr[y * width + x] = iconColor;
-                                if (x + 1 < width)
-                                    ptr[y * width + x + 1] = iconColor;
-                            }
-                        }
-                    }
-                }
-                
-                this.Icon = new WindowIcon(bitmap);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error creating window icon: " + ex.Message);
-            }
-        }
-        
-        private bool IsDarkTheme()
-        {
-            try
-            {
-                if (Application.Current?.PlatformSettings != null)
-                {
-                    var colorValues = Application.Current.PlatformSettings.GetColorValues();
-                    var themeVariant = colorValues.ThemeVariant;
-                    
-                    return themeVariant == PlatformThemeVariant.Dark;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error detecting theme: " + ex.Message);
-            }
-            
-            return true;
-        }
-        
-        private unsafe void DrawCircle(uint* ptr, int width, int height, int cx, int cy, int radius, uint color)
-        {
-            for (int y = -radius; y <= radius; y++)
-            {
-                for (int x = -radius; x <= radius; x++)
-                {
-                    if (x * x + y * y <= radius * radius)
-                    {
-                        int px = cx + x;
-                        int py = cy + y;
-                        if (px >= 0 && px < width && py >= 0 && py < height)
-                        {
-                            ptr[py * width + px] = color;
-                        }
-                    }
-                }
-            }
         }
 
         private void InitializeVLC()
@@ -827,7 +712,7 @@ namespace DMVideoPlayer
 
                 // Update window title with video filename
                 var videoFileName = IOPath.GetFileName(filePath);
-                this.Title = $"{videoFileName} - DM Video Player";
+                this.Title = $"{videoFileName} - DMX Video Player";
 
                 var externalAudioFiles = FindExternalAudioFiles(filePath);
 
@@ -1472,9 +1357,20 @@ namespace DMVideoPlayer
             }
         }
 
+        private bool _isStopped = false;
+
         private void StopAndResetPosition()
         {
             if (_mediaPlayer == null || _mediaPlayer.Media == null) return;
+
+            // Do nothing if we are already stopped: repeatedly pausing/resetting the
+            // position while already stopped confuses the underlying VLC player and
+            // can make the next Play() start without video or require several clicks.
+            if (_isStopped)
+            {
+                Debug.WriteLine("StopAndResetPosition: Already stopped, ignoring");
+                return;
+            }
 
             Debug.WriteLine($"StopAndResetPosition: Current state = {_mediaPlayer.State}");
 
@@ -1499,7 +1395,9 @@ namespace DMVideoPlayer
 
             if (_timeLabel != null)
                 _timeLabel.Text = FormatTime(0, _useHourFormat);
-                
+
+            _isStopped = true;
+
             Debug.WriteLine($"StopAndResetPosition: Complete. New state = {_mediaPlayer.State}");
         }
 
@@ -1804,6 +1702,9 @@ namespace DMVideoPlayer
 
         private void OnMediaPlayerPlaying(object? sender, EventArgs e)
         {
+            // Playback has actually (re)started, so a subsequent Stop is meaningful again.
+            _isStopped = false;
+
             // Reset interpolation when playback starts
             _interpolationTimer.Reset();
             _isInterpolating = false;
@@ -1888,14 +1789,6 @@ namespace DMVideoPlayer
 
         private void VideoContainer_Tapped(object? sender, TappedEventArgs e)
         {
-            // Ignore the click if it just gave focus back to the window:
-            // we simply want to regain focus, not toggle play/pause.
-            if (_justRegainedFocus)
-            {
-                _justRegainedFocus = false;
-                return;
-            }
-
             // Start a timer to defer the single click action
             _doubleClickDetected = false;
             _singleClickTimer?.Stop();
@@ -2031,7 +1924,7 @@ namespace DMVideoPlayer
         private static string GetSettingsFilePath()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string appFolder = IOPath.Combine(appDataPath, "DMVideoPlayer");
+            string appFolder = IOPath.Combine(appDataPath, "DMXVideoPlayer");
             Directory.CreateDirectory(appFolder);
             return IOPath.Combine(appFolder, "settings.json");
         }

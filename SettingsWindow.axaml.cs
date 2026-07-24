@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace DMVideoPlayer
+namespace DMXVideoPlayer
 {
     public partial class SettingsWindow : Window
     {

@@ -11,11 +11,14 @@ All notable changes to DM Video Player will be documented in this file.
 - set a minimum width and height for application
 - improve progression bar UI
 - refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
+- create a nice icon for application
+- rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
 
 ### 🐛 Bug Fixes
 
 - prevent to play/pause on mouse click if app has not the focus yet
 - allow to chose drive and not only folder for default video location
+- fix bug on multimple stop which prevent a correct play
 
 ## [1.2.0] - 2026-07-21
 

@@ -1,7 +1,7 @@
 using Avalonia;
 using System;
 
-namespace DMVideoPlayer
+namespace DMXVideoPlayer
 {
     internal sealed class Program
     {

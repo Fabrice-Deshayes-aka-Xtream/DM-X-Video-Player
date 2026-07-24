@@ -69,7 +69,7 @@ Le code doit respecter les **standards de qualité d'un projet C# professionnel*
 - **Type de projet** : Application Windows avec Avalonia UI
 - **Architecture cible** : x64 uniquement
 - **Système d'exploitation** : Windows 10.0.26100.0+
-- **Point d'entrée** : `DMVideoPlayer.Program`
+- **Point d'entrée** : `DMXVideoPlayer.Program`
 
 ## Notes Spécifiques
 

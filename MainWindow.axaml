@@ -2,11 +2,12 @@
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:local="clr-namespace:DMVideoPlayer"
+xmlns:local="clr-namespace:DMXVideoPlayer"
 xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
 mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
-x:Class="DMVideoPlayer.MainWindow"
-Title="DM Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
+x:Class="DMXVideoPlayer.MainWindow"
+Icon="avares://DMXVideoPlayer/DMX-Video-Player.ico"
+Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
     <Grid Name="RootGrid" RowDefinitions="*,Auto">
         <!-- Video Display Area with Overlays -->

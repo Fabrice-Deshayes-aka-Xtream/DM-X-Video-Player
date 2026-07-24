@@ -8,7 +8,7 @@ using LibVLCSharp.Shared;
 using System;
 using System.Runtime.InteropServices;
 
-namespace DMVideoPlayer
+namespace DMXVideoPlayer
 {
     public class VideoView : Control
     {
