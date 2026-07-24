@@ -16,7 +16,8 @@
     <SelfContained>false</SelfContained>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>DMX-Video-Player.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\DMX-Video-Player.ico</ApplicationIcon>
+    <AssemblyVersion>1.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,7 +44,7 @@
     <None Remove="$(NuGetPackageRoot)videolan.libvlc.windows\**\libvlc\win-arm64\**\*" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DMX-Video-Player.ico" />
+    <Content Include="Assets\DMX-Video-Player.ico" />
     <AvaloniaResource Include="DMX-Video-Player.ico" />
   </ItemGroup>
 
