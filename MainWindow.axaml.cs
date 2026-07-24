@@ -30,11 +30,13 @@ namespace DMXVideoPlayer
         private VideoView? _videoView;
         private Border? _videoContainer;
         private TextBlock? _placeholderText;
+        private Image? _placeholderImage;
         private Button? _playPauseButton;
         private SymbolIcon? _playPauseIcon;
         private Button? _stopButton;
         private Button? _loadButton;
         private Button? _settingsButton;
+        private Button? _aboutButton;
         private Slider? _volumeSlider;
         private Slider? _positionSlider;
         private TextBlock? _timeLabel;
@@ -168,11 +170,13 @@ namespace DMXVideoPlayer
         {
             _videoContainer = this.FindControl<Border>("VideoContainer");
             _placeholderText = this.FindControl<TextBlock>("PlaceholderText");
+            _placeholderImage = this.FindControl<Image>("PlaceholderImage");
             _playPauseButton = this.FindControl<Button>("PlayPauseButton");
             _playPauseIcon = this.FindControl<SymbolIcon>("PlayPauseIcon");
             _stopButton = this.FindControl<Button>("StopButton");
             _loadButton = this.FindControl<Button>("LoadButton");
             _settingsButton = this.FindControl<Button>("SettingsButton");
+            _aboutButton = this.FindControl<Button>("AboutButton");
             _volumeSlider = this.FindControl<Slider>("VolumeSlider");
             _positionSlider = this.FindControl<Slider>("PositionSlider");
             _timeLabel = this.FindControl<TextBlock>("TimeLabel");
@@ -256,6 +260,9 @@ namespace DMXVideoPlayer
 
             if (_settingsButton != null)
                 _settingsButton.Click += SettingsButton_Click;
+
+            if (_aboutButton != null)
+                _aboutButton.Click += AboutButton_Click;
 
             if (_volumeSlider != null)
                 _volumeSlider.PropertyChanged += VolumeSlider_PropertyChanged;
@@ -639,10 +646,10 @@ namespace DMXVideoPlayer
         {
             Debug.WriteLine($"OnKeyDown: Key pressed = {e.Key}, Handled = {e.Handled}");
             
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Space || e.Key == Key.Enter || e.Key == Key.Return)
             {
                 e.Handled = true;
-                Debug.WriteLine("OnKeyDown: Space key pressed, calling TogglePlayPause");
+                Debug.WriteLine("OnKeyDown: Space/Enter key pressed, calling TogglePlayPause");
                 TogglePlayPause();
             }
             else if (e.Key == Key.D0 || e.Key == Key.NumPad0)
@@ -784,6 +791,8 @@ namespace DMXVideoPlayer
 
                 if (_placeholderText != null)
                     _placeholderText.IsVisible = false;
+                if (_placeholderImage != null)
+                    _placeholderImage.IsVisible = false;
                 
                 // Initialize subtitle button text
                 UpdateSubtitleButtonText("Désactivé");
@@ -1226,6 +1235,21 @@ namespace DMXVideoPlayer
             _settingsWindow = new SettingsWindow(this);
             _settingsWindow.Closed += (s, args) => _settingsWindow = null;
             _settingsWindow.Show(this);
+        }
+
+        private AboutWindow? _aboutWindow;
+
+        private void AboutButton_Click(object? sender, RoutedEventArgs e)
+        {
+            if (_aboutWindow != null)
+            {
+                _aboutWindow.Activate();
+                return;
+            }
+
+            _aboutWindow = new AboutWindow();
+            _aboutWindow.Closed += (s, args) => _aboutWindow = null;
+            _aboutWindow.Show(this);
         }
 
         // API exposed for the settings window (audio output + timecode)

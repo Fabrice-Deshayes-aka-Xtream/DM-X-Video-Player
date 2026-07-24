@@ -6,7 +6,7 @@ xmlns:local="clr-namespace:DMXVideoPlayer"
 xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
 mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
 x:Class="DMXVideoPlayer.MainWindow"
-Icon="avares://DMXVideoPlayer/DMX-Video-Player.ico"
+Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
 Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
     <Grid Name="RootGrid" RowDefinitions="*,Auto">
@@ -20,6 +20,14 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                 <!-- Video View -->
                 <local:VideoView x:Name="VideoViewControl" DoubleTapped="VideoContainer_DoubleTapped" Tapped="VideoContainer_Tapped" />
                 
+                <!-- Placeholder Image -->
+                <Image Source="avares://DMXVideoPlayer/Assets/DMX-Video-Player-512x512.png"
+                       Name="PlaceholderImage"
+                       Stretch="Uniform"
+                       Opacity="0.1"
+                       DoubleTapped="VideoContainer_DoubleTapped"
+                       Tapped="VideoContainer_Tapped"/>
+
                 <!-- Placeholder Text -->
                 <TextBlock Text="Glissez-déposez une vidéo ici"
                           Name="PlaceholderText"
@@ -27,7 +35,7 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                           Foreground="White"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
-                          Opacity="0.5"/>
+                          Opacity="0.6"/>
                 
                 <!-- Draggable Info Panel: Timecode, BPM and Beat LED -->
                 <Canvas Name="InfoPanelCanvas">
@@ -160,6 +168,17 @@ Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256
                                                       FontSize="16"
                                                       Foreground="#CCCCCC"/>
                                 </Button>
+								<Button Name="AboutButton" 
+										Width="28" 
+										Height="28" 
+										Padding="0" 
+										Focusable="False"
+										Classes="playback-button"
+										ToolTip.Tip="A propos">
+									<fluent:SymbolIcon Symbol="Info"
+													  FontSize="16"
+													  Foreground="#CCCCCC"/>
+								</Button>
                                 </StackPanel>
                             </StackPanel>
 

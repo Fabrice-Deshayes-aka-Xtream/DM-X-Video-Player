@@ -13,6 +13,7 @@ All notable changes to DM Video Player will be documented in this file.
 - refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
 - create a nice icon for application
 - rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
+- add about windows
 
 ### 🐛 Bug Fixes
 
