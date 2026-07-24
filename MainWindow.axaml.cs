@@ -658,6 +658,18 @@ namespace DMXVideoPlayer
                 Debug.WriteLine("OnKeyDown: 0 key pressed, calling StopAndResetPosition");
                 StopAndResetPosition();
             }
+            else if (e.Key == Key.S)
+            {
+                e.Handled = true;
+                Debug.WriteLine("OnKeyDown: S key pressed, opening settings window");
+                SettingsButton_Click(this, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.I)
+            {
+                e.Handled = true;
+                Debug.WriteLine("OnKeyDown: I key pressed, opening about window");
+                AboutButton_Click(this, new RoutedEventArgs());
+            }
         }
 
         private void DragOver(object? sender, Avalonia.Input.DragEventArgs e)

@@ -1,15 +1,15 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="580"
-x:Class="DMXVideoPlayer.AboutWindow"
-Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
-Title="A propos"
-Width="420" Height="480"
-WindowStartupLocation="CenterOwner"
-CanResize="False"
-Background="#2D2D2D">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="580"
+		x:Class="DMXVideoPlayer.AboutWindow"
+		Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
+		Title="A propos"
+		Width="420" Height="480"
+		WindowStartupLocation="CenterOwner"
+		CanResize="False"
+		Background="#2D2D2D">
 
 	<Grid Margin="16">
 		<StackPanel Spacing="12" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -39,40 +39,43 @@ Background="#2D2D2D">
 					   FontSize="12"
 					   HorizontalAlignment="Center"/>
 
-			<TextBlock Name="GitHubLinkTextBlock"
-					   Text="https://github.com/Fabrice-Deshayes-aka-Xtream/DMX-Video-Player"
-					   Foreground="#4EA1F3"
-					   FontSize="11"
-					   TextWrapping="Wrap"
-					   TextAlignment="Center"
-					   Cursor="Hand"
-					   TextDecorations="Underline"
-									  ToolTip.Tip="Ouvrir le depot GitHub"/>
+			<Image Name="GitHubLinkImage"
+				   Source="avares://DMXVideoPlayer/Assets/GitHub_Lockup_White.png"
+				   Height="24"
+				   HorizontalAlignment="Center"
+				   Cursor="Hand"
+				   ToolTip.Tip="Ouvrir le depot GitHub"/>
 
-								   <Rectangle Height="1" Fill="#444444" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
+			<Rectangle Height="1" Fill="#444444" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
 
-								   <TextBlock Text="Raccourcis clavier"
-											  Foreground="#FFFFFF"
-											  FontWeight="Bold"
-											  FontSize="14"
-											  HorizontalAlignment="Center"/>
+			<TextBlock Text="Raccourcis clavier"
+					   Foreground="#FFFFFF"
+					   FontWeight="Bold"
+					   FontSize="14"
+					   HorizontalAlignment="Center"/>
 
-								   <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,4,0,0">
-									   <TextBlock Grid.Row="0" Grid.Column="0" Text="Espace, Entree :" Foreground="#4EA1F3" FontSize="12" Margin="0,0,8,4"/>
-									   <TextBlock Grid.Row="0" Grid.Column="1" Text="Lecture / Pause" Foreground="#DDDDDD" FontSize="12" Margin="0,0,0,4"/>
+			<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,4,0,0">
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Espace, Entree :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="0" Grid.Column="1" Text="Lecture / Pause" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-									   <TextBlock Grid.Row="1" Grid.Column="0" Text="0 :" Foreground="#4EA1F3" FontSize="12" Margin="0,0,8,4"/>
-									   <TextBlock Grid.Row="1" Grid.Column="1" Text="Stop" Foreground="#DDDDDD" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="0 :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="1" Grid.Column="1" Text="Stop" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-									   <TextBlock Grid.Row="2" Grid.Column="0" Text="Clic gauche :" Foreground="#4EA1F3" FontSize="12" Margin="0,0,8,4"/>
-									   <TextBlock Grid.Row="2" Grid.Column="1" Text="Lecture / Pause" Foreground="#DDDDDD" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Clic gauche :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="2" Grid.Column="1" Text="Lecture / Pause" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-									   <TextBlock Grid.Row="3" Grid.Column="0" Text="Double clic gauche :" Foreground="#4EA1F3" FontSize="12" Margin="0,0,8,4"/>
-									   <TextBlock Grid.Row="3" Grid.Column="1" Text="Basculer en plein ecran" Foreground="#DDDDDD" FontSize="12" Margin="0,0,0,4"/>
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="Double clic gauche :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="3" Grid.Column="1" Text="Basculer en plein ecran" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-									   <TextBlock Grid.Row="4" Grid.Column="0" Text="Molette de la souris :" Foreground="#4EA1F3" FontSize="12" Margin="0,0,8,0"/>
-									   <TextBlock Grid.Row="4" Grid.Column="1" Text="Avancer / reculer dans la video" Foreground="#DDDDDD" FontSize="12" Margin="0,0,0,0"/>
-								   </Grid>
-							   </StackPanel>
-						   </Grid>
-					   </Window>
+				<TextBlock Grid.Row="4" Grid.Column="0" Text="Molette de la souris :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="4" Grid.Column="1" Text="Avancer / reculer dans la video" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="S :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="5" Grid.Column="1" Text="Ouvrir les parametres" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
+
+				<TextBlock Grid.Row="6" Grid.Column="0" Text="I :" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,0"/>
+				<TextBlock Grid.Row="6" Grid.Column="1" Text="Ouvrir la fenetre A propos" Foreground="#999999" FontSize="12" Margin="0,0,0,0"/>
+			</Grid>
+		</StackPanel>
+	</Grid>
+</Window>

@@ -21,10 +21,10 @@ namespace DMXVideoPlayer
             SetWindowIcon();
             SetVersionText();
 
-            var githubLinkTextBlock = this.FindControl<TextBlock>("GitHubLinkTextBlock");
-            if (githubLinkTextBlock != null)
+            var githubLinkImage = this.FindControl<Image>("GitHubLinkImage");
+            if (githubLinkImage != null)
             {
-                githubLinkTextBlock.PointerPressed += (s, e) => OpenGitHubLink();
+                githubLinkImage.PointerPressed += (s, e) => OpenGitHubLink();
             }
         }
 

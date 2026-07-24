@@ -45,8 +45,9 @@
   <ItemGroup>
     <Content Include="Assets\DMX-Video-Player.ico" />
     <AvaloniaResource Include="Assets\DMX-Video-Player.ico" />
-	  <AvaloniaResource Include="Assets\DMX-Video-Player-512x512.png" />
+	<AvaloniaResource Include="Assets\DMX-Video-Player-512x512.png" />
     <AvaloniaResource Include="Assets\DMX-Video-Player-128x128.png" />
+	<AvaloniaResource Include="Assets\GitHub_Lockup_White.png" />
   </ItemGroup>
 
   <!-- Supprimer les dossiers des architectures non ciblées après le build -->
