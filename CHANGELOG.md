@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to DM Video Player will be documented in this file.
+All notable changes to DMX Video Player will be documented in this file.
 
 ## [1.3.0] - 2026-07-24
 
@@ -18,9 +18,8 @@ All notable changes to DM Video Player will be documented in this file.
 
 ### 🐛 Bug Fixes
 
-- prevent to play/pause on mouse click if app has not the focus yet
 - allow to chose drive and not only folder for default video location
-- fix bug on multimple stop which prevent a correct play
+- fix bug on multiple stop which prevent a correct play
 
 ## [1.2.0] - 2026-07-21
 
