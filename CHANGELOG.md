@@ -14,6 +14,7 @@ All notable changes to DM Video Player will be documented in this file.
 ### 🐛 Bug Fixes
 
 - prevent to play/pause on mouse click if app has not the focus yet
+- allow to chose drive and not only folder for default video location
 
 ## [1.2.0] - 2026-07-21
 

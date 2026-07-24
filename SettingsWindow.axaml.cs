@@ -111,7 +111,7 @@ namespace DMVideoPlayer
 
                         var options = new FolderPickerOpenOptions
                         {
-                            Title = "Choisir le répertoire vidéo par défaut",
+                            Title = "Choisir l'emplacement vidéo par défaut",
                             AllowMultiple = false,
                             SuggestedStartLocation = startFolder
                         };
@@ -119,7 +119,20 @@ namespace DMVideoPlayer
                         var result = await storageProvider.OpenFolderPickerAsync(options);
                         if (result != null && result.Count > 0)
                         {
-                            var folderPath = result[0].Path.LocalPath;
+                            var folderPath = result[0].TryGetLocalPath();
+                            if (string.IsNullOrWhiteSpace(folderPath))
+                            {
+                                Debug.WriteLine("Error choosing default video directory: no local path returned for selected item.");
+                                return;
+                            }
+
+                            // Un lecteur choisi (ex. "G:") doit conserver le séparateur final
+                            // pour que Directory.Exists le reconnaisse correctement comme racine.
+                            if (folderPath.Length == 2 && folderPath[1] == ':')
+                            {
+                                folderPath += Path.DirectorySeparatorChar;
+                            }
+
                             _owner.SetDefaultVideoDirectory(folderPath);
                             if (defaultVideoDirectoryTextBox != null)
                             {

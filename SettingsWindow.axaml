@@ -61,7 +61,7 @@ Background="#2D2D2D">
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBlock Text="Répertoire vidéo par défaut"
+                <TextBlock Text="Emplacement vidéo par défaut"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
                            FontSize="12"/>
@@ -69,13 +69,13 @@ Background="#2D2D2D">
                     <TextBox Name="DefaultVideoDirectoryTextBox"
                              Grid.Column="0"
                              IsReadOnly="True"
-                             Watermark="Répertoire vidéos de Windows"/>
+                             Watermark="Emplacement vidéos de Windows"/>
                     <Button Name="BrowseDefaultVideoDirectoryButton"
                             Grid.Column="1"
                             Content="Parcourir..."
                             Margin="8,0,0,0"/>
                 </Grid>
-                <TextBlock Text="Utilisé comme point de départ lors du chargement d'une vidéo. Si le répertoire n'existe plus, le répertoire vidéos de Windows est utilisé."
+                <TextBlock Text="Utilisé comme point de départ lors du chargement d'une vidéo. Si l'emplacement n'existe plus, le répertoire vidéos de Windows est utilisé."
                            Foreground="#999999"
                            FontSize="11"
                            TextWrapping="Wrap"/>
