@@ -94,8 +94,8 @@
   <data name="About_Shortcut_ToggleFullscreen" xml:space="preserve"><value>Basculer en plein ecran</value></data>
   <data name="About_Shortcut_MouseWheel" xml:space="preserve"><value>Molette de la souris :</value></data>
   <data name="About_Shortcut_SeekVideo" xml:space="preserve"><value>Avancer / reculer dans la video</value></data>
-  <data name="About_Shortcut_S" xml:space="preserve"><value>S :</value></data>
-  <data name="About_Shortcut_OpenSettings" xml:space="preserve"><value>Ouvrir les parametres</value></data>
+  <data name="About_Shortcut_P" xml:space="preserve"><value>P :</value></data>
+  <data name="About_Shortcut_OpenSettings" xml:space="preserve"><value>Ouvrir/fermer les parametres</value></data>
   <data name="About_Shortcut_I" xml:space="preserve"><value>I :</value></data>
   <data name="About_Shortcut_OpenAbout" xml:space="preserve"><value>Ouvrir la fenetre A propos</value></data>
 

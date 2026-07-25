@@ -72,7 +72,7 @@
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding [About_Shortcut_MouseWheel], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
 				<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding [About_Shortcut_SeekVideo], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
-				<TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding [About_Shortcut_S], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
+				<TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding [About_Shortcut_P], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,4"/>
 				<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding [About_Shortcut_OpenSettings], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
 				<TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding [About_Shortcut_I], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,0"/>

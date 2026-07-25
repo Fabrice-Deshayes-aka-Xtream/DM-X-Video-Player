@@ -2,6 +2,14 @@
 
 All notable changes to DMX Video Player will be documented in this file.
 
+## WIP
+
+### ⭐ New Features
+
+- use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
+
+### 🐛 Bug Fixes
+
 ## [1.3.0] - 2026-07-24
 
 ### ⭐ New Features

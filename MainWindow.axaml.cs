@@ -666,11 +666,11 @@ namespace DMXVideoPlayer
                 Debug.WriteLine("OnKeyDown: 0 key pressed, calling StopAndResetPosition");
                 StopAndResetPosition();
             }
-            else if (e.Key == Key.S)
+            else if (e.Key == Key.P)
             {
                 e.Handled = true;
-                Debug.WriteLine("OnKeyDown: S key pressed, opening settings window");
-                SettingsButton_Click(this, new RoutedEventArgs());
+                Debug.WriteLine("OnKeyDown: P key pressed, toggling settings window");
+                ToggleSettingsWindow();
             }
             else if (e.Key == Key.I)
             {
@@ -1249,6 +1249,19 @@ namespace DMXVideoPlayer
             if (_settingsWindow != null)
             {
                 _settingsWindow.Activate();
+                return;
+            }
+
+            _settingsWindow = new SettingsWindow(this);
+            _settingsWindow.Closed += (s, args) => _settingsWindow = null;
+            _settingsWindow.Show(this);
+        }
+
+        private void ToggleSettingsWindow()
+        {
+            if (_settingsWindow != null)
+            {
+                _settingsWindow.Close();
                 return;
             }
 

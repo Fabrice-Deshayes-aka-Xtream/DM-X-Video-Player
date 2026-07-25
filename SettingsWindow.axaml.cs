@@ -1,5 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -20,6 +22,7 @@ namespace DMXVideoPlayer
         {
             InitializeComponent();
             SetWindowIcon();
+            SetupKeyboardHandling();
         }
 
         public SettingsWindow(MainWindow owner) : this()
@@ -27,6 +30,22 @@ namespace DMXVideoPlayer
             _owner = owner;
             SetupSettingsControls();
             SetupLanguageComboBox();
+        }
+
+        private void SetupKeyboardHandling()
+        {
+            this.AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
+            this.Focusable = true;
+        }
+
+        private void OnKeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.P)
+            {
+                e.Handled = true;
+                Debug.WriteLine("SettingsWindow OnKeyDown: P key pressed, closing settings window");
+                Close();
+            }
         }
 
         private sealed class LanguageOption
