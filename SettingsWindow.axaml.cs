@@ -5,11 +5,9 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Avalonia.Platform.Storage;
 using FluentIcons.Common;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace DMXVideoPlayer
@@ -148,12 +146,6 @@ namespace DMXVideoPlayer
                 };
             }
 
-            var defaultVideoDirectoryTextBox = this.FindControl<TextBox>("DefaultVideoDirectoryTextBox");
-            if (defaultVideoDirectoryTextBox != null)
-            {
-                defaultVideoDirectoryTextBox.Text = _owner.GetDefaultVideoDirectory();
-            }
-
             var seekStepNumericUpDown = this.FindControl<NumericUpDown>("SeekStepNumericUpDown");
             if (seekStepNumericUpDown != null)
             {
@@ -164,62 +156,6 @@ namespace DMXVideoPlayer
                     if (seekStepNumericUpDown.Value.HasValue)
                     {
                         _owner.SetSeekStepSeconds((int)seekStepNumericUpDown.Value.Value);
-                    }
-                };
-            }
-
-            var browseButton = this.FindControl<Button>("BrowseDefaultVideoDirectoryButton");
-            if (browseButton != null)
-            {
-                browseButton.Click += async (s, e) =>
-                {
-                    try
-                    {
-                        var storageProvider = StorageProvider;
-                        if (storageProvider == null)
-                            return;
-
-                        var startPath = _owner.GetDefaultVideoDirectory();
-                        IStorageFolder? startFolder = null;
-                        if (!string.IsNullOrWhiteSpace(startPath) && Directory.Exists(startPath))
-                        {
-                            startFolder = await storageProvider.TryGetFolderFromPathAsync(startPath);
-                        }
-
-                        var options = new FolderPickerOpenOptions
-                        {
-                            Title = LocalizationService.Instance["Settings_ChooseDefaultVideoDirectoryTitle"],
-                            AllowMultiple = false,
-                            SuggestedStartLocation = startFolder
-                        };
-
-                        var result = await storageProvider.OpenFolderPickerAsync(options);
-                        if (result != null && result.Count > 0)
-                        {
-                            var folderPath = result[0].TryGetLocalPath();
-                            if (string.IsNullOrWhiteSpace(folderPath))
-                            {
-                                Debug.WriteLine("Error choosing default video directory: no local path returned for selected item.");
-                                return;
-                            }
-
-                            // Un lecteur choisi (ex. "G:") doit conserver le séparateur final
-                            // pour que Directory.Exists le reconnaisse correctement comme racine.
-                            if (folderPath.Length == 2 && folderPath[1] == ':')
-                            {
-                                folderPath += Path.DirectorySeparatorChar;
-                            }
-
-                            _owner.SetDefaultVideoDirectory(folderPath);
-                            if (defaultVideoDirectoryTextBox != null)
-                            {
-                                defaultVideoDirectoryTextBox.Text = folderPath;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Error choosing default video directory: {ex.Message}");
                     }
                 };
             }

@@ -62,7 +62,7 @@ namespace DMXVideoPlayer
         private int _volumeBeforeMute = 100;
         private bool _useHourFormat = false;
         private bool _isMuted = false;
-        private string? _defaultVideoDirectory;
+        private string? _lastVideoDirectory;
         private Border? _controlsOverlay;
 
         private DispatcherTimer? _hideControlsTimer;
@@ -385,8 +385,8 @@ namespace DMXVideoPlayer
                 _timecodeCheckBox.IsChecked = settings.ShowTimecode;
             }
 
-            // Apply the default video directory
-            _defaultVideoDirectory = settings.DefaultVideoDirectory;
+            // Apply the last used video directory
+            _lastVideoDirectory = settings.LastVideoDirectory;
 
             // Apply the mouse wheel seek step
             _seekStepSeconds = settings.SeekStepSeconds > 0 ? settings.SeekStepSeconds : 5;
@@ -1330,14 +1330,14 @@ namespace DMXVideoPlayer
             }
         }
 
-        public string? GetDefaultVideoDirectory()
+        public string? GetLastVideoDirectory()
         {
-            return _defaultVideoDirectory;
+            return _lastVideoDirectory;
         }
 
-        public void SetDefaultVideoDirectory(string? path)
+        public void SetLastVideoDirectory(string? path)
         {
-            _defaultVideoDirectory = string.IsNullOrWhiteSpace(path) ? null : path;
+            _lastVideoDirectory = string.IsNullOrWhiteSpace(path) ? null : path;
             SaveSettings();
         }
 
@@ -1365,9 +1365,9 @@ namespace DMXVideoPlayer
 
         private string GetEffectiveVideoStartDirectory()
         {
-            if (!string.IsNullOrWhiteSpace(_defaultVideoDirectory) && Directory.Exists(_defaultVideoDirectory))
+            if (!string.IsNullOrWhiteSpace(_lastVideoDirectory) && Directory.Exists(_lastVideoDirectory))
             {
-                return _defaultVideoDirectory;
+                return _lastVideoDirectory;
             }
 
             return Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
@@ -1417,6 +1417,13 @@ namespace DMXVideoPlayer
                 {
                     var filePath = result[0].Path.LocalPath;
                     await LoadAndPlayVideo(filePath);
+
+                    var directory = Path.GetDirectoryName(filePath);
+                    if (!string.IsNullOrWhiteSpace(directory))
+                    {
+                        _lastVideoDirectory = directory;
+                        SaveSettings();
+                    }
                 }
             }
             catch (Exception ex)
@@ -2037,7 +2044,7 @@ namespace DMXVideoPlayer
                     IsBalanceLocked = _isBalanceLocked,
                     ShowTimecode = _timecodeCheckBox != null && _timecodeCheckBox.IsChecked == true, // Save the timecode state
                     ShowBpm = _bpmCheckBox != null && _bpmCheckBox.IsChecked == true, // Save the BPM state
-                    DefaultVideoDirectory = _defaultVideoDirectory,
+                    LastVideoDirectory = _lastVideoDirectory,
                     SeekStepSeconds = _seekStepSeconds,
                     InfoPanelRelativeX = _infoPanelRelativeX,
                     InfoPanelRelativeY = _infoPanelRelativeY,
@@ -2346,7 +2353,7 @@ namespace DMXVideoPlayer
         public bool IsBalanceLocked { get; set; } = false;
         public bool ShowTimecode { get; set; } = false; // Added for the timecode checkbox
         public bool ShowBpm { get; set; } = false; // Added for the BPM checkbox
-        public string? DefaultVideoDirectory { get; set; } // Default directory for loading videos
+        public string? LastVideoDirectory { get; set; } // Last directory used for loading videos
         public int SeekStepSeconds { get; set; } = 5; // Step (in seconds) for the mouse wheel seek
         public double? InfoPanelRelativeX { get; set; } // Saved horizontal position of the timecode/BPM panel (0-1)
         public double? InfoPanelRelativeY { get; set; } // Saved vertical position of the timecode/BPM panel (0-1)

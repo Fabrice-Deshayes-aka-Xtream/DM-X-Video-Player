@@ -67,11 +67,6 @@
   <data name="Settings_BpmHint" xml:space="preserve"><value>Requires a tempo track in .smt format (Cubase) with the same name as the video file.</value></data>
   <data name="Settings_SeekStepTitle" xml:space="preserve"><value>Seek step (mouse wheel)</value></data>
   <data name="Settings_SeekStepHint" xml:space="preserve"><value>Number of seconds to seek forward/backward when using the mouse wheel over the video.</value></data>
-  <data name="Settings_DefaultVideoDirectoryTitle" xml:space="preserve"><value>Default video location</value></data>
-  <data name="Settings_DefaultVideoDirectoryPlaceholder" xml:space="preserve"><value>Windows Videos location</value></data>
-  <data name="Settings_Browse" xml:space="preserve"><value>Browse...</value></data>
-  <data name="Settings_DefaultVideoDirectoryHint" xml:space="preserve"><value>Used as the starting point when loading a video. If the location no longer exists, the Windows Videos folder is used.</value></data>
-  <data name="Settings_ChooseDefaultVideoDirectoryTitle" xml:space="preserve"><value>Choose the default video location</value></data>
   <data name="Settings_Language" xml:space="preserve"><value>Language</value></data>
   <data name="Settings_Language_French" xml:space="preserve"><value>French</value></data>
   <data name="Settings_Language_English" xml:space="preserve"><value>English</value></data>

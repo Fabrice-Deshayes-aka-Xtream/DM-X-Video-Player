@@ -7,6 +7,7 @@ All notable changes to DMX Video Player will be documented in this file.
 ### ⭐ New Features
 
 - use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
+- remove default video folder settings, save last one used instead.
 
 ### 🐛 Bug Fixes
 
