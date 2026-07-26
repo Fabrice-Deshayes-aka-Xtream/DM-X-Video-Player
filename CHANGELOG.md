@@ -8,6 +8,9 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 - use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
 - remove default video folder settings, save last one used instead.
+
+### 🧩 Misc
+
 - rename app to to DM-X Video Player
 - simplify version management with Directory.Build.props
 
