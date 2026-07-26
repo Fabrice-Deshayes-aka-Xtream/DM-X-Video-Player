@@ -15,7 +15,7 @@
 
 	<Grid Margin="16">
 		<StackPanel Spacing="12" VerticalAlignment="Center" HorizontalAlignment="Center">
-			<Image Source="avares://DMXVideoPlayer/Assets/DMX-Video-Player-128x128.png"
+			<Image Source="avares://DM-X Video Player/Assets/DMX-Video-Player-128x128.png"
 				   Width="96" Height="96"
 				   HorizontalAlignment="Center"/>
 
@@ -42,7 +42,7 @@
 					   HorizontalAlignment="Center"/>
 
 			<Image Name="GitHubLinkImage"
-				   Source="avares://DMXVideoPlayer/Assets/GitHub_Lockup_White.png"
+				   Source="avares://DM-X Video Player/Assets/GitHub_Lockup_White.png"
 				   Height="24"
 				   HorizontalAlignment="Center"
 				   Cursor="Hand"

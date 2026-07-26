@@ -7,7 +7,7 @@ xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
 mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
 x:Class="DMXVideoPlayer.MainWindow"
 x:CompileBindings="False"
-Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
+Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
 Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
     <Grid Name="RootGrid" RowDefinitions="*,Auto">
@@ -22,7 +22,7 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                 <local:VideoView x:Name="VideoViewControl" DoubleTapped="VideoContainer_DoubleTapped" Tapped="VideoContainer_Tapped" />
                 
                 <!-- Placeholder Image -->
-                <Image Source="avares://DMXVideoPlayer/Assets/DMX-Video-Player-512x512.png"
+                <Image Source="avares://DM-X Video Player/Assets/DMX-Video-Player-512x512.png"
                        Name="PlaceholderImage"
                        Stretch="Uniform"
                        Opacity="0.1"

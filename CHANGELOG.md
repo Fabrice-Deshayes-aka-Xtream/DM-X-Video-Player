@@ -8,6 +8,8 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 - use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
 - remove default video folder settings, save last one used instead.
+- rename app to to DM-X Video Player
+- simplify version management with Directory.Build.props
 
 ### 🐛 Bug Fixes
 
@@ -21,7 +23,7 @@ All notable changes to DM-X Video Player will be documented in this file.
 - improve progression bar UI
 - refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
 - create a nice icon for application
-- rename DM Video player to DM-X Video Player (Didier Martini, Xtream Video Player)
+- rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
 - add about windows
 - manage localisation with english & french
 

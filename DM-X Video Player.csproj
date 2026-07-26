@@ -17,7 +17,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
     <ApplicationIcon>Assets\DMX-Video-Player.ico</ApplicationIcon>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+    <FileVersion>$(VersionPrefix)</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="DMXVideoPlayer.slnx" />
