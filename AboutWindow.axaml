@@ -6,7 +6,7 @@
 		mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="580"
 		x:Class="DMXVideoPlayer.AboutWindow"
 		x:CompileBindings="False"
-		Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
+		Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
 		Title="{Binding [About_Title], Source={x:Static local:LocalizationService.Instance}}"
 		Width="420" Height="480"
 		WindowStartupLocation="CenterOwner"

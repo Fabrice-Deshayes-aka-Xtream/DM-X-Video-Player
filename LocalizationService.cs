@@ -14,7 +14,7 @@ namespace DMXVideoPlayer
         public static LocalizationService Instance { get; } = new LocalizationService();
 
         private static readonly ResourceManager ResourceManager =
-            new ResourceManager("DMXVideoPlayer.Resources.Strings", typeof(LocalizationService).Assembly);
+            new ResourceManager("DM-X_Video_Player.Resources.Strings", typeof(LocalizationService).Assembly);
 
         private CultureInfo _currentCulture;
 
