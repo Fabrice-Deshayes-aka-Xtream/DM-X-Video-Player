@@ -1,8 +1,8 @@
-﻿# DMX Video Player
+﻿# DM-X Video Player
 
 ![main window screenshot](Images/main_window.png)
 
-**DMX Video Player** is a classic minimalist video player based on VLC. 
+**DM-X Video Player** is a classic minimalist video player based on VLC. 
 It allows you to dynamically add extra audio tracks to your videos, making it especially useful for musicians and those with hearing impairments.
 
 ## Author

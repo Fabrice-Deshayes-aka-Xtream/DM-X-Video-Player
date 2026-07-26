@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to DMX Video Player will be documented in this file.
+All notable changes to DM-X Video Player will be documented in this file.
 
 ## WIP
 
@@ -21,7 +21,7 @@ All notable changes to DMX Video Player will be documented in this file.
 - improve progression bar UI
 - refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
 - create a nice icon for application
-- rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
+- rename DM Video player to DM-X Video Player (Didier Martini, Xtream Video Player)
 - add about windows
 - manage localisation with english & french
 

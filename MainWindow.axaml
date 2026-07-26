@@ -8,7 +8,7 @@ mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
 x:Class="DMXVideoPlayer.MainWindow"
 x:CompileBindings="False"
 Icon="avares://DMXVideoPlayer/Assets/DMX-Video-Player.ico"
-Title="DMX Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
+Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
     
     <Grid Name="RootGrid" RowDefinitions="*,Auto">
         <!-- Video Display Area with Overlays -->
