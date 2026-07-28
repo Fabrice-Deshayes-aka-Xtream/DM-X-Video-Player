@@ -2,7 +2,7 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## WIP
+## [1.4.0] - 2026-07-28
 
 ### ⭐ New Features
 
