@@ -6,15 +6,15 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
-- use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
-- remove default video folder settings, save last one used instead.
-- add time signature and bar / beat display (read from .smt cubase tempo track)
+- Use 'P' instead of 'S' for Parameters window. 'P' can also close the window if opened.
+- Remove default video folder settings, save last one used instead.
+- Add time signature and bar / beat display (read from .smt cubase tempo track)
 - Allow to move in video based on arrow key (left/right) 
 
 ### 🧩 Misc
 
-- rename app to to DM-X Video Player
-- simplify version management with Directory.Build.props
+- Rename app to to DM-X Video Player
+- Simplify version management with Directory.Build.props
 
 ### 🐛 Bug Fixes
 
@@ -22,20 +22,20 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
-- allow to move timecode / BPM panel
-- adapt displayed components with application width 
-- set a minimum width and height for application
-- improve progression bar UI
-- refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
-- create a nice icon for application
-- rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
-- add about windows
-- manage localisation with english & french
+- Allow to move timecode / BPM panel
+- Adapt displayed components with application width 
+- Set a minimum width and height for application
+- Improve progression bar UI
+- Refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
+- Create a nice icon for application
+- Rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
+- Add about windows
+- Manage localisation with english & french
 
 ### 🐛 Bug Fixes
 
-- allow to chose drive and not only folder for default video location
-- fix bug on multiple stop which prevent a correct play
+- Allow to chose drive and not only folder for default video location
+- Fix bug on multiple stop which prevent a correct play
 
 ## [1.2.0] - 2026-07-21
 
