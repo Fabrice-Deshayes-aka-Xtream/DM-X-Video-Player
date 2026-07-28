@@ -7,6 +7,7 @@ All notable changes to DM-X Video Player will be documented in this file.
 ### ⭐ New Features
 
 - Allow to close "About" windows with shortkey "i"
+- Timecode panel has now a magnetic snap on app horizontal center
 
 ### 🐛 Bug Fixes
 

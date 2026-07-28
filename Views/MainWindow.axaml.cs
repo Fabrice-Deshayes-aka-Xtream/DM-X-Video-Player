@@ -103,6 +103,8 @@ namespace DMXVideoPlayer.Views
         // to keep its relative position during size changes (e.g. fullscreen toggle).
         private double _infoPanelRelativeX = 0.5;
         private double _infoPanelRelativeY = 0.0;
+        // Distance (in pixels) within which the info panel snaps to the horizontal center while dragging.
+        private const double InfoPanelHorizontalSnapThreshold = 10.0;
         // Height of the Controls Overlay panel, cached (even when hidden),
         // so that the drag area of the timecode/BPM panel remains stable and does not
         // "jump" when the Controls Overlay appears or disappears.
@@ -2388,12 +2390,21 @@ namespace DMXVideoPlayer.Views
             newLeft = Math.Min(Math.Max(0, newLeft), maxLeft);
             newTop = Math.Min(Math.Max(0, newTop), maxTop);
 
+            // Magnetic snap: when close enough to the horizontal center of the available
+            // space, snap the panel exactly to the center to make re-centering easy.
+            double centerLeft = maxLeft / 2.0;
+            bool isSnappedToCenter = Math.Abs(newLeft - centerLeft) <= InfoPanelHorizontalSnapThreshold;
+            if (isSnappedToCenter)
+            {
+                newLeft = centerLeft;
+            }
+
             Canvas.SetLeft(_infoPanel, newLeft);
             Canvas.SetTop(_infoPanel, newTop);
 
             // Store the position as a percentage of the available space to keep it
             // consistent across window size changes (e.g. fullscreen toggle).
-            _infoPanelRelativeX = maxLeft > 0 ? newLeft / maxLeft : 0.5;
+            _infoPanelRelativeX = isSnappedToCenter ? 0.5 : (maxLeft > 0 ? newLeft / maxLeft : 0.5);
             _infoPanelRelativeY = maxTop > 0 ? newTop / maxTop : 0.0;
 
             e.Handled = true;
