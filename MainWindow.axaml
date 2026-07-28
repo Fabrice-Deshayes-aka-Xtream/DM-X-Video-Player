@@ -52,7 +52,7 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                             <!-- Timecode Display -->
                             <TextBlock Name="TimecodeLabel"
                                       Text="00:00:00:00"
-                                      FontSize="24"
+                                      FontSize="22"
                                       FontWeight="Bold"
                                       Foreground="#FFF"
                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
@@ -65,6 +65,7 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                                       FontSize="14"
                                       FontWeight="Bold"
                                       Foreground="#CCCCCC"
+                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
                                       IsVisible="False"
                                       VerticalAlignment="Center"/>
 
@@ -80,6 +81,26 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                                     VerticalAlignment="Center"
                                     BoxShadow="0 0 8 #8000FF00">
                             </Border>
+
+                            <!-- Bar.Beat Display -->
+                            <TextBlock Name="BarBeatLabelOverlay"
+                                      Text="1.1"
+                                      FontSize="14"
+                                      FontWeight="Bold"
+                                      Foreground="#CCCCCC"
+                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
+                                      IsVisible="False"
+                                      VerticalAlignment="Center"/>
+
+                            <!-- Time Signature Display -->
+                            <TextBlock Name="TimeSignatureLabelOverlay"
+                                      Text="4/4"
+                                      FontSize="14"
+                                      FontWeight="Bold"
+                                      Foreground="#CCCCCC"
+                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
+                                      IsVisible="False"
+                                      VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </Canvas>

@@ -80,8 +80,16 @@ namespace DMXVideoPlayer
         private TextBlock? _timecodeLabel;
         private CheckBox? _timecodeCheckBox;
         private CheckBox? _bpmCheckBox;
+        private CheckBox? _timeSignatureCheckBox;
+        private CheckBox? _barBeatCheckBox;
         private string _lastTimecodeText = string.Empty;
         private TextBlock? _bpmLabelOverlay;
+        private TextBlock? _timeSignatureLabelOverlay;
+        private TextBlock? _barBeatLabelOverlay;
+        private int _lastDisplayedNumerator = -1;
+        private int _lastDisplayedDenominator = -1;
+        private int _lastDisplayedBar = -1;
+        private int _lastDisplayedBeat = -1;
         private Border? _beatLed;
         private Canvas? _infoPanelCanvas;
         private Border? _infoPanel;
@@ -212,10 +220,18 @@ namespace DMXVideoPlayer
             _timecodeCheckBox = new CheckBox { IsChecked = false };
             // The BPM checkbox is now managed from the settings window
             _bpmCheckBox = new CheckBox { IsChecked = false };
+            // The time signature checkbox is now managed from the settings window
+            _timeSignatureCheckBox = new CheckBox { IsChecked = false };
+            // The bar/beat checkbox is now managed from the settings window
+            _barBeatCheckBox = new CheckBox { IsChecked = false };
             // Added for the timecode overlay
             _timecodeLabel = this.FindControl<TextBlock>("TimecodeLabel");
             // Added for the BPM overlay and beat LED
             _bpmLabelOverlay = this.FindControl<TextBlock>("BpmLabelOverlay");
+            // Added for the time signature overlay
+            _timeSignatureLabelOverlay = this.FindControl<TextBlock>("TimeSignatureLabelOverlay");
+            // Added for the bar/beat overlay
+            _barBeatLabelOverlay = this.FindControl<TextBlock>("BarBeatLabelOverlay");
             _beatLed = this.FindControl<Border>("BeatLed");
             // Draggable panel grouping Timecode, BPM and LED
             _infoPanelCanvas = this.FindControl<Canvas>("InfoPanelCanvas");
@@ -230,6 +246,16 @@ namespace DMXVideoPlayer
             if (_bpmCheckBox != null)
             {
                 _bpmCheckBox.IsCheckedChanged += (s, e) => { UpdateTimecodeVisibility(); SaveSettings(); };
+            }
+
+            if (_timeSignatureCheckBox != null)
+            {
+                _timeSignatureCheckBox.IsCheckedChanged += (s, e) => { UpdateTimecodeVisibility(); SaveSettings(); };
+            }
+
+            if (_barBeatCheckBox != null)
+            {
+                _barBeatCheckBox.IsCheckedChanged += (s, e) => { UpdateTimecodeVisibility(); SaveSettings(); };
             }
 
             var balanceSlider = this.FindControl<Slider>("BalanceSlider");
@@ -395,6 +421,18 @@ namespace DMXVideoPlayer
             if (_bpmCheckBox != null)
             {
                 _bpmCheckBox.IsChecked = settings.ShowBpm;
+            }
+
+            // Apply the time signature checkbox state
+            if (_timeSignatureCheckBox != null)
+            {
+                _timeSignatureCheckBox.IsChecked = settings.ShowTimeSignature;
+            }
+
+            // Apply the bar/beat checkbox state
+            if (_barBeatCheckBox != null)
+            {
+                _barBeatCheckBox.IsChecked = settings.ShowBarBeat;
             }
         }
 
@@ -731,6 +769,10 @@ namespace DMXVideoPlayer
                 if (_tempoTrack != null && _tempoTrack.IsLoaded)
                 {
                     _lastDisplayedBpm = -1.0;
+                    _lastDisplayedNumerator = -1;
+                    _lastDisplayedDenominator = -1;
+                    _lastDisplayedBar = -1;
+                    _lastDisplayedBeat = -1;
                 }
                 else
                 {
@@ -1327,6 +1369,32 @@ namespace DMXVideoPlayer
             if (_bpmCheckBox != null)
             {
                 _bpmCheckBox.IsChecked = value;
+            }
+        }
+
+        public bool GetShowTimeSignature()
+        {
+            return _timeSignatureCheckBox?.IsChecked == true;
+        }
+
+        public void SetShowTimeSignature(bool value)
+        {
+            if (_timeSignatureCheckBox != null)
+            {
+                _timeSignatureCheckBox.IsChecked = value;
+            }
+        }
+
+        public bool GetShowBarBeat()
+        {
+            return _barBeatCheckBox?.IsChecked == true;
+        }
+
+        public void SetShowBarBeat(bool value)
+        {
+            if (_barBeatCheckBox != null)
+            {
+                _barBeatCheckBox.IsChecked = value;
             }
         }
 
@@ -2044,6 +2112,8 @@ namespace DMXVideoPlayer
                     IsBalanceLocked = _isBalanceLocked,
                     ShowTimecode = _timecodeCheckBox != null && _timecodeCheckBox.IsChecked == true, // Save the timecode state
                     ShowBpm = _bpmCheckBox != null && _bpmCheckBox.IsChecked == true, // Save the BPM state
+                    ShowTimeSignature = _timeSignatureCheckBox != null && _timeSignatureCheckBox.IsChecked == true, // Save the time signature state
+                    ShowBarBeat = _barBeatCheckBox != null && _barBeatCheckBox.IsChecked == true, // Save the bar/beat state
                     LastVideoDirectory = _lastVideoDirectory,
                     SeekStepSeconds = _seekStepSeconds,
                     InfoPanelRelativeX = _infoPanelRelativeX,
@@ -2087,11 +2157,25 @@ namespace DMXVideoPlayer
                 _beatLed.IsVisible = bpmVisible;
             }
 
+            // Time signature visibility is also independent of the timecode/BPM
+            bool timeSignatureVisible = _timeSignatureCheckBox != null && _timeSignatureCheckBox.IsChecked == true && _tempoTrack != null && _tempoTrack.IsLoaded;
+            if (_timeSignatureLabelOverlay != null)
+            {
+                _timeSignatureLabelOverlay.IsVisible = timeSignatureVisible;
+            }
+
+            // Bar/beat visibility is also independent of the timecode/BPM/signature
+            bool barBeatVisible = _barBeatCheckBox != null && _barBeatCheckBox.IsChecked == true && _tempoTrack != null && _tempoTrack.IsLoaded;
+            if (_barBeatLabelOverlay != null)
+            {
+                _barBeatLabelOverlay.IsVisible = barBeatVisible;
+            }
+
             // The panel remains visible as long as at least one element is displayed
             if (_infoPanel != null)
             {
                 bool timecodeVisible = _timecodeLabel?.IsVisible == true;
-                _infoPanel.IsVisible = timecodeVisible || bpmVisible;
+                _infoPanel.IsVisible = timecodeVisible || bpmVisible || timeSignatureVisible || barBeatVisible;
             }
         }
 
@@ -2353,6 +2437,8 @@ namespace DMXVideoPlayer
         public bool IsBalanceLocked { get; set; } = false;
         public bool ShowTimecode { get; set; } = false; // Added for the timecode checkbox
         public bool ShowBpm { get; set; } = false; // Added for the BPM checkbox
+        public bool ShowTimeSignature { get; set; } = false; // Added for the time signature checkbox
+        public bool ShowBarBeat { get; set; } = false; // Added for the bar/beat checkbox
         public string? LastVideoDirectory { get; set; } // Last directory used for loading videos
         public int SeekStepSeconds { get; set; } = 5; // Step (in seconds) for the mouse wheel seek
         public double? InfoPanelRelativeX { get; set; } // Saved horizontal position of the timecode/BPM panel (0-1)
@@ -2431,6 +2517,11 @@ namespace DMXVideoPlayer
                 var flashDuration = (int)((secondsPerBeat * 0.15) * 1000.0);
 
                 Dispatcher.UIThread.Post(() => FlashBeatLed(true));
+
+                // Update the bar.beat label at the exact same moment as the LED flash,
+                // so both stay perfectly in sync (rather than waiting for the next
+                // ~16ms UI tick, which reads the interpolated VLC position).
+                UpdateBarBeatLabel(beatTime);
 
                 // Auto-off after the flash duration
                 Task.Delay(flashDuration).ContinueWith(_ =>
@@ -2524,7 +2615,61 @@ namespace DMXVideoPlayer
                 });
             }
 
+            // Display and update the time signature (only when it changes)
+            var (numerator, denominator) = _tempoTrack.GetTimeSignatureAtTime(currentTimeInSeconds);
+            if (numerator != _lastDisplayedNumerator || denominator != _lastDisplayedDenominator)
+            {
+                _lastDisplayedNumerator = numerator;
+                _lastDisplayedDenominator = denominator;
+                Dispatcher.UIThread.Post(() =>
+                {
+                    if (_timeSignatureLabelOverlay != null)
+                    {
+                        _timeSignatureLabelOverlay.Text = $"{numerator}/{denominator}";
+                    }
+                    UpdateTimecodeVisibility();
+                });
+            }
+
+            // Display and update the bar.beat position (only when it changes).
+            // While playing, the bar.beat label is driven exclusively by the high-precision
+            // beat timer (OnBeatTimerCallback), which uses the exact scheduled beat time.
+            // Here we would instead read the interpolated VLC position (~16ms UI tick),
+            // which can briefly disagree with the beat timer and cause the label to flicker
+            // back and forth (e.g. 27 then 26). So we only update it from here when not
+            // actively playing (paused/stopped/scrubbing).
+            if (_mediaPlayer == null || !_mediaPlayer.IsPlaying)
+            {
+                UpdateBarBeatLabel(currentTimeInSeconds);
+            }
+
             // Beats are handled by the independent timer, not here
+        }
+
+        /// <summary>
+        /// Updates the bar.beat overlay text if it changed, on the UI thread.
+        /// Called both from the high-precision beat timer (exact beat time, for perfect
+        /// sync with the LED flash) and from the regular UI tick (for scrubbing/pause).
+        /// </summary>
+        private void UpdateBarBeatLabel(double timeInSeconds)
+        {
+            if (_tempoTrack == null || !_tempoTrack.IsLoaded)
+                return;
+
+            var (bar, beat) = _tempoTrack.GetBarBeatAtTime(timeInSeconds);
+            if (bar != _lastDisplayedBar || beat != _lastDisplayedBeat)
+            {
+                _lastDisplayedBar = bar;
+                _lastDisplayedBeat = beat;
+                Dispatcher.UIThread.Post(() =>
+                {
+                    if (_barBeatLabelOverlay != null)
+                    {
+                        _barBeatLabelOverlay.Text = $"{bar}.{beat}";
+                    }
+                    UpdateTimecodeVisibility();
+                });
+            }
         }
 
         private void FlashBeatLed(bool flash)

@@ -129,11 +129,23 @@
   <data name="Settings_TimecodeFormatHint" xml:space="preserve">
     <value>Format: hour:minute:second:frame</value>
   </data>
+  <data name="Settings_TempoTrackGroupTitle" xml:space="preserve">
+    <value>Tempo track (.smt)</value>
+  </data>
+  <data name="Settings_TempoTrackGroupHint" xml:space="preserve">
+    <value>These options require a tempo track in .smt format (Cubase) with the same name as the video file.</value>
+  </data>
   <data name="Settings_ShowBpm" xml:space="preserve">
     <value>Show BPM</value>
   </data>
-  <data name="Settings_BpmHint" xml:space="preserve">
-    <value>Requires a tempo track in .smt format (Cubase) with the same name as the video file.</value>
+  <data name="Settings_ShowTimeSignature" xml:space="preserve">
+    <value>Show time signature</value>
+  </data>
+  <data name="Settings_ShowBarBeat" xml:space="preserve">
+    <value>Show bar/beat number</value>
+  </data>
+  <data name="Settings_BarBeatHint" xml:space="preserve">
+    <value>Displays the position as bar.beat (e.g. 1.1 = first bar, first beat).</value>
   </data>
   <data name="Settings_SeekStepTitle" xml:space="preserve">
     <value>Seek step (mouse wheel)</value>

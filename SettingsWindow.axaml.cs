@@ -146,6 +146,28 @@ namespace DMXVideoPlayer
                 };
             }
 
+            var timeSignatureCheckBox = this.FindControl<CheckBox>("TimeSignatureCheckBox");
+            if (timeSignatureCheckBox != null)
+            {
+                timeSignatureCheckBox.IsChecked = _owner.GetShowTimeSignature();
+
+                timeSignatureCheckBox.IsCheckedChanged += (s, e) =>
+                {
+                    _owner.SetShowTimeSignature(timeSignatureCheckBox.IsChecked == true);
+                };
+            }
+
+            var barBeatCheckBox = this.FindControl<CheckBox>("BarBeatCheckBox");
+            if (barBeatCheckBox != null)
+            {
+                barBeatCheckBox.IsChecked = _owner.GetShowBarBeat();
+
+                barBeatCheckBox.IsCheckedChanged += (s, e) =>
+                {
+                    _owner.SetShowBarBeat(barBeatCheckBox.IsChecked == true);
+                };
+            }
+
             var seekStepNumericUpDown = this.FindControl<NumericUpDown>("SeekStepNumericUpDown");
             if (seekStepNumericUpDown != null)
             {

@@ -129,11 +129,23 @@
   <data name="Settings_TimecodeFormatHint" xml:space="preserve">
     <value>Format : heure:minute:seconde:frame</value>
   </data>
+  <data name="Settings_TempoTrackGroupTitle" xml:space="preserve">
+    <value>Piste tempo (.smt)</value>
+  </data>
+  <data name="Settings_TempoTrackGroupHint" xml:space="preserve">
+    <value>Ces options nécessitent une piste tempo au format .smt (Cubase) portant le même nom que le fichier vidéo.</value>
+  </data>
   <data name="Settings_ShowBpm" xml:space="preserve">
     <value>Afficher le BPM</value>
   </data>
-  <data name="Settings_BpmHint" xml:space="preserve">
-    <value>Nécessite une piste tempo au format .smt (Cubase) portant le même nom que le fichier vidéo.</value>
+  <data name="Settings_ShowTimeSignature" xml:space="preserve">
+    <value>Afficher la signature rythmique</value>
+  </data>
+  <data name="Settings_ShowBarBeat" xml:space="preserve">
+    <value>Afficher le numéro de mesure/temps</value>
+  </data>
+  <data name="Settings_BarBeatHint" xml:space="preserve">
+    <value>Affiche la position sous la forme mesure.temps (ex: 1.1 = première mesure, premier temps).</value>
   </data>
   <data name="Settings_SeekStepTitle" xml:space="preserve">
     <value>Pas de déplacement (molette de la souris)</value>

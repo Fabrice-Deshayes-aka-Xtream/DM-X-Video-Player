@@ -3,12 +3,12 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 xmlns:local="clr-namespace:DMXVideoPlayer"
-mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="420"
+mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="560"
 x:Class="DMXVideoPlayer.SettingsWindow"
 x:CompileBindings="False"
 Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
 Title="{Binding [Settings_Title], Source={x:Static local:LocalizationService.Instance}}"
-Width="400" Height="420"
+Width="400" Height="560"
 WindowStartupLocation="CenterOwner"
 CanResize="False"
 Background="#2D2D2D">
@@ -40,28 +40,6 @@ Background="#2D2D2D">
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <CheckBox Name="TimecodeCheckBox"
-                          Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
-                          Foreground="#DDDDDD"/>
-                <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
-                           Foreground="#999999"
-                           FontSize="11"
-                           TextWrapping="Wrap"
-                           Margin="24,0,0,0"/>
-            </StackPanel>
-
-            <StackPanel Spacing="4">
-                <CheckBox Name="BpmCheckBox"
-                          Content="{Binding [Settings_ShowBpm], Source={x:Static local:LocalizationService.Instance}}"
-                          Foreground="#DDDDDD"/>
-                <TextBlock Text="{Binding [Settings_BpmHint], Source={x:Static local:LocalizationService.Instance}}"
-                           Foreground="#999999"
-                           FontSize="11"
-                           TextWrapping="Wrap"
-                           Margin="24,0,0,0"/>
-            </StackPanel>
-
-            <StackPanel Spacing="4">
                 <TextBlock Text="{Binding [Settings_SeekStepTitle], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
@@ -77,6 +55,55 @@ Background="#2D2D2D">
                            FontSize="11"
                            TextWrapping="Wrap"/>
             </StackPanel>
+
+            <StackPanel Spacing="4">
+                <CheckBox Name="TimecodeCheckBox"
+                          Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
+                          Foreground="#DDDDDD"/>
+                <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
+                           Foreground="#999999"
+                           FontSize="11"
+                           TextWrapping="Wrap"
+                           Margin="24,0,0,0"/>
+            </StackPanel>
+
+            <Border BorderBrush="#444444"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="12"
+                    Background="#282828">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="{Binding [Settings_TempoTrackGroupTitle], Source={x:Static local:LocalizationService.Instance}}"
+                               Foreground="#DDDDDD"
+                               FontWeight="Bold"
+                               FontSize="12"/>
+                    <TextBlock Text="{Binding [Settings_TempoTrackGroupHint], Source={x:Static local:LocalizationService.Instance}}"
+                               Foreground="#999999"
+                               FontSize="11"
+                               TextWrapping="Wrap"/>
+
+                    <CheckBox Name="BpmCheckBox"
+                              Content="{Binding [Settings_ShowBpm], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+
+
+                    <StackPanel Spacing="4">
+                        <CheckBox Name="BarBeatCheckBox"
+                                  Content="{Binding [Settings_ShowBarBeat], Source={x:Static local:LocalizationService.Instance}}"
+                                  Foreground="#DDDDDD"/>
+                        <TextBlock Text="{Binding [Settings_BarBeatHint], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#999999"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Margin="24,0,0,0"/>
+                    </StackPanel>
+
+                    <CheckBox Name="TimeSignatureCheckBox"
+                              Content="{Binding [Settings_ShowTimeSignature], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+                </StackPanel>
+            </Border>
+
             </StackPanel>
     </Grid>
 </Window>

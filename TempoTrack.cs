@@ -11,12 +11,27 @@ namespace DMXVideoPlayer
         public double Bpm { get; set; }
         public double Ppq { get; set; }
         public double TimeInSeconds { get; set; }
+        // Bpm adjusted by the time signature's beat factor (e.g. half BPM in 2/2, since the
+        // felt beat is the half note rather than the quarter note the raw Bpm is expressed in).
+        public double EffectiveBpm { get; set; }
+    }
+
+    public class TimeSignatureEvent
+    {
+        public int Numerator { get; set; }
+        public int Denominator { get; set; }
+        public double Ppq { get; set; }
+        public double TimeInSeconds { get; set; }
     }
 
     public class TempoTrack
     {
         private List<TempoEvent> _tempoEvents = new List<TempoEvent>();
         private List<double> _beatTimes = new List<double>();
+        private List<TimeSignatureEvent> _timeSignatureEvents = new List<TimeSignatureEvent>();
+        // Bar/beat number (1-based) associated with each entry of _beatTimes (same index).
+        private List<int> _barNumbers = new List<int>();
+        private List<int> _beatNumbers = new List<int>();
         private const double PPQ_PER_QUARTER = 480.0;
 
         public bool IsLoaded => _tempoEvents.Count > 0;
@@ -27,17 +42,66 @@ namespace DMXVideoPlayer
                 return 120.0; // Default BPM
 
             if (seconds <= 0)
-                return _tempoEvents[0].Bpm;
+                return _tempoEvents[0].EffectiveBpm;
 
             for (int i = _tempoEvents.Count - 1; i >= 0; i--)
             {
                 if (_tempoEvents[i].TimeInSeconds <= seconds)
                 {
-                    return _tempoEvents[i].Bpm;
+                    return _tempoEvents[i].EffectiveBpm;
                 }
             }
 
-            return _tempoEvents[0].Bpm;
+            return _tempoEvents[0].EffectiveBpm;
+        }
+
+        /// <summary>
+        /// Returns the time signature (numerator/denominator) in effect at the given time.
+        /// Defaults to 4/4 when no MSignatureTrackEvent information is available.
+        /// </summary>
+        public (int Numerator, int Denominator) GetTimeSignatureAtTime(double seconds)
+        {
+            if (_timeSignatureEvents.Count == 0)
+                return (4, 4);
+
+            if (seconds <= 0)
+                return (_timeSignatureEvents[0].Numerator, _timeSignatureEvents[0].Denominator);
+
+            for (int i = _timeSignatureEvents.Count - 1; i >= 0; i--)
+            {
+                if (_timeSignatureEvents[i].TimeInSeconds <= seconds)
+                {
+                    return (_timeSignatureEvents[i].Numerator, _timeSignatureEvents[i].Denominator);
+                }
+            }
+
+            return (_timeSignatureEvents[0].Numerator, _timeSignatureEvents[0].Denominator);
+        }
+
+        /// <summary>
+        /// Returns the (bar, beat) position, both 1-based, in effect at the given time.
+        /// Example: (1, 1) is the first beat of the first bar, (2, 1) the first beat of the
+        /// second bar. The number of beats per bar follows the raw numerator of the time
+        /// signature in effect for that bar (e.g. 2/2 => 2 beats/bar, 4/4 => 4 beats/bar).
+        /// Defaults to (1, 1) when no beat information is available.
+        /// </summary>
+        public (int Bar, int Beat) GetBarBeatAtTime(double seconds)
+        {
+            if (_beatTimes.Count == 0)
+                return (1, 1);
+
+            if (seconds <= _beatTimes[0])
+                return (_barNumbers[0], _beatNumbers[0]);
+
+            for (int i = _beatTimes.Count - 1; i >= 0; i--)
+            {
+                if (_beatTimes[i] <= seconds)
+                {
+                    return (_barNumbers[i], _beatNumbers[i]);
+                }
+            }
+
+            return (_barNumbers[0], _beatNumbers[0]);
         }
 
         /// <summary>
@@ -159,8 +223,144 @@ namespace DMXVideoPlayer
             {
                 _tempoEvents = tempoEvents;
                 ConvertPpqToSeconds();
+                ParseTimeSignatureEvents(doc);
+                ComputeEffectiveBpm();
                 PrecomputeBeatTimes();
+                PrecomputeBarBeats();
             }
+        }
+
+        private void ParseTimeSignatureEvents(XDocument doc)
+        {
+            // MTimeSignatureEvent objects live inside the MSignatureTrackEvent root,
+            // under a "SignatureEvent" list. Their "Position" is expressed in the same
+            // absolute PPQ unit as MTempoEvent.PPQ.
+            var signatureRoot = doc.Descendants("obj")
+                .FirstOrDefault(obj => obj.Attribute("class")?.Value == "MSignatureTrackEvent");
+
+            if (signatureRoot == null)
+                return;
+
+            var signatureEvents = signatureRoot.Descendants("obj")
+                .Where(obj => obj.Attribute("class")?.Value == "MTimeSignatureEvent")
+                .Select(obj =>
+                {
+                    var numeratorElement = obj.Elements("int")
+                        .FirstOrDefault(f => f.Attribute("name")?.Value == "Numerator");
+                    var denominatorElement = obj.Elements("int")
+                        .FirstOrDefault(f => f.Attribute("name")?.Value == "Denominator");
+                    var positionElement = obj.Elements("int")
+                        .FirstOrDefault(f => f.Attribute("name")?.Value == "Position");
+
+                    if (numeratorElement != null && denominatorElement != null && positionElement != null)
+                    {
+                        return new TimeSignatureEvent
+                        {
+                            Numerator = int.Parse(numeratorElement.Attribute("value")?.Value ?? "4",
+                                System.Globalization.CultureInfo.InvariantCulture),
+                            Denominator = int.Parse(denominatorElement.Attribute("value")?.Value ?? "4",
+                                System.Globalization.CultureInfo.InvariantCulture),
+                            Ppq = double.Parse(positionElement.Attribute("value")?.Value ?? "0",
+                                System.Globalization.CultureInfo.InvariantCulture),
+                            TimeInSeconds = 0
+                        };
+                    }
+                    return null;
+                })
+                .Where(e => e != null)
+                .Cast<TimeSignatureEvent>()
+                .OrderBy(e => e.Ppq)
+                .ToList();
+
+            foreach (var signatureEvent in signatureEvents)
+            {
+                signatureEvent.TimeInSeconds = ConvertPpqValueToSeconds(signatureEvent.Ppq);
+            }
+
+            _timeSignatureEvents = signatureEvents.OrderBy(e => e.TimeInSeconds).ToList();
+        }
+
+        /// <summary>
+        /// Computes, for each tempo event, the "effective" BPM once the time signature's beat
+        /// factor is applied. MTempoEvent.BPM is always expressed in quarter notes per minute,
+        /// but the felt beat depends on the time signature denominator:
+        ///  - Simple time (denominator d): 1 beat = 4/d quarter notes => factor = d/4.
+        ///    Example: 2/2 (cut time) => factor = 0.5 => a raw 224 BPM feels like 112 BPM.
+        ///  - Compound time (numerator multiple of 3, greater than 3, e.g. 6/8, 9/8, 12/8, 6/4):
+        ///    1 beat = dotted note = 3 of the denominator's note value => factor = (d/4) / 3.
+        /// Defaults to factor 1.0 (as if 4/4) when no time signature information is available.
+        /// </summary>
+        private void ComputeEffectiveBpm()
+        {
+            foreach (var tempoEvent in _tempoEvents)
+            {
+                double factor = GetBeatFactorAtPpq(tempoEvent.Ppq);
+                tempoEvent.EffectiveBpm = tempoEvent.Bpm * factor;
+            }
+        }
+
+        private double GetBeatFactorAtPpq(double ppq)
+        {
+            if (_timeSignatureEvents.Count == 0)
+                return 1.0;
+
+            if (ppq <= _timeSignatureEvents[0].Ppq)
+                return ComputeBeatFactor(_timeSignatureEvents[0]);
+
+            for (int i = _timeSignatureEvents.Count - 1; i >= 0; i--)
+            {
+                if (_timeSignatureEvents[i].Ppq <= ppq)
+                {
+                    return ComputeBeatFactor(_timeSignatureEvents[i]);
+                }
+            }
+
+            return ComputeBeatFactor(_timeSignatureEvents[0]);
+        }
+
+        private static double ComputeBeatFactor(TimeSignatureEvent signature)
+        {
+            double factor = signature.Denominator / 4.0;
+
+            // Compound time signatures (6/8, 9/8, 12/8, but also 6/4, 9/4, 6/16, ...):
+            // the numerator is a multiple of 3 greater than 3, and the felt beat is a
+            // dotted note grouping 3 of the denominator's note value, not the plain one.
+            // (3/4, 3/8, ... are simple triple meters, not compound, hence Numerator > 3.)
+            if (signature.Numerator > 3 && signature.Numerator % 3 == 0)
+            {
+                factor /= 3.0;
+            }
+
+            return factor;
+        }
+
+        /// <summary>
+        /// Converts an arbitrary absolute PPQ value into seconds, using the already-loaded
+        /// tempo events as reference points (same logic as ConvertPpqToSeconds, generalized).
+        /// </summary>
+        private double ConvertPpqValueToSeconds(double targetPpq)
+        {
+            if (_tempoEvents.Count == 0)
+                return 0.0;
+
+            if (targetPpq <= _tempoEvents[0].Ppq)
+                return _tempoEvents[0].TimeInSeconds;
+
+            for (int i = 0; i < _tempoEvents.Count; i++)
+            {
+                var current = _tempoEvents[i];
+                var next = (i + 1 < _tempoEvents.Count) ? _tempoEvents[i + 1] : null;
+
+                if (next == null || targetPpq <= next.Ppq)
+                {
+                    double ppqDelta = targetPpq - current.Ppq;
+                    double quarterNotes = ppqDelta / PPQ_PER_QUARTER;
+                    double secondsPerQuarter = 60.0 / current.Bpm;
+                    return current.TimeInSeconds + quarterNotes * secondsPerQuarter;
+                }
+            }
+
+            return _tempoEvents[_tempoEvents.Count - 1].TimeInSeconds;
         }
 
         private void ConvertPpqToSeconds()
@@ -205,7 +405,7 @@ namespace DMXVideoPlayer
             while (currentBeatTime < maxTime && currentEventIndex < _tempoEvents.Count)
             {
                 var currentEvent = _tempoEvents[currentEventIndex];
-                double secondsPerBeat = 60.0 / currentEvent.Bpm;
+                double secondsPerBeat = 60.0 / currentEvent.EffectiveBpm;
 
                 // Compute the next beat
                 currentBeatTime += secondsPerBeat;
@@ -222,6 +422,46 @@ namespace DMXVideoPlayer
                 if (currentBeatTime < maxTime)
                 {
                     _beatTimes.Add(currentBeatTime);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes, for each entry in _beatTimes, the corresponding (bar, beat) position.
+        /// A new bar starts once the number of beats of the current bar (given by the raw
+        /// numerator of the time signature in effect when that bar starts) has been reached.
+        /// </summary>
+        private void PrecomputeBarBeats()
+        {
+            _barNumbers.Clear();
+            _beatNumbers.Clear();
+
+            if (_beatTimes.Count == 0)
+                return;
+
+            int currentBar = 1;
+            int currentBeatInBar = 1;
+            int beatsPerBar = GetTimeSignatureAtTime(_beatTimes[0]).Numerator;
+            if (beatsPerBar <= 0)
+                beatsPerBar = 4;
+
+            for (int i = 0; i < _beatTimes.Count; i++)
+            {
+                _barNumbers.Add(currentBar);
+                _beatNumbers.Add(currentBeatInBar);
+
+                currentBeatInBar++;
+                if (currentBeatInBar > beatsPerBar)
+                {
+                    currentBeatInBar = 1;
+                    currentBar++;
+
+                    // Re-evaluate the beats-per-bar count for the new bar, in case a time
+                    // signature change occurs exactly at this bar boundary.
+                    double nextBarStartTime = (i + 1 < _beatTimes.Count) ? _beatTimes[i + 1] : _beatTimes[i];
+                    beatsPerBar = GetTimeSignatureAtTime(nextBarStartTime).Numerator;
+                    if (beatsPerBar <= 0)
+                        beatsPerBar = 4;
                 }
             }
         }
