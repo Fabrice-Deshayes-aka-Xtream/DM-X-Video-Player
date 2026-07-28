@@ -8,8 +8,9 @@ using FluentIcons.Common;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using DMXVideoPlayer.Services;
 
-namespace DMXVideoPlayer
+namespace DMXVideoPlayer.Views
 {
     public partial class AboutWindow : Window
     {

@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Resources;
 
-namespace DMXVideoPlayer
+namespace DMXVideoPlayer.Services
 {
     /// <summary>
     /// Singleton service providing FR/EN localization backed by .resx resources.

@@ -2,6 +2,16 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
+## WIP
+
+### ⭐ New Features
+
+### 🐛 Bug Fixes
+
+### 🧩 Misc
+
+- Reorganize project file (Vies / Controls / Services)
+
 ## [1.4.0] - 2026-07-28
 
 ### ⭐ New Features
@@ -11,14 +21,14 @@ All notable changes to DM-X Video Player will be documented in this file.
 - Add time signature and bar / beat display (read from .smt cubase tempo track)
 - Allow to move in video based on arrow key (left/right) 
 
+### 🐛 Bug Fixes
+
+- Prevent rare exception on app close when a video was playing
+
 ### 🧩 Misc
 
 - Rename app to to DM-X Video Player
 - Simplify version management with Directory.Build.props
-
-### 🐛 Bug Fixes
-
-- Prevent rare exception on app close when a video was playing
 
 ## [1.3.0] - 2026-07-24
 

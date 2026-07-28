@@ -19,8 +19,10 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using IOPath = System.IO.Path;
 using FluentIcons.Avalonia.Fluent;
+using DMXVideoPlayer.Controls;
+using DMXVideoPlayer.Services;
 
-namespace DMXVideoPlayer
+namespace DMXVideoPlayer.Views
 {
     public partial class MainWindow : Window
     {

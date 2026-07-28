@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DMXVideoPlayer
+namespace DMXVideoPlayer.Services
 {
     // Windows API interop for getting default audio device
     internal static class WindowsAudio
