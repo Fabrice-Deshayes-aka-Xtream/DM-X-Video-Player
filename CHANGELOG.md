@@ -2,11 +2,12 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## WIP
+## Next version (only available as source, no binary released yet)
 
 ### ⭐ New Features
 
-- Allow to close "About" windows with shortkey "i"
+- About window: Allow to close "About" windows with shortkey "i"
+- About window: Add link on github to opensource licence and changelog
 - Timecode panel has now a magnetic snap on app horizontal center
 
 ### 🐛 Bug Fixes

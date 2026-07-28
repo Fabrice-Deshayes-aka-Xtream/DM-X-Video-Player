@@ -183,6 +183,15 @@
   <data name="About_License" xml:space="preserve">
     <value>MIT License</value>
   </data>
+  <data name="About_LicenseTooltip" xml:space="preserve">
+    <value>Open the license file</value>
+  </data>
+  <data name="About_Changelog" xml:space="preserve">
+    <value>Changelog</value>
+  </data>
+  <data name="About_ChangelogTooltip" xml:space="preserve">
+    <value>Open the changelog file</value>
+  </data>
   <data name="About_GitHubTooltip" xml:space="preserve">
     <value>Open the GitHub repository</value>
   </data>

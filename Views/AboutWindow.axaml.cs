@@ -29,6 +29,18 @@ namespace DMXVideoPlayer.Views
             {
                 githubLinkImage.PointerPressed += (s, e) => OpenGitHubLink();
             }
+
+            var licenseTextBlock = this.FindControl<TextBlock>("LicenseTextBlock");
+            if (licenseTextBlock != null)
+            {
+                licenseTextBlock.PointerPressed += (s, e) => OpenLicenseLink();
+            }
+
+            var changelogTextBlock = this.FindControl<TextBlock>("ChangelogTextBlock");
+            if (changelogTextBlock != null)
+            {
+                changelogTextBlock.PointerPressed += (s, e) => OpenChangelogLink();
+            }
         }
 
         private void SetupKeyboardHandling()
@@ -68,6 +80,30 @@ namespace DMXVideoPlayer.Views
             catch (Exception ex)
             {
                 Debug.WriteLine("Error opening GitHub link: " + ex.Message);
+            }
+        }
+
+        private void OpenLicenseLink()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo($"{GitHubUrl}/blob/main/LICENSE.txt") { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error opening license link: " + ex.Message);
+            }
+        }
+
+        private void OpenChangelogLink()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo($"{GitHubUrl}/blob/main/CHANGELOG.md") { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error opening changelog link: " + ex.Message);
             }
         }
 

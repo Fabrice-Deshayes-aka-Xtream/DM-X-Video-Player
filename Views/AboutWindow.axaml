@@ -36,10 +36,25 @@
 					   FontSize="12"
 					   HorizontalAlignment="Center"/>
 
-			<TextBlock Text="{Binding [About_License], Source={x:Static local:LocalizationService.Instance}}"
-					   Foreground="#DDDDDD"
-					   FontSize="12"
-					   HorizontalAlignment="Center"/>
+			<StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+				<TextBlock Name="LicenseTextBlock"
+						   Text="{Binding [About_License], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="12"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   ToolTip.Tip="{Binding [About_LicenseTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
+
+				<TextBlock Text="•" Foreground="#666666" FontSize="12"/>
+
+				<TextBlock Name="ChangelogTextBlock"
+						   Text="{Binding [About_Changelog], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="12"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   ToolTip.Tip="{Binding [About_ChangelogTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
+			</StackPanel>
 
 			<Image Name="GitHubLinkImage"
 				   Source="avares://DM-X Video Player/Assets/GitHub_Lockup_White.png"
