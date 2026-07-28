@@ -2028,7 +2028,30 @@ namespace DMXVideoPlayer
             // Save settings before closing
             SaveSettings();
 
+            // Stop all timers
             _updateTimer?.Stop();
+            _hideControlsTimer?.Stop();
+            StopBeatTimer();
+
+            // Dispose the beat timer and wait for any in-flight callback to fully
+            // complete before touching _mediaPlayer. OnBeatTimerCallback runs on a
+            // thread-pool thread and accesses _mediaPlayer concurrently; disposing
+            // the MediaPlayer while that callback is still running corrupts the
+            // native libvlc handle and crashes the process with an
+            // ExecutionEngineException.
+            using (var beatTimerStopped = new System.Threading.ManualResetEvent(false))
+            {
+                _beatTimer?.Dispose(beatTimerStopped);
+                beatTimerStopped.WaitOne(TimeSpan.FromSeconds(2));
+            }
+            _beatTimer = null;
+
+            // Note: the MediaPlayer instance is owned by VideoView, which already
+            // stops playback and disposes it safely in OnDetachedFromVisualTree
+            // (called when the window closes, before OnClosed runs). Touching
+            // _mediaPlayer here would access an already-released native handle
+            // and crash the process with an ExecutionEngineException.
+            _mediaPlayer = null;
 
             _currentMedia?.Dispose();
             _libVLC?.Dispose();
@@ -2523,37 +2546,46 @@ namespace DMXVideoPlayer
         /// </summary>
         private void OnBeatTimerCallback(object? state)
         {
-            if (_mediaPlayer == null || !_mediaPlayer.IsPlaying)
-                return;
-
-            lock (_beatTimerLock)
+            try
             {
-                var currentTime = _mediaPlayer.Time / 1000.0;
-                var beatTime = _nextScheduledBeat;
-
-                if (beatTime < 0)
+                if (_mediaPlayer == null || !_mediaPlayer.IsPlaying)
                     return;
 
-                // Flash le beat
-                var currentBpm = _tempoTrack?.GetBpmAtTime(beatTime) ?? 120.0;
-                var secondsPerBeat = 60.0 / currentBpm;
-                var flashDuration = (int)((secondsPerBeat * 0.15) * 1000.0);
-
-                Dispatcher.UIThread.Post(() => FlashBeatLed(true));
-
-                // Update the bar.beat label at the exact same moment as the LED flash,
-                // so both stay perfectly in sync (rather than waiting for the next
-                // ~16ms UI tick, which reads the interpolated VLC position).
-                UpdateBarBeatLabel(beatTime);
-
-                // Auto-off after the flash duration
-                Task.Delay(flashDuration).ContinueWith(_ =>
+                lock (_beatTimerLock)
                 {
-                    Dispatcher.UIThread.Post(() => FlashBeatLed(false));
-                });
+                    var currentTime = _mediaPlayer.Time / 1000.0;
+                    var beatTime = _nextScheduledBeat;
 
-                // Planifier le prochain beat
-                ScheduleNextBeat();
+                    if (beatTime < 0)
+                        return;
+
+                    // Flash le beat
+                    var currentBpm = _tempoTrack?.GetBpmAtTime(beatTime) ?? 120.0;
+                    var secondsPerBeat = 60.0 / currentBpm;
+                    var flashDuration = (int)((secondsPerBeat * 0.15) * 1000.0);
+
+                    Dispatcher.UIThread.Post(() => FlashBeatLed(true));
+
+                    // Update the bar.beat label at the exact same moment as the LED flash,
+                    // so both stay perfectly in sync (rather than waiting for the next
+                    // ~16ms UI tick, which reads the interpolated VLC position).
+                    UpdateBarBeatLabel(beatTime);
+
+                    // Auto-off after the flash duration
+                    Task.Delay(flashDuration).ContinueWith(_ =>
+                    {
+                        Dispatcher.UIThread.Post(() => FlashBeatLed(false));
+                    });
+
+                    // Planifier le prochain beat
+                    ScheduleNextBeat();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // The MediaPlayer/LibVLC instance was disposed concurrently
+                // (e.g. window closing) while this callback was already running.
+                // Safe to ignore: the window is shutting down.
             }
         }
 

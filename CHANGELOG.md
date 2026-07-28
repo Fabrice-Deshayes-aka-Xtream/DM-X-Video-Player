@@ -18,6 +18,8 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### 🐛 Bug Fixes
 
+- Prevent rare exception on app close when a video was playing
+
 ## [1.3.0] - 2026-07-24
 
 ### ⭐ New Features
