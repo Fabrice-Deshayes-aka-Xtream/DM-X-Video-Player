@@ -716,6 +716,18 @@ namespace DMXVideoPlayer
                 Debug.WriteLine("OnKeyDown: I key pressed, opening about window");
                 AboutButton_Click(this, new RoutedEventArgs());
             }
+            else if (e.Key == Key.Left)
+            {
+                e.Handled = true;
+                Debug.WriteLine("OnKeyDown: Left key pressed, seeking backward");
+                SeekRelative(-_seekStepSeconds * 1000L, "Clavier");
+            }
+            else if (e.Key == Key.Right)
+            {
+                e.Handled = true;
+                Debug.WriteLine("OnKeyDown: Right key pressed, seeking forward");
+                SeekRelative(_seekStepSeconds * 1000L, "Clavier");
+            }
         }
 
         private void DragOver(object? sender, Avalonia.Input.DragEventArgs e)
@@ -1743,24 +1755,35 @@ namespace DMXVideoPlayer
                 _hideControlsTimer?.Start();
             }
 
+            e.Handled = true;
+
+            long seekStepMs = _seekStepSeconds * 1000L;
+            long delta = e.Delta.Y > 0 ? seekStepMs : -seekStepMs;
+
+            SeekRelative(delta, "Molette");
+        }
+
+        /// <summary>
+        /// Seeks the current media by the given offset (in milliseconds), shared by the
+        /// mouse wheel and the keyboard arrow shortcuts. A positive delta seeks forward,
+        /// a negative delta seeks backward. The resulting time is clamped to the media length.
+        /// </summary>
+        private void SeekRelative(long deltaMs, string source)
+        {
             if (_mediaPlayer == null || _positionSlider == null)
                 return;
-
-            e.Handled = true;
 
             long length = _mediaPlayer.Length;
             if (length <= 0)
                 return;
 
-            long seekStepMs = _seekStepSeconds * 1000L;
             long currentTime = _mediaPlayer.Time;
-            long delta = e.Delta.Y > 0 ? seekStepMs : -seekStepMs;
-            long newTime = Math.Clamp(currentTime + delta, 0, length);
+            long newTime = Math.Clamp(currentTime + deltaMs, 0, length);
 
             _mediaPlayer.Time = newTime;
             _positionSlider.Value = (double)newTime / length * 100;
 
-            Debug.WriteLine($"PositionSlider: Molette - seek à {newTime}ms");
+            Debug.WriteLine($"PositionSlider: {source} - seek à {newTime}ms");
 
             UpdateTimecodeLabelFromSlider();
 

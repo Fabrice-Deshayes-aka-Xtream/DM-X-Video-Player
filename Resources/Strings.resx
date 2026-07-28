@@ -148,10 +148,10 @@
     <value>Affiche la position sous la forme mesure.temps (ex: 1.1 = première mesure, premier temps).</value>
   </data>
   <data name="Settings_SeekStepTitle" xml:space="preserve">
-    <value>Pas de déplacement (molette de la souris)</value>
+    <value>Pas de déplacement (molette / flèches clavier)</value>
   </data>
   <data name="Settings_SeekStepHint" xml:space="preserve">
-    <value>Nombre de secondes d'avance/recul lors de l'utilisation de la molette au-dessus de la vidéo.</value>
+    <value>Nombre de secondes d'avance/recul lors de l'utilisation de la molette au-dessus de la vidéo ou des flèches gauche/droite du clavier.</value>
   </data>
   <data name="Settings_Language" xml:space="preserve">
     <value>Langue</value>
@@ -215,6 +215,9 @@
   </data>
   <data name="About_Shortcut_SeekVideo" xml:space="preserve">
     <value>Avancer / reculer dans la video</value>
+  </data>
+  <data name="About_Shortcut_ArrowKeys" xml:space="preserve">
+    <value>Fleches gauche / droite :</value>
   </data>
   <data name="About_Shortcut_P" xml:space="preserve">
     <value>P :</value>

@@ -148,10 +148,10 @@
     <value>Displays the position as bar.beat (e.g. 1.1 = first bar, first beat).</value>
   </data>
   <data name="Settings_SeekStepTitle" xml:space="preserve">
-    <value>Seek step (mouse wheel)</value>
+    <value>Seek step (mouse wheel / keyboard arrows)</value>
   </data>
   <data name="Settings_SeekStepHint" xml:space="preserve">
-    <value>Number of seconds to seek forward/backward when using the mouse wheel over the video.</value>
+    <value>Number of seconds to seek forward/backward when using the mouse wheel over the video or the left/right keyboard arrows.</value>
   </data>
   <data name="Settings_Language" xml:space="preserve">
     <value>Language</value>
@@ -215,6 +215,9 @@
   </data>
   <data name="About_Shortcut_SeekVideo" xml:space="preserve">
     <value>Seek forward / backward in the video</value>
+  </data>
+  <data name="About_Shortcut_ArrowKeys" xml:space="preserve">
+    <value>Left / Right arrows:</value>
   </data>
   <data name="About_Shortcut_P" xml:space="preserve">
     <value>P:</value>
