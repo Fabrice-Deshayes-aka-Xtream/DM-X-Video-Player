@@ -1775,7 +1775,11 @@ namespace DMXVideoPlayer.Views
             e.Handled = true;
 
             long seekStepMs = _seekStepSeconds * 1000L;
-            long delta = e.Delta.Y > 0 ? seekStepMs : -seekStepMs;
+            // Support both the classic vertical wheel and horizontal wheels/tilt
+            // (e.g. Logitech MX Master 3s). Prefer the vertical delta when present,
+            // otherwise fall back to the horizontal delta.
+            double rawDelta = e.Delta.Y != 0 ? e.Delta.Y : e.Delta.X;
+            long delta = rawDelta > 0 ? seekStepMs : -seekStepMs;
 
             SeekRelative(delta, "Molette");
         }

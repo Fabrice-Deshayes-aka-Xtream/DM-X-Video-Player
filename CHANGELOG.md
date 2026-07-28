@@ -12,9 +12,11 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### 🐛 Bug Fixes
 
+- Allow to move in video based on horizontal mouse wheel (not only vertical one's)
+
 ### 🧩 Misc
 
-- Reorganize project files (Vies / Controls / Services)
+- Reorganize project files (Views / Controls / Services)
 
 ## [1.4.0] - 2026-07-28
 
