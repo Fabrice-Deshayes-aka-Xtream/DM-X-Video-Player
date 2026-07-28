@@ -6,11 +6,13 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
+- Allow to close "About" windows with shortkey "i"
+
 ### 🐛 Bug Fixes
 
 ### 🧩 Misc
 
-- Reorganize project file (Vies / Controls / Services)
+- Reorganize project files (Vies / Controls / Services)
 
 ## [1.4.0] - 2026-07-28
 

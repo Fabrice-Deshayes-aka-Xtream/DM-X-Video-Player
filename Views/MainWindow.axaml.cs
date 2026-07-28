@@ -715,8 +715,8 @@ namespace DMXVideoPlayer.Views
             else if (e.Key == Key.I)
             {
                 e.Handled = true;
-                Debug.WriteLine("OnKeyDown: I key pressed, opening about window");
-                AboutButton_Click(this, new RoutedEventArgs());
+                Debug.WriteLine("OnKeyDown: I key pressed, toggling about window");
+                ToggleAboutWindow();
             }
             else if (e.Key == Key.Left)
             {
@@ -1333,6 +1333,19 @@ namespace DMXVideoPlayer.Views
             if (_aboutWindow != null)
             {
                 _aboutWindow.Activate();
+                return;
+            }
+
+            _aboutWindow = new AboutWindow();
+            _aboutWindow.Closed += (s, args) => _aboutWindow = null;
+            _aboutWindow.Show(this);
+        }
+
+        private void ToggleAboutWindow()
+        {
+            if (_aboutWindow != null)
+            {
+                _aboutWindow.Close();
                 return;
             }
 

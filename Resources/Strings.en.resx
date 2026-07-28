@@ -229,7 +229,7 @@
     <value>I:</value>
   </data>
   <data name="About_Shortcut_OpenAbout" xml:space="preserve">
-    <value>Open the About window</value>
+    <value>Open/close the About window</value>
   </data>
   <data name="Main_DragDropHint" xml:space="preserve">
     <value>Drag and drop a video here</value>

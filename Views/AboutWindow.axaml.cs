@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -21,11 +22,28 @@ namespace DMXVideoPlayer.Views
             InitializeComponent();
             SetWindowIcon();
             SetVersionText();
+            SetupKeyboardHandling();
 
             var githubLinkImage = this.FindControl<Image>("GitHubLinkImage");
             if (githubLinkImage != null)
             {
                 githubLinkImage.PointerPressed += (s, e) => OpenGitHubLink();
+            }
+        }
+
+        private void SetupKeyboardHandling()
+        {
+            this.AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
+            this.Focusable = true;
+        }
+
+        private void OnKeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.I)
+            {
+                e.Handled = true;
+                Debug.WriteLine("AboutWindow OnKeyDown: I key pressed, closing about window");
+                Close();
             }
         }
 
