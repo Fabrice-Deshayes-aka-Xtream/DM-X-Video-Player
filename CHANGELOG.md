@@ -2,20 +2,12 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## Next version (only available as source, no binary released yet)
-
-### ⭐ New Features
-
-### 🐛 Bug Fixes
-
-### 🧩 Misc
-
-### [1.5.0] - 2026-07-29
+## [1.5.0] - 2026-07-29
 
 ### ⭐ New Features
 
 - About window: Allow to close "About" windows with shortkey "i"
-- About window: Add link on github to opensource licence and changelog
+- About window: Add link licence and changelog (on github)
 - Timecode & tempo track panel: 
   - panel has now a magnetic snap on app horizontal center
   - opacity and font size can be changed in settings
@@ -125,3 +117,16 @@ First public release of DM Video Player - A minimalist video player based on VLC
 - Timecode display with frame accuracy
 - Keyboard shortcuts (0 to stop, space to play/pause)
 - Mouse shortcuts (single click to play/pause, double click for fullscreen)
+
+
+# Next version template
+
+## Next version (only available as source, no binary released yet)
+
+### ⭐ New Features
+
+### 🐛 Bug Fixes
+
+### 🧩 Misc
+
+### 🔨 Dependency Upgrades
