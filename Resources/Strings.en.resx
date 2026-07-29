@@ -132,6 +132,21 @@
   <data name="Settings_TempoTrackGroupTitle" xml:space="preserve">
     <value>Tempo track (.smt)</value>
   </data>
+  <data name="Settings_OverlayGroupTitle" xml:space="preserve">
+    <value>Timecode &amp; Tempo Track</value>
+  </data>
+  <data name="Settings_OverlayFontSizeTitle" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="Settings_OverlayFontSizeHint" xml:space="preserve">
+    <value>Text size for the timecode and tempo track overlay information (16-128px).</value>
+  </data>
+  <data name="Settings_InfoPanelOpacityTitle" xml:space="preserve">
+    <value>Panel background opacity</value>
+  </data>
+  <data name="Settings_InfoPanelOpacityHint" xml:space="preserve">
+    <value>Opacity of the background of the panel showing the timecode and BPM (0-100%).</value>
+  </data>
   <data name="Settings_TempoTrackGroupHint" xml:space="preserve">
     <value>These options require a tempo track in .smt format (Cubase) with the same name as the video file.</value>
   </data>

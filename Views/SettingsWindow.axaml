@@ -1,14 +1,14 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿ <Window xmlns="https://github.com/avaloniaui"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 xmlns:local="clr-namespace:DMXVideoPlayer.Services"
-mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="560"
+mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="730"
 x:Class="DMXVideoPlayer.Views.SettingsWindow"
 x:CompileBindings="False"
 Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
 Title="{Binding [Settings_Title], Source={x:Static local:LocalizationService.Instance}}"
-Width="400" Height="560"
+Width="400" Height="730"
 WindowStartupLocation="CenterOwner"
 CanResize="False"
 Background="#2D2D2D">
@@ -56,27 +56,60 @@ Background="#2D2D2D">
                            TextWrapping="Wrap"/>
             </StackPanel>
 
-            <StackPanel Spacing="4">
-                <CheckBox Name="TimecodeCheckBox"
-                          Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
-                          Foreground="#DDDDDD"/>
-                <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
-                           Foreground="#999999"
-                           FontSize="11"
-                           TextWrapping="Wrap"
-                           Margin="24,0,0,0"/>
-            </StackPanel>
-
             <Border BorderBrush="#444444"
                     BorderThickness="1"
                     CornerRadius="4"
                     Padding="12"
                     Background="#282828">
                 <StackPanel Spacing="8">
-                    <TextBlock Text="{Binding [Settings_TempoTrackGroupTitle], Source={x:Static local:LocalizationService.Instance}}"
+                    <TextBlock Text="{Binding [Settings_OverlayGroupTitle], Source={x:Static local:LocalizationService.Instance}}"
                                Foreground="#DDDDDD"
                                FontWeight="Bold"
                                FontSize="12"/>
+
+                    <StackPanel Spacing="4">
+                        <CheckBox Name="TimecodeCheckBox"
+                                  Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
+                                  Foreground="#DDDDDD"/>
+                        <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#999999"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Margin="24,0,0,0"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{Binding [Settings_OverlayFontSizeTitle], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#DDDDDD"
+                                   FontSize="12"/>
+                        <NumericUpDown Name="OverlayFontSizeNumericUpDown"
+                                       Minimum="16"
+                                       Maximum="128"
+                                       Increment="1"
+                                       FormatString="0"
+                                       HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding [Settings_OverlayFontSizeHint], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#999999"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{Binding [Settings_InfoPanelOpacityTitle], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#DDDDDD"
+                                   FontSize="12"/>
+                        <NumericUpDown Name="InfoPanelOpacityNumericUpDown"
+                                       Minimum="0"
+                                       Maximum="100"
+                                       Increment="1"
+                                       FormatString="0"
+                                       HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="{Binding [Settings_InfoPanelOpacityHint], Source={x:Static local:LocalizationService.Instance}}"
+                                   Foreground="#999999"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+
                     <TextBlock Text="{Binding [Settings_TempoTrackGroupHint], Source={x:Static local:LocalizationService.Instance}}"
                                Foreground="#999999"
                                FontSize="11"

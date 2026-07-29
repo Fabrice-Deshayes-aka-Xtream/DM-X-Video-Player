@@ -322,15 +322,6 @@ namespace DMXVideoPlayer.Services
         {
             double factor = signature.Denominator / 4.0;
 
-            // Compound time signatures (6/8, 9/8, 12/8, but also 6/4, 9/4, 6/16, ...):
-            // the numerator is a multiple of 3 greater than 3, and the felt beat is a
-            // dotted note grouping 3 of the denominator's note value, not the plain one.
-            // (3/4, 3/8, ... are simple triple meters, not compound, hence Numerator > 3.)
-            if (signature.Numerator > 3 && signature.Numerator % 3 == 0)
-            {
-                factor /= 3.0;
-            }
-
             return factor;
         }
 

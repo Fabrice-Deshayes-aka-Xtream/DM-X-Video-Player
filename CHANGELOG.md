@@ -8,11 +8,14 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 - About window: Allow to close "About" windows with shortkey "i"
 - About window: Add link on github to opensource licence and changelog
-- Timecode panel has now a magnetic snap on app horizontal center
+- Timecode & tempo track panel: 
+  - panel has now a magnetic snap on app horizontal center
+  - opacity and font size can be changed in settings
 
 ### 🐛 Bug Fixes
 
 - Allow to move in video based on horizontal mouse wheel (not only vertical one's)
+- Fix effective beat computation (no special case for ternary rythm signature)
 
 ### 🧩 Misc
 

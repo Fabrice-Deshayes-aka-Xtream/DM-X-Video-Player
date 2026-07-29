@@ -56,52 +56,46 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                                       FontSize="22"
                                       FontWeight="Bold"
                                       Foreground="#FFF"
-                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"/>
+                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace" />
 
                             <!-- BPM Display -->
                             <TextBlock Name="BpmLabelOverlay"
                                       Text="120 BPM"
-                                      FontSize="14"
+                                      FontSize="22"
                                       FontWeight="Bold"
                                       Foreground="#CCCCCC"
                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"
-                                      VerticalAlignment="Center"/>
+                                      IsVisible="False"/>
 
                             <!-- Beat LED Indicator -->
                             <Border Name="BeatLed"
-                                    Width="16"
-                                    Height="16"
+                                    Width="22"
+                                    Height="22"
                                     CornerRadius="8"
                                     Background="#00FF00"
                                     BorderBrush="#00AA00"
                                     BorderThickness="1"
                                     IsVisible="False"
-                                    VerticalAlignment="Center"
                                     BoxShadow="0 0 8 #8000FF00">
                             </Border>
 
                             <!-- Bar.Beat Display -->
-                            <TextBlock Name="BarBeatLabelOverlay"
+                            <TextBlock Name="BarBeatLabelOverlay"                                       
                                       Text="1.1"
-                                      FontSize="14"
+                                      FontSize="22"
                                       FontWeight="Bold"
                                       Foreground="#CCCCCC"
                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"
-                                      VerticalAlignment="Center"/>
+                                      IsVisible="False"/>
 
                             <!-- Time Signature Display -->
                             <TextBlock Name="TimeSignatureLabelOverlay"
                                       Text="4/4"
-                                      FontSize="14"
+                                      FontSize="22"
                                       FontWeight="Bold"
                                       Foreground="#CCCCCC"
                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"
-                                      VerticalAlignment="Center"/>
+                                      IsVisible="False"/>
                         </StackPanel>
                     </Border>
                 </Canvas>

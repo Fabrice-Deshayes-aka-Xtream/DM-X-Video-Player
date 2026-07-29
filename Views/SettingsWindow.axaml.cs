@@ -182,6 +182,34 @@ namespace DMXVideoPlayer.Views
                     }
                 };
             }
+
+            var overlayFontSizeNumericUpDown = this.FindControl<NumericUpDown>("OverlayFontSizeNumericUpDown");
+            if (overlayFontSizeNumericUpDown != null)
+            {
+                overlayFontSizeNumericUpDown.Value = (decimal)_owner.GetOverlayFontSize();
+
+                overlayFontSizeNumericUpDown.ValueChanged += (s, e) =>
+                {
+                    if (overlayFontSizeNumericUpDown.Value.HasValue)
+                    {
+                        _owner.SetOverlayFontSize((double)overlayFontSizeNumericUpDown.Value.Value);
+                    }
+                };
+            }
+
+            var infoPanelOpacityNumericUpDown = this.FindControl<NumericUpDown>("InfoPanelOpacityNumericUpDown");
+            if (infoPanelOpacityNumericUpDown != null)
+            {
+                infoPanelOpacityNumericUpDown.Value = _owner.GetInfoPanelOpacityPercent();
+
+                infoPanelOpacityNumericUpDown.ValueChanged += (s, e) =>
+                {
+                    if (infoPanelOpacityNumericUpDown.Value.HasValue)
+                    {
+                        _owner.SetInfoPanelOpacityPercent((int)infoPanelOpacityNumericUpDown.Value.Value);
+                    }
+                };
+            }
         }
 
         private void SetWindowIcon()

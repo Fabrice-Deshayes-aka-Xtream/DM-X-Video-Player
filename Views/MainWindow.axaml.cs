@@ -53,6 +53,8 @@ namespace DMXVideoPlayer.Views
         private string? _currentVideoFilePath;
         private bool _isUserInteractingWithSlider = false;
         private int _seekStepSeconds = 5;
+        private double _overlayFontSize = 22.0;
+        private double _infoPanelOpacity = 0x66 / 255.0;
         private string? _selectedAudioDeviceId = null;
         private int? _selectedAudioTrackId = null;
         private Button? _audioTrackButton;
@@ -104,7 +106,7 @@ namespace DMXVideoPlayer.Views
         private double _infoPanelRelativeX = 0.5;
         private double _infoPanelRelativeY = 0.0;
         // Distance (in pixels) within which the info panel snaps to the horizontal center while dragging.
-        private const double InfoPanelHorizontalSnapThreshold = 10.0;
+        private const double InfoPanelHorizontalSnapThreshold = 20.0;
         // Height of the Controls Overlay panel, cached (even when hidden),
         // so that the drag area of the timecode/BPM panel remains stable and does not
         // "jump" when the Controls Overlay appears or disappears.
@@ -241,6 +243,8 @@ namespace DMXVideoPlayer.Views
             _infoPanelCanvas = this.FindControl<Canvas>("InfoPanelCanvas");
             _infoPanel = this.FindControl<Border>("InfoPanel");
             SetupInfoPanelDrag();
+            ApplyOverlayFontSize();
+            ApplyInfoPanelOpacity();
 
             if (_timecodeCheckBox != null)
             {
@@ -414,6 +418,14 @@ namespace DMXVideoPlayer.Views
             {
                 _timecodeCheckBox.IsChecked = settings.ShowTimecode;
             }
+
+            // Apply the overlay font size (fallback to default for older settings files)
+            _overlayFontSize = settings.OverlayFontSize > 0 ? settings.OverlayFontSize : 22.0;
+            ApplyOverlayFontSize();
+
+            // Apply the info panel background opacity (fallback to default for older settings files)
+            _infoPanelOpacity = Math.Clamp(settings.InfoPanelOpacity > 0 ? settings.InfoPanelOpacity : 0x66 / 255.0, 0.0, 1.0);
+            ApplyInfoPanelOpacity();
 
             // Apply the last used video directory
             _lastVideoDirectory = settings.LastVideoDirectory;
@@ -1449,6 +1461,42 @@ namespace DMXVideoPlayer.Views
             SaveSettings();
         }
 
+        public double GetOverlayFontSize()
+        {
+            return _overlayFontSize;
+        }
+
+        public void SetOverlayFontSize(double size)
+        {
+            _overlayFontSize = Math.Clamp(size, 16.0, 128.0);
+            ApplyOverlayFontSize();
+            SaveSettings();
+        }
+
+        public int GetInfoPanelOpacityPercent()
+        {
+            return (int)Math.Round(_infoPanelOpacity * 100.0);
+        }
+
+        public void SetInfoPanelOpacityPercent(int percent)
+        {
+            _infoPanelOpacity = Math.Clamp(percent, 0, 100) / 100.0;
+            ApplyInfoPanelOpacity();
+            SaveSettings();
+        }
+
+        /// <summary>
+        /// Applies the current opacity to the background of the timecode/BPM info panel.
+        /// </summary>
+        private void ApplyInfoPanelOpacity()
+        {
+            if (_infoPanel != null)
+            {
+                byte alpha = (byte)Math.Round(Math.Clamp(_infoPanelOpacity, 0.0, 1.0) * 255.0);
+                _infoPanel.Background = new SolidColorBrush(Color.FromArgb(alpha, 0, 0, 0));
+            }
+        }
+
         public string GetLanguage()
         {
             return LocalizationService.Instance.CurrentCulture.TwoLetterISOLanguageName;
@@ -2185,7 +2233,9 @@ namespace DMXVideoPlayer.Views
                     SeekStepSeconds = _seekStepSeconds,
                     InfoPanelRelativeX = _infoPanelRelativeX,
                     InfoPanelRelativeY = _infoPanelRelativeY,
-                    Language = LocalizationService.Instance.CurrentCulture.TwoLetterISOLanguageName
+                    Language = LocalizationService.Instance.CurrentCulture.TwoLetterISOLanguageName,
+                    OverlayFontSize = _overlayFontSize,
+                    InfoPanelOpacity = _infoPanelOpacity
                 };
                 var balanceSlider = this.FindControl<Slider>("BalanceSlider");
                 if (balanceSlider != null)
@@ -2206,9 +2256,48 @@ namespace DMXVideoPlayer.Views
             }
         }
 
-        private void UpdateTimecodeVisibility()
+        /// <summary>
+        /// Applies the current overlay font size to the timecode/tempo track overlay elements
+        /// (timecode, BPM, bar.beat, time signature) and proportionally resizes the beat LED.
+        /// </summary>
+        private void ApplyOverlayFontSize()
         {
-            if (_timecodeLabel != null && _timecodeCheckBox != null)
+            double topPadding = _overlayFontSize * 4.0 / 22.0;
+            var textPadding = new Thickness(0, topPadding, 0, 0);
+
+            if (_timecodeLabel != null)
+            {
+                _timecodeLabel.FontSize = _overlayFontSize;
+                _timecodeLabel.Padding = textPadding;
+            }
+
+            if (_bpmLabelOverlay != null)
+            {
+                _bpmLabelOverlay.FontSize = _overlayFontSize;
+                _bpmLabelOverlay.Padding = textPadding;
+            }
+
+            if (_barBeatLabelOverlay != null)
+            {
+                _barBeatLabelOverlay.FontSize = _overlayFontSize;
+                _barBeatLabelOverlay.Padding = textPadding;
+            }
+
+            if (_timeSignatureLabelOverlay != null)
+            {
+                _timeSignatureLabelOverlay.FontSize = _overlayFontSize;
+                _timeSignatureLabelOverlay.Padding = textPadding;
+            }
+
+            if (_beatLed != null)
+            {
+                _beatLed.Width = _overlayFontSize;
+                _beatLed.Height = _overlayFontSize;
+                _beatLed.CornerRadius = new CornerRadius(Math.Max(2.0, _overlayFontSize * 8.0 / 22.0));
+            }
+        }
+        private void UpdateTimecodeVisibility()
+        {            if (_timecodeLabel != null && _timecodeCheckBox != null)
             {
                 _timecodeLabel.IsVisible = _timecodeCheckBox.IsChecked == true;
             }
@@ -2520,6 +2609,8 @@ namespace DMXVideoPlayer.Views
         public double? InfoPanelRelativeX { get; set; } // Saved horizontal position of the timecode/BPM panel (0-1)
         public double? InfoPanelRelativeY { get; set; } // Saved vertical position of the timecode/BPM panel (0-1)
         public string? Language { get; set; } // Two-letter ISO language code ("fr" or "en"); null = auto-detect from OS
+        public double OverlayFontSize { get; set; } = 22.0; // Font size for the timecode/tempo track overlay elements
+        public double InfoPanelOpacity { get; set; } = 0x66 / 255.0; // Opacity (0.0-1.0) of the timecode/BPM info panel background
     }
 
     public partial class MainWindow
