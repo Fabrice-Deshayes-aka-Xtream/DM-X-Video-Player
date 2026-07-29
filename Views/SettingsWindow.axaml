@@ -1,60 +1,82 @@
-﻿ <Window xmlns="https://github.com/avaloniaui"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:local="clr-namespace:DMXVideoPlayer.Services"
-mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="730"
-x:Class="DMXVideoPlayer.Views.SettingsWindow"
-x:CompileBindings="False"
-Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
-Title="{Binding [Settings_Title], Source={x:Static local:LocalizationService.Instance}}"
-Width="400" Height="730"
-WindowStartupLocation="CenterOwner"
-CanResize="False"
-Background="#2D2D2D">
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DMXVideoPlayer.Services"
+        mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="560"
+        x:Class="DMXVideoPlayer.Views.SettingsWindow"
+        x:CompileBindings="False"
+        Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
+        Title="{Binding [Settings_Title], Source={x:Static local:LocalizationService.Instance}}"
+        Width="480"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Background="#2D2D2D">
 
     <Grid Margin="16">
         <StackPanel Spacing="16" VerticalAlignment="Top">
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding [Settings_Language], Source={x:Static local:LocalizationService.Instance}}"
+            <Grid RowSpacing="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="{Binding [Settings_Language], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
-                           FontSize="12"/>
-                <ComboBox Name="LanguageComboBox"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                          Name="LanguageComboBox"
                           HorizontalAlignment="Stretch"/>
-                <TextBlock Name="LanguageRestartHintTextBlock"
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                           Name="LanguageRestartHintTextBlock"
                            Text="{Binding [Settings_LanguageRestartHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#E0A030"
                            FontSize="11"
                            TextWrapping="Wrap"
                            IsVisible="False"/>
-            </StackPanel>
 
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding [Settings_AudioOutput], Source={x:Static local:LocalizationService.Instance}}"
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="{Binding [Settings_AudioOutput], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
-                           FontSize="12"/>
-                <ComboBox Name="AudioOutputComboBox"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                          Name="AudioOutputComboBox"
                           HorizontalAlignment="Stretch"/>
-            </StackPanel>
 
-            <StackPanel Spacing="4">
-                <TextBlock Text="{Binding [Settings_SeekStepTitle], Source={x:Static local:LocalizationService.Instance}}"
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           Text="{Binding [Settings_SeekStepTitle], Source={x:Static local:LocalizationService.Instance}}"
+                           ToolTip.Tip="{Binding [Settings_SeekStepHint], Source={x:Static local:LocalizationService.Instance}}"
                            Foreground="#DDDDDD"
                            FontWeight="Bold"
-                           FontSize="12"/>
-                <NumericUpDown Name="SeekStepNumericUpDown"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           MaxWidth="170"
+                           Margin="0,0,12,0"/>
+                <NumericUpDown Grid.Row="3" Grid.Column="1"
+                               Name="SeekStepNumericUpDown"
+                               ToolTip.Tip="{Binding [Settings_SeekStepHint], Source={x:Static local:LocalizationService.Instance}}"
                                Minimum="1"
                                Maximum="120"
                                Increment="1"
                                FormatString="0"
                                HorizontalAlignment="Stretch"/>
-                <TextBlock Text="{Binding [Settings_SeekStepHint], Source={x:Static local:LocalizationService.Instance}}"
-                           Foreground="#999999"
-                           FontSize="11"
-                           TextWrapping="Wrap"/>
-            </StackPanel>
+            </Grid>
 
             <Border BorderBrush="#444444"
                     BorderThickness="1"
@@ -67,76 +89,69 @@ Background="#2D2D2D">
                                FontWeight="Bold"
                                FontSize="12"/>
 
-                    <StackPanel Spacing="4">
-                        <CheckBox Name="TimecodeCheckBox"
-                                  Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
-                                  Foreground="#DDDDDD"/>
-                        <TextBlock Text="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
-                                   Foreground="#999999"
-                                   FontSize="11"
-                                   TextWrapping="Wrap"
-                                   Margin="24,0,0,0"/>
-                    </StackPanel>
-
-                    <StackPanel Spacing="4">
-                        <TextBlock Text="{Binding [Settings_OverlayFontSizeTitle], Source={x:Static local:LocalizationService.Instance}}"
+                    <Grid ColumnDefinitions="180,*">
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding [Settings_OverlayFontSizeTitle], Source={x:Static local:LocalizationService.Instance}}"
+                                   ToolTip.Tip="{Binding [Settings_OverlayFontSizeHint], Source={x:Static local:LocalizationService.Instance}}"
                                    Foreground="#DDDDDD"
-                                   FontSize="12"/>
-                        <NumericUpDown Name="OverlayFontSizeNumericUpDown"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,12,0"/>
+                        <NumericUpDown Grid.Column="1"
+                                       Name="OverlayFontSizeNumericUpDown"
+                                       ToolTip.Tip="{Binding [Settings_OverlayFontSizeHint], Source={x:Static local:LocalizationService.Instance}}"
                                        Minimum="16"
                                        Maximum="128"
                                        Increment="1"
                                        FormatString="0"
                                        HorizontalAlignment="Stretch"/>
-                        <TextBlock Text="{Binding [Settings_OverlayFontSizeHint], Source={x:Static local:LocalizationService.Instance}}"
-                                   Foreground="#999999"
-                                   FontSize="11"
-                                   TextWrapping="Wrap"/>
-                    </StackPanel>
+                    </Grid>
 
-                    <StackPanel Spacing="4">
-                        <TextBlock Text="{Binding [Settings_InfoPanelOpacityTitle], Source={x:Static local:LocalizationService.Instance}}"
+                    <Grid ColumnDefinitions="180,*">
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding [Settings_InfoPanelOpacityTitle], Source={x:Static local:LocalizationService.Instance}}"
+                                   ToolTip.Tip="{Binding [Settings_InfoPanelOpacityHint], Source={x:Static local:LocalizationService.Instance}}"
                                    Foreground="#DDDDDD"
-                                   FontSize="12"/>
-                        <NumericUpDown Name="InfoPanelOpacityNumericUpDown"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,12,0"/>
+                        <NumericUpDown Grid.Column="1"
+                                       Name="InfoPanelOpacityNumericUpDown"
+                                       ToolTip.Tip="{Binding [Settings_InfoPanelOpacityHint], Source={x:Static local:LocalizationService.Instance}}"
                                        Minimum="0"
                                        Maximum="100"
                                        Increment="1"
                                        FormatString="0"
                                        HorizontalAlignment="Stretch"/>
-                        <TextBlock Text="{Binding [Settings_InfoPanelOpacityHint], Source={x:Static local:LocalizationService.Instance}}"
-                                   Foreground="#999999"
-                                   FontSize="11"
-                                   TextWrapping="Wrap"/>
-                    </StackPanel>
+                    </Grid>
+
+                    <CheckBox Name="TimecodeCheckBox"
+                              Content="{Binding [Settings_ShowTimecode], Source={x:Static local:LocalizationService.Instance}}"
+                              ToolTip.Tip="{Binding [Settings_TimecodeFormatHint], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+
+                    <CheckBox Name="BpmCheckBox"
+                              Content="{Binding [Settings_ShowBpm], Source={x:Static local:LocalizationService.Instance}}"
+                              ToolTip.Tip="{Binding [Settings_ShowBpmHint], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+
+                    <CheckBox Grid.Column="0" Name="BarBeatCheckBox"
+                              Content="{Binding [Settings_ShowBarBeat], Source={x:Static local:LocalizationService.Instance}}"
+                              ToolTip.Tip="{Binding [Settings_BarBeatHint], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+
+                    <CheckBox Name="TimeSignatureCheckBox"
+                              Content="{Binding [Settings_ShowTimeSignature], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
 
                     <TextBlock Text="{Binding [Settings_TempoTrackGroupHint], Source={x:Static local:LocalizationService.Instance}}"
                                Foreground="#999999"
                                FontSize="11"
                                TextWrapping="Wrap"/>
 
-                    <CheckBox Name="BpmCheckBox"
-                              Content="{Binding [Settings_ShowBpm], Source={x:Static local:LocalizationService.Instance}}"
-                              Foreground="#DDDDDD"/>
-
-
-                    <StackPanel Spacing="4">
-                        <CheckBox Name="BarBeatCheckBox"
-                                  Content="{Binding [Settings_ShowBarBeat], Source={x:Static local:LocalizationService.Instance}}"
-                                  Foreground="#DDDDDD"/>
-                        <TextBlock Text="{Binding [Settings_BarBeatHint], Source={x:Static local:LocalizationService.Instance}}"
-                                   Foreground="#999999"
-                                   FontSize="11"
-                                   TextWrapping="Wrap"
-                                   Margin="24,0,0,0"/>
-                    </StackPanel>
-
-                    <CheckBox Name="TimeSignatureCheckBox"
-                              Content="{Binding [Settings_ShowTimeSignature], Source={x:Static local:LocalizationService.Instance}}"
-                              Foreground="#DDDDDD"/>
                 </StackPanel>
             </Border>
 
-            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

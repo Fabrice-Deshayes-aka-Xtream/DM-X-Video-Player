@@ -8,7 +8,8 @@
 		x:CompileBindings="False"
 		Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
 		Title="{Binding [About_Title], Source={x:Static local:LocalizationService.Instance}}"
-		Width="420" Height="500"
+		Width="420" 
+		SizeToContent="Height"
 		WindowStartupLocation="CenterOwner"
 		CanResize="False"
 		Background="#2D2D2D">

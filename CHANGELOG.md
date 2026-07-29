@@ -6,11 +6,20 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
+### 🐛 Bug Fixes
+
+### 🧩 Misc
+
+### [1.5.0] - 2026-07-29
+
+### ⭐ New Features
+
 - About window: Allow to close "About" windows with shortkey "i"
 - About window: Add link on github to opensource licence and changelog
 - Timecode & tempo track panel: 
   - panel has now a magnetic snap on app horizontal center
   - opacity and font size can be changed in settings
+- Review settings windows design to reduce windows size
 
 ### 🐛 Bug Fixes
 
@@ -20,6 +29,11 @@ All notable changes to DM-X Video Player will be documented in this file.
 ### 🧩 Misc
 
 - Reorganize project files (Views / Controls / Services)
+
+### 🔨 Dependency Upgrades
+
+- update Avalonia to 12.1.1
+- update FluentIcons.Avalonia.Fluent to 2.1.333
 
 ## [1.4.0] - 2026-07-28
 

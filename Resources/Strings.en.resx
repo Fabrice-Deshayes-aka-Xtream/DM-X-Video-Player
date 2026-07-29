@@ -127,7 +127,7 @@
     <value>Show timecode</value>
   </data>
   <data name="Settings_TimecodeFormatHint" xml:space="preserve">
-    <value>Format: hour:minute:second:frame</value>
+    <value>format: hour:minute:second:frame</value>
   </data>
   <data name="Settings_TempoTrackGroupTitle" xml:space="preserve">
     <value>Tempo track (.smt)</value>
@@ -148,22 +148,22 @@
     <value>Opacity of the background of the panel showing the timecode and BPM (0-100%).</value>
   </data>
   <data name="Settings_TempoTrackGroupHint" xml:space="preserve">
-    <value>These options require a tempo track in .smt format (Cubase) with the same name as the video file.</value>
+    <value>* These options require a tempo track in .smt format (Cubase) with the same name as the video file.</value>
   </data>
   <data name="Settings_ShowBpm" xml:space="preserve">
-    <value>Show BPM</value>
+    <value>*Show effective BPM</value>
   </data>
   <data name="Settings_ShowTimeSignature" xml:space="preserve">
-    <value>Show time signature</value>
+    <value>*Show time signature</value>
   </data>
   <data name="Settings_ShowBarBeat" xml:space="preserve">
-    <value>Show bar/beat number</value>
+    <value>*Show bar.beat number</value>
   </data>
   <data name="Settings_BarBeatHint" xml:space="preserve">
-    <value>Displays the position as bar.beat (e.g. 1.1 = first bar, first beat).</value>
+    <value>e.g. 1.1 = first bar, first beat</value>
   </data>
   <data name="Settings_SeekStepTitle" xml:space="preserve">
-    <value>Seek step (mouse wheel / keyboard arrows)</value>
+    <value>Seek step</value>
   </data>
   <data name="Settings_SeekStepHint" xml:space="preserve">
     <value>Number of seconds to seek forward/backward when using the mouse wheel over the video or the left/right keyboard arrows.</value>
@@ -211,7 +211,7 @@
     <value>Open the GitHub repository</value>
   </data>
   <data name="About_ShortcutsTitle" xml:space="preserve">
-    <value>Keyboard shortcuts</value>
+    <value>Keyboard &amp; Mouse shortcuts</value>
   </data>
   <data name="About_Shortcut_SpaceEnter" xml:space="preserve">
     <value>Space, Enter:</value>
@@ -299,5 +299,8 @@
   </data>
   <data name="Main_SelectVideoDialogTitle" xml:space="preserve">
     <value>Select a video</value>
+  </data>
+  <data name="Settings_ShowBpmHint" xml:space="preserve">
+    <value>This BPM accounts for the time signature: 120 BPM in 4/4 becomes 60 BPM in 2/2 and 240 BPM in 8/8.</value>
   </data>
 </root>
