@@ -135,13 +135,13 @@
                               ToolTip.Tip="{Binding [Settings_ShowBpmHint], Source={x:Static local:LocalizationService.Instance}}"
                               Foreground="#DDDDDD"/>
 
+                    <CheckBox Name="TimeSignatureCheckBox"
+                              Content="{Binding [Settings_ShowTimeSignature], Source={x:Static local:LocalizationService.Instance}}"
+                              Foreground="#DDDDDD"/>
+
                     <CheckBox Grid.Column="0" Name="BarBeatCheckBox"
                               Content="{Binding [Settings_ShowBarBeat], Source={x:Static local:LocalizationService.Instance}}"
                               ToolTip.Tip="{Binding [Settings_BarBeatHint], Source={x:Static local:LocalizationService.Instance}}"
-                              Foreground="#DDDDDD"/>
-
-                    <CheckBox Name="TimeSignatureCheckBox"
-                              Content="{Binding [Settings_ShowTimeSignature], Source={x:Static local:LocalizationService.Instance}}"
                               Foreground="#DDDDDD"/>
 
                     <TextBlock Text="{Binding [Settings_TempoTrackGroupHint], Source={x:Static local:LocalizationService.Instance}}"

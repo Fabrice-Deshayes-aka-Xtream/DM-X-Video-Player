@@ -1606,6 +1606,16 @@ namespace DMXVideoPlayer.Views
             // Reset position to beginning
             _mediaPlayer.Time = 0;
 
+            // Seeking while paused can leave the VLC video output showing a corrupted/garbled
+            // frame (especially with hardware decoding), because the decoder pipeline needs a
+            // frame to actually flow through before the renderer redraws correctly. Forcing a
+            // single frame step after the seek makes VLC decode and display the correct frame
+            // at the new position instead of the stale/corrupted one.
+            if (_mediaPlayer.State == VLCState.Paused)
+            {
+                _mediaPlayer.NextFrame();
+            }
+
             // Stop the update timer
             _updateTimer?.Stop();
 
@@ -1917,7 +1927,7 @@ namespace DMXVideoPlayer.Views
                 var seconds = totalSeconds % 60;
                 var frameInSecond = fps > 0 ? (int)((interpolatedTime % 1000) * fps / 1000.0) : 0;
 
-                var timecodeText = $"{hours:D2}:{minutes:D2}:{seconds:D2}:{frameInSecond:D2}";
+                var timecodeText = $"TC {hours:D2}:{minutes:D2}:{seconds:D2}:{frameInSecond:D2} ";
 
                 // Only update if text changed (avoid unnecessary layout)
                 if (timecodeText != _lastTimecodeText)
@@ -2263,30 +2273,11 @@ namespace DMXVideoPlayer.Views
         private void ApplyOverlayFontSize()
         {
             double topPadding = _overlayFontSize * 4.0 / 22.0;
-            var textPadding = new Thickness(0, topPadding, 0, 0);
 
             if (_timecodeLabel != null)
             {
                 _timecodeLabel.FontSize = _overlayFontSize;
-                _timecodeLabel.Padding = textPadding;
-            }
-
-            if (_bpmLabelOverlay != null)
-            {
-                _bpmLabelOverlay.FontSize = _overlayFontSize;
-                _bpmLabelOverlay.Padding = textPadding;
-            }
-
-            if (_barBeatLabelOverlay != null)
-            {
-                _barBeatLabelOverlay.FontSize = _overlayFontSize;
-                _barBeatLabelOverlay.Padding = textPadding;
-            }
-
-            if (_timeSignatureLabelOverlay != null)
-            {
-                _timeSignatureLabelOverlay.FontSize = _overlayFontSize;
-                _timeSignatureLabelOverlay.Padding = textPadding;
+                _timecodeLabel.Padding = new Thickness(0, topPadding, topPadding*3, 0);
             }
 
             if (_beatLed != null)
@@ -2295,9 +2286,30 @@ namespace DMXVideoPlayer.Views
                 _beatLed.Height = _overlayFontSize;
                 _beatLed.CornerRadius = new CornerRadius(Math.Max(2.0, _overlayFontSize * 8.0 / 22.0));
             }
+
+            if (_bpmLabelOverlay != null)
+            {
+                _bpmLabelOverlay.FontSize = _overlayFontSize;
+                _bpmLabelOverlay.Padding = new Thickness(0, topPadding, 0, 0);
+            }
+
+
+            if (_timeSignatureLabelOverlay != null)
+            {
+                _timeSignatureLabelOverlay.FontSize = _overlayFontSize;
+                _timeSignatureLabelOverlay.Padding = new Thickness(topPadding*4, topPadding, 0, 0);
+            }
+
+            if (_barBeatLabelOverlay != null)
+            {
+                _barBeatLabelOverlay.FontSize = _overlayFontSize;
+                _barBeatLabelOverlay.Padding = new Thickness(topPadding, topPadding, 0, 0);
+            }
+
         }
         private void UpdateTimecodeVisibility()
-        {            if (_timecodeLabel != null && _timecodeCheckBox != null)
+        {
+            if (_timecodeLabel != null && _timecodeCheckBox != null)
             {
                 _timecodeLabel.IsVisible = _timecodeCheckBox.IsChecked == true;
             }

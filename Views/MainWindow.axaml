@@ -1,19 +1,19 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:local="clr-namespace:DMXVideoPlayer.Services"
-xmlns:controls="clr-namespace:DMXVideoPlayer.Controls"
-xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
-mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
-x:Class="DMXVideoPlayer.Views.MainWindow"
-x:CompileBindings="False"
-Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
-Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
-    
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DMXVideoPlayer.Services"
+        xmlns:controls="clr-namespace:DMXVideoPlayer.Controls"
+        xmlns:fluent="using:FluentIcons.Avalonia.Fluent"
+        mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="675"
+        x:Class="DMXVideoPlayer.Views.MainWindow"
+        x:CompileBindings="False"
+        Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
+        Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="256">
+
     <Grid Name="RootGrid" RowDefinitions="*,Auto">
         <!-- Video Display Area with Overlays -->
-        <Border Background="Black" 
+        <Border Background="Black"
                 DragDrop.AllowDrop="True"
                 Name="VideoContainer"
                 Grid.Row="0"
@@ -21,7 +21,7 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
             <Grid>
                 <!-- Video View -->
                 <controls:VideoView x:Name="VideoViewControl" DoubleTapped="VideoContainer_DoubleTapped" Tapped="VideoContainer_Tapped" />
-                
+
                 <!-- Placeholder Image -->
                 <Image Source="avares://DM-X Video Player/Assets/DMX-Video-Player-512x512.png"
                        Name="PlaceholderImage"
@@ -32,13 +32,13 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
 
                 <!-- Placeholder Text -->
                 <TextBlock Text="{Binding [Main_DragDropHint], Source={x:Static local:LocalizationService.Instance}}"
-                          Name="PlaceholderText"
-                          FontSize="24"
-                          Foreground="White"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          Opacity="0.6"/>
-                
+                           Name="PlaceholderText"
+                           FontSize="24"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Opacity="0.6"/>
+
                 <!-- Draggable Info Panel: Timecode, BPM and Beat LED -->
                 <Canvas Name="InfoPanelCanvas">
                     <Border Background="#66000000"
@@ -52,20 +52,11 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                         <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                             <!-- Timecode Display -->
                             <TextBlock Name="TimecodeLabel"
-                                      Text="00:00:00:00"
-                                      FontSize="22"
-                                      FontWeight="Bold"
-                                      Foreground="#FFF"
-                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace" />
-
-                            <!-- BPM Display -->
-                            <TextBlock Name="BpmLabelOverlay"
-                                      Text="120 BPM"
-                                      FontSize="22"
-                                      FontWeight="Bold"
-                                      Foreground="#CCCCCC"
-                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"/>
+                                       Text="TC 00:00:00:00 "
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#FFF"
+                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace" />
 
                             <!-- Beat LED Indicator -->
                             <Border Name="BeatLed"
@@ -79,23 +70,33 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                                     BoxShadow="0 0 8 #8000FF00">
                             </Border>
 
-                            <!-- Bar.Beat Display -->
-                            <TextBlock Name="BarBeatLabelOverlay"                                       
-                                      Text="1.1"
-                                      FontSize="22"
-                                      FontWeight="Bold"
-                                      Foreground="#CCCCCC"
-                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"/>
+                            <!-- BPM Display -->
+                            <TextBlock Name="BpmLabelOverlay"
+                                       Text="120 BPM"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#CCCCCC"
+                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
+                                       IsVisible="False"/>
 
                             <!-- Time Signature Display -->
                             <TextBlock Name="TimeSignatureLabelOverlay"
-                                      Text="4/4"
-                                      FontSize="22"
-                                      FontWeight="Bold"
-                                      Foreground="#CCCCCC"
-                                      FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
-                                      IsVisible="False"/>
+                                       Text="4/4"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#CCCCCC"
+                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
+                                       IsVisible="False"/>
+
+                            <!-- Bar.Beat Display -->
+                            <TextBlock Name="BarBeatLabelOverlay"
+                                       Text="1.1"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#CCCCCC"
+                                       FontFamily="Consolas, Cascadia Mono, Fira Mono, Liberation Mono, Courier New, monospace"
+                                       IsVisible="False"/>
+
                         </StackPanel>
                     </Border>
                 </Canvas>
@@ -109,222 +110,222 @@ Title="DM-X Video Player" Height="675" Width="1000" MinWidth="512" MinHeight="25
                 Padding="10,5,10,5"
                 IsVisible="True">
             <StackPanel>
-                        <!-- Progress Bar Area -->
-                        <Grid Margin="0,0,0,5" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-                            <TextBlock Name="TimeLabel"
-                                      Grid.Column="0"
-                                      Text="0:00"
-                                      FontSize="11"
-                                      Foreground="#CCCCCC"
-                                      VerticalAlignment="Center"
-                                      Margin="0,0,8,0"/>
-                            <Slider Name="PositionSlider" 
-                                    Grid.Column="1"
-                                    Classes="vlc-progress"
-                                    Minimum="0" 
-                                    Maximum="100" 
-                                    Value="0"
+                <!-- Progress Bar Area -->
+                <Grid Margin="0,0,0,5" ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                    <TextBlock Name="TimeLabel"
+                               Grid.Column="0"
+                               Text="0:00"
+                               FontSize="11"
+                               Foreground="#CCCCCC"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0"/>
+                    <Slider Name="PositionSlider"
+                            Grid.Column="1"
+                            Classes="vlc-progress"
+                            Minimum="0"
+                            Maximum="100"
+                            Value="0"
+                            Focusable="False"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Height="20"/>
+                    <TextBlock Name="DurationLabel"
+                               Grid.Column="2"
+                               Text="0:00"
+                               FontSize="11"
+                               Foreground="#CCCCCC"
+                               VerticalAlignment="Center"
+                               Margin="8,0,0,0"/>
+                </Grid>
+
+                <!-- Compact Controls Row -->
+                <Grid Name="CompactControlsRow" ColumnDefinitions="Auto,50,Auto,*,Auto,50,Auto">
+                    <!-- Bloc 1 (Left): Playback Controls -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                        <StackPanel Name="EssentialButtonsPanel" Orientation="Horizontal" Spacing="5">
+                            <Button Name="PlayPauseButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
                                     Focusable="False"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Height="20"/>
-                            <TextBlock Name="DurationLabel"
-                                      Grid.Column="2"
-                                      Text="0:00"
-                                      FontSize="11"
-                                      Foreground="#CCCCCC"
-                                      VerticalAlignment="Center"
-                                      Margin="8,0,0,0"/>
-                        </Grid>
-                        
-                        <!-- Compact Controls Row -->
-                        <Grid Name="CompactControlsRow" ColumnDefinitions="Auto,50,Auto,*,Auto,50,Auto">
-                            <!-- Bloc 1 (Left): Playback Controls -->
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
-                                <StackPanel Name="EssentialButtonsPanel" Orientation="Horizontal" Spacing="5">
-                                <Button Name="PlayPauseButton" 
-                                        Width="28" 
-                                        Height="28" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button">
-                                    <fluent:SymbolIcon Name="PlayPauseIcon"
-                                                      Symbol="Play"
-                                                      FontSize="16"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-                                <Button Name="StopButton" 
-                                        Width="28" 
-                                        Height="28" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button">
-                                    <fluent:SymbolIcon Symbol="Stop"
-                                                      FontSize="16"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-                                <Button Name="LoadButton" 
-                                        Width="28" 
-                                        Height="28" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button"
-                                        ToolTip.Tip="{Binding [Main_LoadVideoTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <fluent:SymbolIcon Symbol="FolderOpen"
-                                                      FontSize="16"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-                                <Button Name="SettingsButton" 
-                                        Width="28" 
-                                        Height="28" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button"
-                                        ToolTip.Tip="{Binding [Main_SettingsTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <fluent:SymbolIcon Symbol="Settings"
-                                                      FontSize="16"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-								<Button Name="AboutButton" 
-										Width="28" 
-										Height="28" 
-										Padding="0" 
-										Focusable="False"
-										Classes="playback-button"
-										ToolTip.Tip="{Binding [Main_AboutTooltip], Source={x:Static local:LocalizationService.Instance}}">
-									<fluent:SymbolIcon Symbol="Info"
-													  FontSize="16"
-													  Foreground="#CCCCCC"/>
-								</Button>
-                                </StackPanel>
-                            </StackPanel>
-
-                            <!-- Fixed Space (50px) between Settings and Audio/Subtitle buttons -->
-                            <Grid Grid.Column="1" />
-
-                            <!-- Bloc 3 (Center-Left): Selection Buttons -->
-                            <StackPanel Name="SelectionGroupPanel" Grid.Column="2" 
-                                       Orientation="Horizontal" 
-                                       Spacing="4" 
-                                       VerticalAlignment="Center">
-                                <Button Name="AudioTrackButton" 
-                                        Width="150" 
-                                        Height="28"
-                                        FontSize="10"
-                                        FontWeight="Bold"
-                                        Padding="0"
-                                        Focusable="False"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Classes="selection-button"
-                                        ToolTip.Tip="{Binding [Main_SelectAudioTrackTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <StackPanel Orientation="Horizontal" Spacing="3">
-                                        <fluent:SymbolIcon Symbol="Speaker1" 
-                                                          FontSize="14"
-                                                          Foreground="#B0B0B0"
-                                                          VerticalAlignment="Center"/>
-                                        <TextBlock Name="AudioTrackButtonText" 
-                                                  Text="{Binding [Main_AudioTrackDefault], Source={x:Static local:LocalizationService.Instance}}" 
-                                                  VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button Name="SubtitleButton" 
-                                        Width="150" 
-                                        Height="28"
-                                        FontSize="10"
-                                        FontWeight="Bold"
-                                        Padding="0"
-                                        Focusable="False"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Classes="selection-button"
-                                        ToolTip.Tip="{Binding [Main_SelectSubtitlesTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <StackPanel Orientation="Horizontal" Spacing="3">
-                                        <fluent:SymbolIcon Symbol="ClosedCaption" 
-                                                          FontSize="14"
-                                                          Foreground="#B0B0B0"
-                                                          VerticalAlignment="Center"/>
-                                        <TextBlock Name="SubtitleButtonText" 
-                                                  Text="{Binding [Main_SubtitleDisabled], Source={x:Static local:LocalizationService.Instance}}" 
-                                                  VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                            <!-- Flexible Space 2 -->
-                            <Grid Grid.Column="3" />
-
-                            <!-- Bloc 4 (Center-Right): Balance Lock + Balance Slider -->
-                            <StackPanel Name="BalanceGroupPanel" Grid.Column="4" 
-                                       Orientation="Horizontal" 
-                                       Spacing="8" 
-                                       VerticalAlignment="Center">
-                                <!-- Balance Lock + Balance Slider -->
-                                <Button Name="BalanceLockButton" 
-                                        Width="24" 
-                                        Height="24" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button"
-                                        VerticalAlignment="Center"
-                                        ToolTip.Tip="{Binding [Main_ToggleBalanceLockTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <fluent:SymbolIcon Name="BalanceLockIcon"
-                                                      Symbol="LockOpen"
-                                                      FontSize="12"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-                                <TextBlock Text="L" 
-                                          FontSize="8" 
-                                          FontWeight="Bold"
-                                          Foreground="#808080"
-                                          VerticalAlignment="Center"/>
-                                <Slider Name="BalanceSlider" 
-                                        Width="60" 
-                                        Minimum="-100" 
-                                        Maximum="100" 
-                                        Value="0"
-                                        Focusable="False"
-                                        Classes="balance-slider"
-                                        VerticalAlignment="Center"
-                                        ToolTip.Tip="{Binding [Main_BalanceTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
-                                <TextBlock Text="R" 
-                                          FontSize="8" 
-                                          FontWeight="Bold"
-                                          Foreground="#808080"
-                                          VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <!-- Fixed Space (50px) between Balance and Volume controls -->
-                            <Grid Name="BalanceSpacer" Grid.Column="5" />
-
-                            <!-- Bloc 2 (Right): Volume Control -->
-                            <StackPanel Name="VolumeGroupPanel" Grid.Column="6" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                <!-- Volume Button -->
-                                <Button Name="VolumeButton" 
-                                        Width="28" 
-                                        Height="28" 
-                                        Padding="0" 
-                                        Focusable="False"
-                                        Classes="playback-button"
-                                        VerticalAlignment="Center"
-                                        ToolTip.Tip="{Binding [Main_ToggleMuteTooltip], Source={x:Static local:LocalizationService.Instance}}">
-                                    <fluent:SymbolIcon Name="VolumeIcon"
-                                                      Symbol="Speaker2"
-                                                      FontSize="16"
-                                                      Foreground="#CCCCCC"/>
-                                </Button>
-
-                                <!-- Volume Slider -->
-                                <Slider Name="VolumeSlider" 
-                                        Width="80" 
-                                        Minimum="0" 
-                                        Maximum="100" 
-                                        Value="100"
-                                        Focusable="False"
-                                        VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Grid>
+                                    Classes="playback-button">
+                                <fluent:SymbolIcon Name="PlayPauseIcon"
+                                                   Symbol="Play"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
+                            <Button Name="StopButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
+                                    Focusable="False"
+                                    Classes="playback-button">
+                                <fluent:SymbolIcon Symbol="Stop"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
+                            <Button Name="LoadButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
+                                    Focusable="False"
+                                    Classes="playback-button"
+                                    ToolTip.Tip="{Binding [Main_LoadVideoTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                                <fluent:SymbolIcon Symbol="FolderOpen"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
+                            <Button Name="SettingsButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
+                                    Focusable="False"
+                                    Classes="playback-button"
+                                    ToolTip.Tip="{Binding [Main_SettingsTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                                <fluent:SymbolIcon Symbol="Settings"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
+                            <Button Name="AboutButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
+                                    Focusable="False"
+                                    Classes="playback-button"
+                                    ToolTip.Tip="{Binding [Main_AboutTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                                <fluent:SymbolIcon Symbol="Info"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </Border>
+
+                    <!-- Fixed Space (50px) between Settings and Audio/Subtitle buttons -->
+                    <Grid Grid.Column="1" />
+
+                    <!-- Bloc 3 (Center-Left): Selection Buttons -->
+                    <StackPanel Name="SelectionGroupPanel" Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="4"
+                                VerticalAlignment="Center">
+                        <Button Name="AudioTrackButton"
+                                Width="150"
+                                Height="28"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Padding="0"
+                                Focusable="False"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Classes="selection-button"
+                                ToolTip.Tip="{Binding [Main_SelectAudioTrackTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                            <StackPanel Orientation="Horizontal" Spacing="3">
+                                <fluent:SymbolIcon Symbol="Speaker1"
+                                                   FontSize="14"
+                                                   Foreground="#B0B0B0"
+                                                   VerticalAlignment="Center"/>
+                                <TextBlock Name="AudioTrackButtonText"
+                                           Text="{Binding [Main_AudioTrackDefault], Source={x:Static local:LocalizationService.Instance}}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Name="SubtitleButton"
+                                Width="150"
+                                Height="28"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Padding="0"
+                                Focusable="False"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Classes="selection-button"
+                                ToolTip.Tip="{Binding [Main_SelectSubtitlesTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                            <StackPanel Orientation="Horizontal" Spacing="3">
+                                <fluent:SymbolIcon Symbol="ClosedCaption"
+                                                   FontSize="14"
+                                                   Foreground="#B0B0B0"
+                                                   VerticalAlignment="Center"/>
+                                <TextBlock Name="SubtitleButtonText"
+                                           Text="{Binding [Main_SubtitleDisabled], Source={x:Static local:LocalizationService.Instance}}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Flexible Space 2 -->
+                    <Grid Grid.Column="3" />
+
+                    <!-- Bloc 4 (Center-Right): Balance Lock + Balance Slider -->
+                    <StackPanel Name="BalanceGroupPanel" Grid.Column="4"
+                                Orientation="Horizontal"
+                                Spacing="8"
+                                VerticalAlignment="Center">
+                        <!-- Balance Lock + Balance Slider -->
+                        <Button Name="BalanceLockButton"
+                                Width="24"
+                                Height="24"
+                                Padding="0"
+                                Focusable="False"
+                                Classes="playback-button"
+                                VerticalAlignment="Center"
+                                ToolTip.Tip="{Binding [Main_ToggleBalanceLockTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                            <fluent:SymbolIcon Name="BalanceLockIcon"
+                                               Symbol="LockOpen"
+                                               FontSize="12"
+                                               Foreground="#CCCCCC"/>
+                        </Button>
+                        <TextBlock Text="L"
+                                   FontSize="8"
+                                   FontWeight="Bold"
+                                   Foreground="#808080"
+                                   VerticalAlignment="Center"/>
+                        <Slider Name="BalanceSlider"
+                                Width="60"
+                                Minimum="-100"
+                                Maximum="100"
+                                Value="0"
+                                Focusable="False"
+                                Classes="balance-slider"
+                                VerticalAlignment="Center"
+                                ToolTip.Tip="{Binding [Main_BalanceTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
+                        <TextBlock Text="R"
+                                   FontSize="8"
+                                   FontWeight="Bold"
+                                   Foreground="#808080"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Fixed Space (50px) between Balance and Volume controls -->
+                    <Grid Name="BalanceSpacer" Grid.Column="5" />
+
+                    <!-- Bloc 2 (Right): Volume Control -->
+                    <StackPanel Name="VolumeGroupPanel" Grid.Column="6" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <!-- Volume Button -->
+                        <Button Name="VolumeButton"
+                                Width="28"
+                                Height="28"
+                                Padding="0"
+                                Focusable="False"
+                                Classes="playback-button"
+                                VerticalAlignment="Center"
+                                ToolTip.Tip="{Binding [Main_ToggleMuteTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                            <fluent:SymbolIcon Name="VolumeIcon"
+                                               Symbol="Speaker2"
+                                               FontSize="16"
+                                               Foreground="#CCCCCC"/>
+                        </Button>
+
+                        <!-- Volume Slider -->
+                        <Slider Name="VolumeSlider"
+                                Width="80"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="100"
+                                Focusable="False"
+                                VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

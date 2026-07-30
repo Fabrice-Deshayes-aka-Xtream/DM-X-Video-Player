@@ -2,6 +2,21 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
+## Next version (only available as source, no binary released yet)
+
+### ⭐ New Features
+
+
+### 🐛 Bug Fixes
+
+- avoid bad artifact image on stop, force to go to ne next real frame
+
+### 🧩 Misc
+
+- improve Timecode & tempo track panel (add TC before TimeCode, and modify order and add space for better readibility)
+
+### 🔨 Dependency Upgrades
+
 ## [1.5.0] - 2026-07-29
 
 ### ⭐ New Features
