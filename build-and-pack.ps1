@@ -33,15 +33,15 @@ Set-Content $ProjectFile $csprojContent -NoNewline
 if (-not $SkipBuild) {
 	Write-Host ""
 	Write-Host "Build de l'application..." -ForegroundColor Yellow
-	dotnet build $ProjectFile -c Release
+	dotnet build $ProjectFile -c Release -p:Platform=x64
 	if ($LASTEXITCODE -ne 0) {
 		Write-Host "Erreur lors du build!" -ForegroundColor Red
 		exit 1
 	}
 
 	Write-Host ""
-	Write-Host "Publication de l'application..." -ForegroundColor Yellow
-	dotnet publish $ProjectFile -c Release --no-build
+	Write-Host "Publication de l'application avec le profil FolderProfile..." -ForegroundColor Yellow
+	dotnet publish $ProjectFile -p:PublishProfile=FolderProfile
 	if ($LASTEXITCODE -ne 0) {
 		Write-Host "Erreur lors de la publication!" -ForegroundColor Red
 		exit 1

@@ -24,11 +24,14 @@ namespace DMXVideoPlayer
         public static void Main(string[] args)
         {
             // Velopack hook - must run before any other application logic
-            VelopackApp.Build()
-                .Run();
+            // Cette ligne gère les installations/mises à jour et peut terminer le processus
+            VelopackApp.Build().Run();
+
+            // Si nous sommes ici, c'est un démarrage normal (pas un hook Velopack)
 
             string? videoPath = ExtractVideoPathArgument(args);
 
+            // Ne créer le mutex que si on n'est pas dans un contexte Velopack special
             _singleInstanceMutex = new Mutex(initiallyOwned: true, SingleInstanceMutexName, out bool createdNew);
 
             if (!createdNew)
@@ -39,6 +42,7 @@ namespace DMXVideoPlayer
                     TrySendVideoPathToRunningInstance(videoPath);
                 }
 
+                _singleInstanceMutex?.Dispose();
                 return;
             }
 
