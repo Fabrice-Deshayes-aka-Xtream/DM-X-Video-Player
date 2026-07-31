@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using DMXVideoPlayer.Views;
+using Velopack;
 
 namespace DMXVideoPlayer
 {
@@ -22,6 +23,10 @@ namespace DMXVideoPlayer
         [STAThread]
         public static void Main(string[] args)
         {
+            // Velopack hook - must run before any other application logic
+            VelopackApp.Build()
+                .Run();
+
             string? videoPath = ExtractVideoPathArgument(args);
 
             _singleInstanceMutex = new Mutex(initiallyOwned: true, SingleInstanceMutexName, out bool createdNew);

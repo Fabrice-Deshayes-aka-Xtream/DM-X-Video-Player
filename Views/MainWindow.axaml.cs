@@ -21,6 +21,7 @@ using IOPath = System.IO.Path;
 using FluentIcons.Avalonia.Fluent;
 using DMXVideoPlayer.Controls;
 using DMXVideoPlayer.Services;
+using Velopack;
 
 namespace DMXVideoPlayer.Views
 {
@@ -3068,6 +3069,106 @@ namespace DMXVideoPlayer.Views
             if (RequiredWidth() > available && _timeDisplayPanel != null)
                 _timeDisplayPanel.IsVisible = false;
         }
+
+        #region Update Management
+
+        /// <summary>
+        /// Notifie l'utilisateur qu'une mise à jour est disponible
+        /// </summary>
+        public async Task NotifyUpdateAvailableAsync(Velopack.UpdateInfo updateInfo)
+        {
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                var loc = LocalizationService.Instance;
+
+                var dialog = new Avalonia.Controls.Window
+                {
+                    Title = loc["Update_Title"],
+                    Width = 450,
+                    Height = 200,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    CanResize = false,
+                    ShowInTaskbar = false
+                };
+
+                var panel = new StackPanel
+                {
+                    Margin = new Thickness(20),
+                    Spacing = 15
+                };
+
+                panel.Children.Add(new TextBlock
+                {
+                    Text = loc["Update_NewVersionAvailable"],
+                    FontSize = 16,
+                    FontWeight = Avalonia.Media.FontWeight.Bold
+                });
+
+                panel.Children.Add(new TextBlock
+                {
+                    Text = string.Format(loc["Update_VersionInfo"], 
+                        App.UpdateService.CurrentVersion, 
+                        updateInfo.TargetFullRelease.Version),
+                    FontSize = 14
+                });
+
+                var buttonsPanel = new StackPanel
+                {
+                    Orientation = Avalonia.Layout.Orientation.Horizontal,
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
+                    Spacing = 10
+                };
+
+                var downloadButton = new Button
+                {
+                    Content = loc["Update_DownloadAndRestart"],
+                    Width = 200
+                };
+
+                var laterButton = new Button
+                {
+                    Content = loc["Update_Later"],
+                    Width = 100
+                };
+
+                downloadButton.Click += async (_, _) =>
+                {
+                    downloadButton.IsEnabled = false;
+                    downloadButton.Content = loc["Update_Downloading"];
+
+                    var success = await App.UpdateService.DownloadAndApplyUpdateAsync(updateInfo, progress =>
+                    {
+                        Dispatcher.UIThread.Post(() =>
+                        {
+                            downloadButton.Content = string.Format(loc["Update_DownloadingProgress"], progress);
+                        });
+                    });
+
+                    if (success)
+                    {
+                        downloadButton.Content = loc["Update_Restarting"];
+                        await Task.Delay(500);
+                        App.UpdateService.ApplyUpdateAndRestart();
+                    }
+                    else
+                    {
+                        downloadButton.Content = loc["Update_Error"];
+                        downloadButton.IsEnabled = true;
+                    }
+                };
+
+                laterButton.Click += (_, _) => dialog.Close();
+
+                buttonsPanel.Children.Add(laterButton);
+                buttonsPanel.Children.Add(downloadButton);
+                panel.Children.Add(buttonsPanel);
+
+                dialog.Content = panel;
+                await dialog.ShowDialog(this);
+            });
+        }
+
+        #endregion
 
     }
 }

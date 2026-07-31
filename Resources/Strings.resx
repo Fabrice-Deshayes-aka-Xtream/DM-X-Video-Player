@@ -312,4 +312,33 @@
   <data name="Settings_RegisterAssociationsButton" xml:space="preserve">
     <value>Associer les formats vidéo</value>
   </data>
+  <data name="Update_Title" xml:space="preserve">
+    <value>Mise à jour disponible</value>
+  </data>
+  <data name="Update_NewVersionAvailable" xml:space="preserve">
+    <value>Une nouvelle version est disponible !</value>
+  </data>
+  <data name="Update_VersionInfo" xml:space="preserve">
+    <value>Version actuelle : {0}
+Nouvelle version : {1}</value>
+  </data>
+  <data name="Update_DownloadAndRestart" xml:space="preserve">
+    <value>Télécharger et redémarrer</value>
+  </data>
+  <data name="Update_Later" xml:space="preserve">
+    <value>Plus tard</value>
+  </data>
+  <data name="Update_Downloading" xml:space="preserve">
+    <value>Téléchargement...</value>
+  </data>
+  <data name="Update_DownloadingProgress" xml:space="preserve">
+    <value>Téléchargement... {0}%</value>
+  </data>
+  <data name="Update_Restarting" xml:space="preserve">
+    <value>Redémarrage...</value>
+  </data>
+  <data name="Update_Error" xml:space="preserve">
+    <value>Erreur - Réessayer</value>
+  </data>
+
 </root>

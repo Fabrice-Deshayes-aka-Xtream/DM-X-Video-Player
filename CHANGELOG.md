@@ -2,11 +2,13 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## Next version (only available as source, no binary released yet)
+## [1.6.0] - 2026-07-31
 
 ### ⭐ New Features
 
 - Allow using DM-X Video Player as the default for chosen file extensions and launch DM-X VP by clicking on video files
+- App is now released on github as portable or with installer
+- Automatic updates using Velopack based on github releases
 
 ### 🐛 Bug Fixes
 
@@ -15,7 +17,7 @@ All notable changes to DM-X Video Player will be documented in this file.
 ### 🧩 Misc
 
 - Improve Timecode & tempo track panel (add TC before TimeCode, and modify order and add space for better readibility)
-- Play/pause button act as load button if none video was loaded
+- Play/pause button act as load button if no video was loaded
 
 ### 🔨 Dependency Upgrades
 
