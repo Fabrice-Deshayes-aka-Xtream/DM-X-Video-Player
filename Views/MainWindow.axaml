@@ -206,10 +206,10 @@
                     <!-- Bloc 3 (Center-Left): Selection Buttons -->
                     <StackPanel Name="SelectionGroupPanel" Grid.Column="2"
                                 Orientation="Horizontal"
-                                Spacing="4"
+                                Spacing="15"
                                 VerticalAlignment="Center">
                         <Button Name="AudioTrackButton"
-                                Width="150"
+                                Width="200"
                                 Height="28"
                                 FontSize="10"
                                 FontWeight="Bold"
@@ -230,7 +230,7 @@
                             </StackPanel>
                         </Button>
                         <Button Name="SubtitleButton"
-                                Width="150"
+                                Width="200"
                                 Height="28"
                                 FontSize="10"
                                 FontWeight="Bold"
