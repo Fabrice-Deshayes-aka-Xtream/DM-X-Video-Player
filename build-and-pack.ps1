@@ -52,6 +52,9 @@ if (-not $SkipBuild) {
 if (-not (Test-Path $ReleasesDir)) {
 	New-Item -ItemType Directory -Path $ReleasesDir | Out-Null
 }
+else {
+	Get-ChildItem -Path $ReleasesDir -Force | Remove-Item -Recurse -Force
+}
 
 # Packaging avec Velopack
 Write-Host ""
