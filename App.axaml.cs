@@ -10,6 +10,9 @@ namespace DMXVideoPlayer
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>Video file path passed as a startup argument (e.g. double-click in Explorer), if any.</summary>
+        public static string? StartupVideoPath { get; set; }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -19,10 +22,20 @@ namespace DMXVideoPlayer
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                var mainWindow = new MainWindow();
+                desktop.MainWindow = mainWindow;
+
+                mainWindow.StartSingleInstancePipeServer();
+
+                if (!string.IsNullOrEmpty(StartupVideoPath))
+                {
+                    var startupVideoPath = StartupVideoPath;
+                    mainWindow.Opened += async (_, _) => await mainWindow.LoadVideoFromPathAsync(startupVideoPath);
+                }
             }
 
             base.OnFrameworkInitializationCompleted();
         }
     }
 }
+

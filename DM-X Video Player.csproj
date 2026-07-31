@@ -34,6 +34,7 @@
     <PackageReference Include="FluentIcons.Avalonia.Fluent" Version="2.1.333" />
     <PackageReference Include="LibVLCSharp" Version="3.10.0" />
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.23.1" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
 
   <!-- Exclure les fichiers libvlc pour les architectures non ciblées -->

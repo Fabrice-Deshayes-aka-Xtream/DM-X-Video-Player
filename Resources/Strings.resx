@@ -303,4 +303,13 @@
   <data name="Settings_ShowBpmHint" xml:space="preserve">
     <value>Ce BPM prend en compte la signature rythmique : 120 BPM en 4/4 devient 60 BPM en 2/2 et 240 BPM en 8/8.</value>
   </data>
+  <data name="Settings_FileAssociationGroupTitle" xml:space="preserve">
+    <value>Association de fichiers vidéo</value>
+  </data>
+  <data name="Settings_FileAssociationHint" xml:space="preserve">
+    <value>Associer DM-X Video Player comme lecteur par défaut pour tout ou partie des formats vidéo pris en charge. Windows vous demandera de confirmer le choix dans les paramètres "Applications par défaut".</value>
+  </data>
+  <data name="Settings_RegisterAssociationsButton" xml:space="preserve">
+    <value>Associer les formats vidéo</value>
+  </data>
 </root>

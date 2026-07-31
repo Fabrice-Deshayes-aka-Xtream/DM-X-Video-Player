@@ -6,15 +6,16 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
+- Allow using DM-X Video Player as the default for chosen file extensions and launch DM-X VP by clicking on video files
 
 ### 🐛 Bug Fixes
 
-- avoid bad artifact image on stop, force to go to ne next real frame
+- Avoid bad artifact image on stop, force to go to ne next real frame
 
 ### 🧩 Misc
 
-- improve Timecode & tempo track panel (add TC before TimeCode, and modify order and add space for better readibility)
-- play/pause button act as load button if none video was loaded
+- Improve Timecode & tempo track panel (add TC before TimeCode, and modify order and add space for better readibility)
+- Play/pause button act as load button if none video was loaded
 
 ### 🔨 Dependency Upgrades
 
@@ -71,7 +72,7 @@ All notable changes to DM-X Video Player will be documented in this file.
 - Improve progression bar UI
 - Refacteur windows/fullscreen management with controls overlay display (fix in windows mode, automatic hide in fullscreen)
 - Create a nice icon for application
-- Rename DM Video player to DMX Video Player (Didier Martini, Xtream Video Player)
+- Rename DM Video player to DM-X Video Player (Didier Martini, Xtream Video Player)
 - Add about windows
 - Manage localisation with english & french
 

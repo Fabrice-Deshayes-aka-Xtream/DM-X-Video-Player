@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using DMXVideoPlayer.Services;
+using Services;
 
 namespace DMXVideoPlayer.Views
 {
@@ -207,6 +208,29 @@ namespace DMXVideoPlayer.Views
                     if (infoPanelOpacityNumericUpDown.Value.HasValue)
                     {
                         _owner.SetInfoPanelOpacityPercent((int)infoPanelOpacityNumericUpDown.Value.Value);
+                    }
+                };
+            }
+
+            SetupFileAssociationControls();
+        }
+
+        private void SetupFileAssociationControls()
+        {
+            var registerButton = this.FindControl<Button>("RegisterAssociationsButton");
+
+            if (registerButton != null)
+            {
+                registerButton.Click += (s, e) =>
+                {
+                    try
+                    {
+                        FileAssociationService.RegisterFileAssociations();
+                        FileAssociationService.OpenWindowsDefaultAppsSettings();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error registering file associations: {ex.Message}");
                     }
                 };
             }

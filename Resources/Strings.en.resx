@@ -303,4 +303,13 @@
   <data name="Settings_ShowBpmHint" xml:space="preserve">
     <value>This BPM accounts for the time signature: 120 BPM in 4/4 becomes 60 BPM in 2/2 and 240 BPM in 8/8.</value>
   </data>
+  <data name="Settings_FileAssociationGroupTitle" xml:space="preserve">
+    <value>Video file associations</value>
+  </data>
+  <data name="Settings_FileAssociationHint" xml:space="preserve">
+    <value>Associate DM-X Video Player as the default player for some or all of the supported video formats. Windows will ask you to confirm the choice in the "Default apps" settings.</value>
+  </data>
+  <data name="Settings_RegisterAssociationsButton" xml:space="preserve">
+    <value>Associate video formats</value>
+  </data>
 </root>

@@ -776,6 +776,88 @@ namespace DMXVideoPlayer.Views
             }
         }
 
+        /// <summary>
+        /// Loads and plays the video located at <paramref name="filePath"/>. Used both when the
+        /// application is launched with a file path argument (double-click on a video file) and
+        /// when a video path is forwarded from a secondary instance via the single-instance pipe.
+        /// </summary>
+        public async Task LoadVideoFromPathAsync(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+            {
+                Debug.WriteLine($"LoadVideoFromPathAsync: file not found - {filePath}");
+                return;
+            }
+
+            await LoadAndPlayVideo(filePath);
+        }
+
+        // Name of the named pipe used to forward a video file path from a secondary instance
+        // (launched e.g. by double-clicking a video file) to the already running primary instance.
+        private const string SingleInstancePipeName = "DMXVideoPlayer_IPC_Pipe";
+        private System.Threading.CancellationTokenSource? _pipeServerCts;
+
+        /// <summary>
+        /// Starts a background loop listening for video file paths sent by secondary instances
+        /// of the application when single-instance mode is enabled. Should only be called on the
+        /// primary (first launched) instance.
+        /// </summary>
+        public void StartSingleInstancePipeServer()
+        {
+            _pipeServerCts = new System.Threading.CancellationTokenSource();
+            var token = _pipeServerCts.Token;
+
+            _ = Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    try
+                    {
+                        using var server = new System.IO.Pipes.NamedPipeServerStream(
+                            SingleInstancePipeName,
+                            System.IO.Pipes.PipeDirection.In,
+                            1,
+                            System.IO.Pipes.PipeTransmissionMode.Byte,
+                            System.IO.Pipes.PipeOptions.Asynchronous);
+
+                        await server.WaitForConnectionAsync(token);
+
+                        using var reader = new StreamReader(server, System.Text.Encoding.UTF8);
+                        var filePath = await reader.ReadLineAsync();
+
+                        if (!string.IsNullOrWhiteSpace(filePath))
+                        {
+                            var capturedPath = filePath;
+                            await Dispatcher.UIThread.InvokeAsync(async () =>
+                            {
+                                WindowState = WindowState.Normal;
+                                Activate();
+                                await LoadVideoFromPathAsync(capturedPath);
+                            });
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Single-instance pipe server error: {ex.Message}");
+                    }
+                }
+            }, token);
+        }
+
+        /// <summary>
+        /// Stops the single-instance pipe server started by <see cref="StartSingleInstancePipeServer"/>.
+        /// </summary>
+        public void StopSingleInstancePipeServer()
+        {
+            _pipeServerCts?.Cancel();
+            _pipeServerCts?.Dispose();
+            _pipeServerCts = null;
+        }
+
         private async Task LoadAndPlayVideo(string filePath)
         {
             if (_mediaPlayer == null || _libVLC == null) return;
@@ -809,7 +891,7 @@ namespace DMXVideoPlayer.Views
 
                 // Update window title with video filename
                 var videoFileName = IOPath.GetFileName(filePath);
-                this.Title = $"{videoFileName} - DMX Video Player";
+                this.Title = $"{videoFileName} - DM-X Video Player";
 
                 var externalAudioFiles = FindExternalAudioFiles(filePath);
 
@@ -2114,6 +2196,9 @@ namespace DMXVideoPlayer.Views
 
             // Save settings before closing
             SaveSettings();
+
+            // Stop the single-instance pipe server, if running
+            StopSingleInstancePipeServer();
 
             // Stop all timers
             _updateTimer?.Stop();
