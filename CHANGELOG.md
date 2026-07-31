@@ -14,6 +14,7 @@ All notable changes to DM-X Video Player will be documented in this file.
 ### 🧩 Misc
 
 - improve Timecode & tempo track panel (add TC before TimeCode, and modify order and add space for better readibility)
+- play/pause button act as load button if none video was loaded
 
 ### 🔨 Dependency Upgrades
 

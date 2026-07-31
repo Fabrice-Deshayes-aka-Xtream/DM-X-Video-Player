@@ -1303,6 +1303,14 @@ namespace DMXVideoPlayer.Views
         private void PlayPauseButton_Click(object? sender, RoutedEventArgs e)
         {
             Debug.WriteLine("PlayPauseButton_Click: Button clicked");
+
+            if (_mediaPlayer == null || _mediaPlayer.Media == null)
+            {
+                Debug.WriteLine("PlayPauseButton_Click: No media loaded, behaving like LoadButton");
+                LoadButton_Click(sender, e);
+                return;
+            }
+
             TogglePlayPause();
         }
 
