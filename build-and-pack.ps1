@@ -3,8 +3,7 @@
 
 param(
 	[string]$Version = "1.0.0",
-	[switch]$SkipBuild = $false,
-	[switch]$Publish = $false
+	[switch]$SkipBuild = $false
 )
 
 $ErrorActionPreference = "Stop"
@@ -85,37 +84,8 @@ Get-ChildItem $ReleasesDir | ForEach-Object {
 	Write-Host "  - $($_.Name)" -ForegroundColor White
 }
 
-# Publier sur GitHub (optionnel)
-if ($Publish) {
-	Write-Host ""
-	Write-Host "Publication sur GitHub..." -ForegroundColor Yellow
-
-	$token = $env:GITHUB_TOKEN
-	if (-not $token) {
-		Write-Host "ERREUR: La variable d'environnement GITHUB_TOKEN n'est pas définie!" -ForegroundColor Red
-		Write-Host "Définissez-la avec: `$env:GITHUB_TOKEN = 'votre_token'" -ForegroundColor Yellow
-		exit 1
-	}
-
-	vpk upload github `
-			--repoUrl "https://github.com/Fabrice-Deshayes-aka-Xtream/DM-X-Video-Player" `
-			--tag "v$Version" `
-			--releaseName "DM-X Video Player v$Version" `
-			--token $token `
-			--publish `
-			--releasesDir $ReleasesDir
-
-	if ($LASTEXITCODE -ne 0) {
-		Write-Host "Erreur lors de la publication sur GitHub!" -ForegroundColor Red
-		exit 1
-	}
-
-	Write-Host "Publication sur GitHub terminée!" -ForegroundColor Green
-}
-
 Write-Host ""
-Write-Host "Pour publier manuellement sur GitHub:" -ForegroundColor Cyan
-Write-Host "  1. Créez une nouvelle release sur GitHub avec le tag v$Version" -ForegroundColor White
+Write-Host "Pour publier sur GitHub:" -ForegroundColor Cyan
+Write-Host "  1. Créez une nouvelle release sur GitHub avec le tag $Version" -ForegroundColor White
 Write-Host "  2. Uploadez tous les fichiers du dossier $ReleasesDir" -ForegroundColor White
 Write-Host ""
-Write-Host "Ou utilisez: .\build-and-pack.ps1 -Version $Version -Publish" -ForegroundColor White
