@@ -11,9 +11,9 @@ All notable changes to DM-X Video Player will be documented in this file.
 ### 🧩 Misc
 
 - Auto hide controls overlay after 1 secondes (instead of 3)
+- Allow to seek inside video even if mouse is not hover video control
 
 ### 🔨 Dependency Upgrades
-
 
 ## [1.6.0] - 2026-07-31
 

@@ -318,10 +318,8 @@ namespace DMXVideoPlayer.Views
                 _positionSlider.AddHandler(PointerCaptureLostEvent, PositionSlider_PointerCaptureLost, RoutingStrategies.Tunnel);
             }
 
-            if (_videoContainer != null)
-            {
-                _videoContainer.AddHandler(PointerWheelChangedEvent, VideoContainer_PointerWheelChanged, RoutingStrategies.Tunnel);
-            }
+            // Attach mouse wheel event to the entire window so it works anywhere in the app
+            this.AddHandler(PointerWheelChangedEvent, Window_PointerWheelChanged, RoutingStrategies.Tunnel);
 
             if (_audioTrackComboBox != null)
             {
@@ -1911,7 +1909,7 @@ namespace DMXVideoPlayer.Views
             }, DispatcherPriority.Background);
         }
 
-        private void VideoContainer_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
+        private void Window_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
             // Treat wheel usage as user activity to prevent controls from auto-hiding
             ShowOverlays();
