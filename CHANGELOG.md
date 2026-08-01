@@ -2,12 +2,12 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## [1.7.0] - 2026-08-14
+## [1.7.0] - 2026-08-01
 
 ### ⭐ New Features
 
 - Add mediaInfo button to display mediaInfo on current loaded video
-- List opensource component use on About windows
+- List opensource components used on About windows
 
 ### 🧩 Misc
 
