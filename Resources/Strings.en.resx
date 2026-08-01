@@ -340,5 +340,16 @@ New version: {1}</value>
   <data name="Update_Error" xml:space="preserve">
     <value>Error - Retry</value>
   </data>
-
+  <data name="Main_MediaInfoTooltip" xml:space="preserve">
+    <value>Video information</value>
+  </data>
+  <data name="MediaInfo_WindowTitle" xml:space="preserve">
+    <value>MediaInfo Information</value>
+  </data>
+  <data name="MediaInfo_FileNotFound" xml:space="preserve">
+    <value>File not found.</value>
+  </data>
+  <data name="MediaInfo_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

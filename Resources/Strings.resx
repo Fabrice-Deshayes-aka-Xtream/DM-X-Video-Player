@@ -340,5 +340,16 @@ Nouvelle version : {1}</value>
   <data name="Update_Error" xml:space="preserve">
     <value>Erreur - Réessayer</value>
   </data>
-
+  <data name="Main_MediaInfoTooltip" xml:space="preserve">
+    <value>Informations sur la vidéo</value>
+  </data>
+  <data name="MediaInfo_WindowTitle" xml:space="preserve">
+    <value>Informations MediaInfo</value>
+  </data>
+  <data name="MediaInfo_FileNotFound" xml:space="preserve">
+    <value>Fichier introuvable.</value>
+  </data>
+  <data name="MediaInfo_Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
 </root>

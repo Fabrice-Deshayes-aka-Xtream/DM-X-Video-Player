@@ -40,6 +40,7 @@ namespace DMXVideoPlayer.Views
         private Button? _loadButton;
         private Button? _settingsButton;
         private Button? _aboutButton;
+        private Button? _mediaInfoButton;
         private Slider? _volumeSlider;
         private Slider? _positionSlider;
         private TextBlock? _timeLabel;
@@ -200,6 +201,7 @@ namespace DMXVideoPlayer.Views
             _loadButton = this.FindControl<Button>("LoadButton");
             _settingsButton = this.FindControl<Button>("SettingsButton");
             _aboutButton = this.FindControl<Button>("AboutButton");
+            _mediaInfoButton = this.FindControl<Button>("MediaInfoButton");
             _volumeSlider = this.FindControl<Slider>("VolumeSlider");
             _positionSlider = this.FindControl<Slider>("PositionSlider");
             _timeLabel = this.FindControl<TextBlock>("TimeLabel");
@@ -306,6 +308,12 @@ namespace DMXVideoPlayer.Views
 
             if (_aboutButton != null)
                 _aboutButton.Click += AboutButton_Click;
+
+            if (_mediaInfoButton != null)
+            {
+                _mediaInfoButton.Click += MediaInfoButton_Click;
+                _mediaInfoButton.IsEnabled = false; // Disabled by default, enabled when video is loaded
+            }
 
             if (_volumeSlider != null)
                 _volumeSlider.PropertyChanged += VolumeSlider_PropertyChanged;
@@ -965,6 +973,10 @@ namespace DMXVideoPlayer.Views
                 if (_placeholderImage != null)
                     _placeholderImage.IsVisible = false;
 
+                // Enable MediaInfo button when video is loaded
+                if (_mediaInfoButton != null)
+                    _mediaInfoButton.IsEnabled = true;
+
                 // Initialize subtitle button text
                 UpdateSubtitleButtonText(LocalizationService.Instance["Main_SubtitleDisabled"]);
 
@@ -1079,6 +1091,19 @@ namespace DMXVideoPlayer.Views
             finally
             {
                 _isUpdatingAudioTracks = false;
+            }
+
+            // Mettre à jour la fenêtre MediaInfo si elle est ouverte
+            if (_mediaInfoWindow != null)
+            {
+                try
+                {
+                    _mediaInfoWindow.SetMediaInfo(_currentVideoFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error updating MediaInfo window: {ex.Message}");
+                }
             }
         }
 
@@ -1430,6 +1455,7 @@ namespace DMXVideoPlayer.Views
         }
 
         private AboutWindow? _aboutWindow;
+        private MediaInfoWindow? _mediaInfoWindow;
 
         private void AboutButton_Click(object? sender, RoutedEventArgs e)
         {
@@ -1455,6 +1481,37 @@ namespace DMXVideoPlayer.Views
             _aboutWindow = new AboutWindow();
             _aboutWindow.Closed += (s, args) => _aboutWindow = null;
             _aboutWindow.Show(this);
+        }
+
+        private void MediaInfoButton_Click(object? sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_currentVideoFilePath) || !File.Exists(_currentVideoFilePath))
+            {
+                Debug.WriteLine("No video file loaded or file does not exist.");
+                return;
+            }
+
+            try
+            {
+                if (_mediaInfoWindow != null)
+                {
+                    // La fenêtre existe déjà, mettre à jour son contenu et l'activer
+                    _mediaInfoWindow.SetMediaInfo(_currentVideoFilePath);
+                    _mediaInfoWindow.Activate();
+                }
+                else
+                {
+                    // Créer une nouvelle fenêtre
+                    _mediaInfoWindow = new MediaInfoWindow();
+                    _mediaInfoWindow.Closed += (s, args) => _mediaInfoWindow = null;
+                    _mediaInfoWindow.SetMediaInfo(_currentVideoFilePath);
+                    _mediaInfoWindow.Show(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error opening MediaInfo window: {ex.Message}");
+            }
         }
 
         // API exposed for the settings window (audio output + timecode)
@@ -1714,6 +1771,10 @@ namespace DMXVideoPlayer.Views
 
             if (_timeLabel != null)
                 _timeLabel.Text = FormatTime(0, _useHourFormat);
+
+            // Disable MediaInfo button when video is stopped
+            if (_mediaInfoButton != null)
+                _mediaInfoButton.IsEnabled = false;
 
             _isStopped = true;
 

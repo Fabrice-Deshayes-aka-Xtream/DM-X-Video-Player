@@ -6,6 +6,8 @@ All notable changes to DM-X Video Player will be documented in this file.
 
 ### ⭐ New Features
 
+- add mediaInfo button to display mediaInfo on current loaded video
+
 ### 🐛 Bug Fixes
 
 ### 🧩 Misc

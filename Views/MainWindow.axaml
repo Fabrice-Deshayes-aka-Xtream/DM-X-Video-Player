@@ -186,6 +186,17 @@
                                                    FontSize="16"
                                                    Foreground="#CCCCCC"/>
                             </Button>
+                            <Button Name="MediaInfoButton"
+                                    Width="28"
+                                    Height="28"
+                                    Padding="0"
+                                    Focusable="False"
+                                    Classes="playback-button"
+                                    ToolTip.Tip="{Binding [Main_MediaInfoTooltip], Source={x:Static local:LocalizationService.Instance}}">
+                                <fluent:SymbolIcon Symbol="DocumentData"
+                                                   FontSize="16"
+                                                   Foreground="#CCCCCC"/>
+                            </Button>
                             <Button Name="AboutButton"
                                     Width="28"
                                     Height="28"
