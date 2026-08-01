@@ -22,7 +22,6 @@ namespace DMXVideoPlayer.Views
             InitializeComponent();
             SetWindowIcon();
             SetVersionText();
-            SetupKeyboardHandling();
 
             var githubLinkImage = this.FindControl<Image>("GitHubLinkImage");
             if (githubLinkImage != null)
@@ -41,21 +40,36 @@ namespace DMXVideoPlayer.Views
             {
                 changelogTextBlock.PointerPressed += (s, e) => OpenChangelogLink();
             }
-        }
 
-        private void SetupKeyboardHandling()
-        {
-            this.AddHandler(KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel);
-            this.Focusable = true;
-        }
-
-        private void OnKeyDown(object? sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.I)
+            // Open source components links
+            var avaloniaLink = this.FindControl<TextBlock>("AvaloniaLink");
+            if (avaloniaLink != null)
             {
-                e.Handled = true;
-                Debug.WriteLine("AboutWindow OnKeyDown: I key pressed, closing about window");
-                Close();
+                avaloniaLink.PointerPressed += (s, e) => OpenUrl("https://avaloniaui.net/");
+            }
+
+            var libVLCLink = this.FindControl<TextBlock>("LibVLCLink");
+            if (libVLCLink != null)
+            {
+                libVLCLink.PointerPressed += (s, e) => OpenUrl("https://code.videolan.org/videolan/LibVLCSharp");
+            }
+
+            var mediaInfoLink = this.FindControl<TextBlock>("MediaInfoLink");
+            if (mediaInfoLink != null)
+            {
+                mediaInfoLink.PointerPressed += (s, e) => OpenUrl("https://mediaarea.net/en/MediaInfo");
+            }
+
+            var fluentIconsLink = this.FindControl<TextBlock>("FluentIconsLink");
+            if (fluentIconsLink != null)
+            {
+                fluentIconsLink.PointerPressed += (s, e) => OpenUrl("https://github.com/davidxuang/FluentIcons");
+            }
+
+            var velopackLink = this.FindControl<TextBlock>("VelopackLink");
+            if (velopackLink != null)
+            {
+                velopackLink.PointerPressed += (s, e) => OpenUrl("https://github.com/velopack/velopack");
             }
         }
 
@@ -104,6 +118,18 @@ namespace DMXVideoPlayer.Views
             catch (Exception ex)
             {
                 Debug.WriteLine("Error opening changelog link: " + ex.Message);
+            }
+        }
+
+        private void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error opening URL {url}: " + ex.Message);
             }
         }
 

@@ -11,7 +11,7 @@ Created by **Fabrice Deshayes aka Xtream** for its friend [**Didier Martini**](h
 
 ## About the Project
 
- This project is a "vibe coding" experiment, assisted by GitHub Copilot, dedicated to my friend **Didier Martini**, a musician with hearing loss. 
+This project is a "vibe coding" experiment, assisted by GitHub Copilot, dedicated to my friend **Didier Martini**, a musician with hearing loss. 
 The goal is to provide a video player that can help musicians like Didier by allowing them to isolate and route specific audio tracks (STEMS) for a more accessible and customizable "listening" experience.
 Typically, Didier extract drums track (STEM) from vidéo and uses this drum track routed to a separate audio output connected to a vibrating electric engine attached to his leg, 
 allowing him to feel the tempo despite his hearing impairment.
@@ -25,10 +25,13 @@ It can also be useful for other musicians wanting to isolate specific instrument
 - Dynamically add extra audio tracks on video load (mainly STEMS extract beforehand from video audio) see "Naming Rules for Audio Tracks" bellow
 - Choose audio track to play on which audio outputs
 - Choose subtitles to display (or none)
-- Toggle timecode display
 - Manage Steinberg Cubase Tempo Track *.smt file to display music vidéo tempo (see Naming Rules for Tempo Track below)
-- Keyboard shortcuts (0 to stop, space to play/pause)
-- Mouse shortcuts (video single click to play/pause, double click to toggle fullscreen)
+- Display timecode, BPM, rythmic signature, bar & temp
+- Display technical video information using MediaInfo
+- Available as portable or with installer, with automatic update out of the box
+- Can be define as the Windows default video player
+- Keyboard & mouse shortcuts (see About window)
+
 
 ## Naming Rules for Audio Tracks
 
@@ -55,5 +58,8 @@ All that is supported by VLC media player!
 
 This project leverages the following open source libraries:
 
-- [AvaloniaUI](https://github.com/AvaloniaUI/Avalonia) - Cross-platform .NET UI framework
-- [LibVLCSharp](https://github.com/videolan/libvlcsharp) - .NET/Mono bindings for libVLC
+- [**Avalonia UI**](https://avaloniaui.net/) - Cross-platform .NET UI framework
+- [**LibVLCSharp & LibVLC**](https://code.videolan.org/videolan/LibVLCSharp) - VLC multimedia playback for .NET
+- [**MediaInfo**](https://mediaarea.net/en/MediaInfo) - Multimedia file analysis tool
+- [**FluentIcons**](https://github.com/davidxuang/FluentIcons) - Fluent icons library for Avalonia
+- [**Velopack**](https://github.com/velopack/velopack) - Application update system

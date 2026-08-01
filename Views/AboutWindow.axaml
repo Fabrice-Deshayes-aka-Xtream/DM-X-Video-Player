@@ -3,7 +3,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:DMXVideoPlayer.Services"
-		mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="580"
+		mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="680"
 		x:Class="DMXVideoPlayer.Views.AboutWindow"
 		x:CompileBindings="False"
 		Icon="avares://DM-X Video Player/Assets/DMX-Video-Player.ico"
@@ -64,6 +64,57 @@
 				   Cursor="Hand"
 				   ToolTip.Tip="{Binding [About_GitHubTooltip], Source={x:Static local:LocalizationService.Instance}}"/>
 
+			<Rectangle Height="1" Fill="#444444" Margin="0,8,0,8" HorizontalAlignment="Stretch"/>
+
+			<TextBlock Text="{Binding [About_OpenSourceTitle], Source={x:Static local:LocalizationService.Instance}}"
+					   Foreground="#FFFFFF"
+					   FontWeight="Bold"
+					   FontSize="14"
+					   HorizontalAlignment="Center"
+					   Margin="0,0,0,8"/>
+
+			<StackPanel Spacing="4" HorizontalAlignment="Center">
+				<TextBlock Name="AvaloniaLink"
+						   Text="{Binding [About_OpenSource_Avalonia], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="11"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   HorizontalAlignment="Center"/>
+
+				<TextBlock Name="LibVLCLink"
+						   Text="{Binding [About_OpenSource_LibVLC], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="11"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   HorizontalAlignment="Center"/>
+
+				<TextBlock Name="MediaInfoLink"
+						   Text="{Binding [About_OpenSource_MediaInfo], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="11"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   HorizontalAlignment="Center"/>
+
+				<TextBlock Name="FluentIconsLink"
+						   Text="{Binding [About_OpenSource_FluentIcons], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="11"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   HorizontalAlignment="Center"/>
+
+				<TextBlock Name="VelopackLink"
+						   Text="{Binding [About_OpenSource_Velopack], Source={x:Static local:LocalizationService.Instance}}"
+						   Foreground="#6EA8FE"
+						   FontSize="11"
+						   Cursor="Hand"
+						   TextDecorations="Underline"
+						   HorizontalAlignment="Center"/>
+			</StackPanel>
+
 			<Rectangle Height="1" Fill="#444444" Margin="0,8,0,0" HorizontalAlignment="Stretch"/>
 
 			<TextBlock Text="{Binding [About_ShortcutsTitle], Source={x:Static local:LocalizationService.Instance}}"
@@ -95,7 +146,7 @@
 				<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding [About_Shortcut_OpenSettings], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,4"/>
 
 				<TextBlock Grid.Row="7" Grid.Column="0" Text="{Binding [About_Shortcut_I], Source={x:Static local:LocalizationService.Instance}}" Foreground="#DDDDDD" FontSize="12" Margin="0,0,8,0"/>
-				<TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding [About_Shortcut_OpenAbout], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,0"/>
+				<TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding [About_Shortcut_OpenMediaInfo], Source={x:Static local:LocalizationService.Instance}}" Foreground="#999999" FontSize="12" Margin="0,0,0,0"/>
 			</Grid>
 		</StackPanel>
 	</Grid>

@@ -736,8 +736,8 @@ namespace DMXVideoPlayer.Views
             else if (e.Key == Key.I)
             {
                 e.Handled = true;
-                Debug.WriteLine("OnKeyDown: I key pressed, toggling about window");
-                ToggleAboutWindow();
+                Debug.WriteLine("OnKeyDown: I key pressed, toggling media info window");
+                ToggleMediaInfoWindow();
             }
             else if (e.Key == Key.Left)
             {
@@ -1094,7 +1094,7 @@ namespace DMXVideoPlayer.Views
             }
 
             // Mettre à jour la fenêtre MediaInfo si elle est ouverte
-            if (_mediaInfoWindow != null)
+            if (_mediaInfoWindow != null && _currentVideoFilePath != null)
             {
                 try
                 {
@@ -1507,6 +1507,33 @@ namespace DMXVideoPlayer.Views
                     _mediaInfoWindow.SetMediaInfo(_currentVideoFilePath);
                     _mediaInfoWindow.Show(this);
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error opening MediaInfo window: {ex.Message}");
+            }
+        }
+
+        private void ToggleMediaInfoWindow()
+        {
+            if (string.IsNullOrEmpty(_currentVideoFilePath) || !File.Exists(_currentVideoFilePath))
+            {
+                Debug.WriteLine("ToggleMediaInfoWindow: No video file loaded or file does not exist.");
+                return;
+            }
+
+            if (_mediaInfoWindow != null)
+            {
+                _mediaInfoWindow.Close();
+                return;
+            }
+
+            try
+            {
+                _mediaInfoWindow = new MediaInfoWindow();
+                _mediaInfoWindow.Closed += (s, args) => _mediaInfoWindow = null;
+                _mediaInfoWindow.SetMediaInfo(_currentVideoFilePath);
+                _mediaInfoWindow.Show(this);
             }
             catch (Exception ex)
             {

@@ -255,6 +255,27 @@
   <data name="About_Shortcut_OpenAbout" xml:space="preserve">
     <value>Open/close the About window</value>
   </data>
+  <data name="About_Shortcut_OpenMediaInfo" xml:space="preserve">
+    <value>Open/close MediaInfo information</value>
+  </data>
+  <data name="About_OpenSourceTitle" xml:space="preserve">
+    <value>Open Source Components</value>
+  </data>
+  <data name="About_OpenSource_Avalonia" xml:space="preserve">
+    <value>Avalonia UI - Cross-platform UI framework</value>
+  </data>
+  <data name="About_OpenSource_LibVLC" xml:space="preserve">
+    <value>LibVLCSharp &amp; LibVLC - VLC multimedia playback for .NET</value>
+  </data>
+  <data name="About_OpenSource_MediaInfo" xml:space="preserve">
+    <value>MediaInfo - Multimedia file analysis tool</value>
+  </data>
+  <data name="About_OpenSource_FluentIcons" xml:space="preserve">
+    <value>FluentIcons - Fluent icons library for Avalonia</value>
+  </data>
+  <data name="About_OpenSource_Velopack" xml:space="preserve">
+    <value>Velopack - Application update system</value>
+  </data>
   <data name="Main_DragDropHint" xml:space="preserve">
     <value>Drag and drop a video here</value>
   </data>

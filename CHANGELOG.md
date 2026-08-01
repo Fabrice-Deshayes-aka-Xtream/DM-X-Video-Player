@@ -2,20 +2,18 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
-## Next version (only available as source, no binary released yet)
+## [1.7.0] - 2026-08-14
 
 ### ⭐ New Features
 
-- add mediaInfo button to display mediaInfo on current loaded video
-
-### 🐛 Bug Fixes
+- Add mediaInfo button to display mediaInfo on current loaded video
+- List opensource component use on About windows
 
 ### 🧩 Misc
 
 - Auto hide controls overlay after 1 secondes (instead of 3)
 - Allow to seek inside video even if mouse is not hover video control
-
-### 🔨 Dependency Upgrades
+- 'I' shortcut now open MediaInfo windows instead of About windows
 
 ## [1.6.0] - 2026-07-31
 
