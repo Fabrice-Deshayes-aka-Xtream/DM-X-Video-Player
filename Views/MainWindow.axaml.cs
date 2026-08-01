@@ -277,7 +277,7 @@ namespace DMXVideoPlayer.Views
             // Setup hide controls timer
             _hideControlsTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(3)
+                Interval = TimeSpan.FromSeconds(1)
             };
             _hideControlsTimer.Tick += (s, e) =>
             {

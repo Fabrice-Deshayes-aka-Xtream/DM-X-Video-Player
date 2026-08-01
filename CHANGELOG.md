@@ -2,6 +2,19 @@
 
 All notable changes to DM-X Video Player will be documented in this file.
 
+## Next version (only available as source, no binary released yet)
+
+### ⭐ New Features
+
+### 🐛 Bug Fixes
+
+### 🧩 Misc
+
+- Auto hide controls overlay after 1 secondes (instead of 3)
+
+### 🔨 Dependency Upgrades
+
+
 ## [1.6.0] - 2026-07-31
 
 ### ⭐ New Features
